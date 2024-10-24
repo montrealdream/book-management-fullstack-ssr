@@ -1,11 +1,13 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const routerClient = require('./routes/admin/index.route');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// configuration default
+const app = express();
+const port = 3000;
+
+// router
+routerClient(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${port}`);
 })

@@ -10,6 +10,9 @@ const port = process.env.PORT;
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+// static files
+app.use(express.static('public'));
+
 // router
 routerClient(app);
 

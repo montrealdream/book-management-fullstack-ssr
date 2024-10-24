@@ -6,6 +6,10 @@ const routerClient = require('./routes/admin/index.route');
 const app = express();
 const port = process.env.PORT;
 
+// template engines
+app.set('views', './views');
+app.set('view engine', 'pug');
+
 // router
 routerClient(app);
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const database = require("./config/database.config");
 require('dotenv').config();
 const routerClient = require('./routes/admin/index.route');
 
@@ -10,8 +11,9 @@ const port = process.env.PORT;
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-// static files
-app.use(express.static('public'));
+app.use(express.static('public'));  // static files
+database.connect();                 // database
+
 
 // router
 routerClient(app);

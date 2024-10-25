@@ -1,15 +1,15 @@
-extends layouts/default.pug
+extends ../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
-include mixins/filter
-include mixins/select
+include ../mixins/box-head
+include ../mixins/pagination
+include ../mixins/form
+include ../mixins/filter
+include ../mixins/select
 
 //- Title
 block title 
-    title Eagle
+    title #{title}
 
 //- Mai Title
 block main
@@ -151,7 +151,7 @@ block main
                         th 
                     
                 tbody(class="table__body")
-                    each item in sanPham 
+                    each item in records 
                         tr 
                             td 
                                 input(
@@ -162,13 +162,13 @@ block main
                                 )
                             td(class="table__title")
                                 img(
-                                    src=item.img 
+                                    src=item.thumbnail 
                                     alt=item.title
                                 )
                                 
                                 h3 #{item.title}
                             
-                            td #{item.category}
+                            td #{(item.category ? item.category : "Đang Cập Nhật")}
                             td 
                                 if(item.stock > 0)
                                     span(class="badge badge--active") #{item.stock} Trong Kho
@@ -223,4 +223,4 @@ block main
 
 
 block script 
-    script(src="js/script.js")
+    script(src="/admin/js/script.js")

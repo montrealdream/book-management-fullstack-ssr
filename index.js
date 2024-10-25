@@ -14,7 +14,6 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));  // static files
 database.connect();                 // database
 
-
 // router
 routerClient(app);
 

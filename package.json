@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon –-inspect index.js",
+    "start": "npm-run-all --parallel backend frontend",
+    "backend": "nodemon --inspect index.js",
+    "frontend": "sass --watch public/admin/scss:public/admin/css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +16,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "nodemon": "^3.1.7",
-    "pug": "^3.0.3"
+    "npm-run-all": "^4.1.5",
+    "pug": "^3.0.3",
+    "sass": "^1.77.8"
   }
 }

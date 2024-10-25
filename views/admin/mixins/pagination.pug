@@ -1,7 +1,7 @@
 mixin pagination(paginationObject)
     if(paginationObject)
-        -   let current_page = paginationObject.currentPage;
-        -   let total_page   = paginationObject.totalPage;
+        -   let current_page = paginationObject.current;
+        -   let total_page   = paginationObject.total;
 
         ul(
             class="pagination"

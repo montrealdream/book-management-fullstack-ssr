@@ -7,6 +7,7 @@ const Product = require('../../models/product.model');
 
 const filterHelper = require('../../helper/filter.helper');
 const searchHelper = require('../../helper/search.helper');
+const paginationHelper = require('../../helper/pagination.helper');
 
 // [GET] /admin/products/
 module.exports.index = async (req, res) => {
@@ -20,19 +21,29 @@ module.exports.index = async (req, res) => {
         if(req.query.status) findObject.status = req.query.status;
         const filterStatusArray = filterHelper.filterStatus(req.query);
 
-        // tính năng tìm kiếm
+        // tính năng tìm kiếm theo keyword
         let keyword = "";
         const searchObject = searchHelper.searchKeyword(req.query);
         if(searchObject.keywordRegex !== "")
             findObject.title = searchObject.keywordRegex;
 
-        const records  = await Product.find(findObject);
+        // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
+        const quantityRecords = await Product.countDocuments(findObject);
+        
+        // phân trang
+        const paginationObject = paginationHelper.pagination(req.query, quantityRecords);
+
+        // tìm kiếm database
+        const records  = await Product.find(findObject)
+                                        .limit(paginationObject.limit)
+                                        .skip(paginationObject.skip)
         
         res.render("admin/pages/products", {
             title: "Danh sách sản phẩm",
             records,
             filterStatusArray, // khối giao diện bộ lọc trạng thái
-            keyword: searchObject.keyword
+            keyword: searchObject.keyword,
+            paginationObject
         });
     }
     catch(error) {

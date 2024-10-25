@@ -15,5 +15,10 @@ router.get(
     controller.index
 );
 
+router.patch(
+    '/change-status/:id/:status',
+    controller.changeStatus
+);
+
 // exports
 module.exports = router;

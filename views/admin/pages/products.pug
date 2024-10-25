@@ -6,6 +6,7 @@ include ../mixins/pagination
 include ../mixins/form
 include ../mixins/filter
 include ../mixins/select
+include ../mixins/alert
 
 //- Title
 block title 
@@ -13,6 +14,7 @@ block title
 
 //- Mai Title
 block main
+    +alert-success
     //- box-head
     -
         var breadcrumbArray = 
@@ -25,91 +27,6 @@ block main
     +box-head-use-breadcrumb("DANH SÁCH SẢN PHẨM", breadcrumbArray)
     //- end box-head 
 
-    //- demo san pham
-    -   
-        var sanPham = 
-        [
-            {
-                id: "65e9ad24841aed5173b59dd3",
-                title: "Phía sau nghi can x",
-                category:"Đang Cập Nhật",
-                img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKdEUA91tfYGjoTgBW-vRTz6mynjBNgu-tMA&s",
-                price:"1,452.500",
-                status:"active",
-                stock: 50,
-                position: 2
-            },
-            {
-                id: "65e9ad24841aed5173b59dd4",
-                title: "Phía sau nghi can x",
-                category:"Đang Cập Nhật",
-                img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKdEUA91tfYGjoTgBW-vRTz6mynjBNgu-tMA&s",
-                price:"1,452.500",
-                status:"active",
-                stock: 50,
-                position: 1
-            },
-            {
-                id: "65e9ad24841aed5173b59dd5",
-                title: "Phía sau nghi can x",
-                category:"Đang Cập Nhật",
-                img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKdEUA91tfYGjoTgBW-vRTz6mynjBNgu-tMA&s",
-                price:"1,452.500",
-                status:"active",
-                stock: 50,
-                position: 3
-            },
-            {
-                id: "65e9ad24841aed5173b59dd6",
-                title: "Bí mật của naoke",
-                category:"Đang Cập Nhật",
-                img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZlv9AxXdlrzKkbCJxBFiJJdOE7UcwevFAuw&s",
-                price:"666.99",
-                status:"inactive",
-                stock: 0,
-                position: 5
-            },
-            {
-                id: "65e9ad24841aed5173b59dda",
-                title: "HBR ON BUSINESS MODEL INNOVATION - Đổi Mới Mô Hình Kinh Doanh",
-                category:"Đang Cập Nhật",
-                img:"https://bizweb.dktcdn.net/thumb/large/100/197/269/products/83eab7a387b88b9209f41000e6735c02.jpg?v=1703572315407",
-                price:"666.99",
-                status:"inactive",
-                stock: 0,
-                position: 10
-            }
-        ]
-    
-    //- demo filter status
-    //- -   
-    //-     var filterStatusArray = 
-    //-     [
-    //-         {
-    //-             title: "Tất cả",
-    //-             status: "",
-    //-             class: "",
-    //-         },
-    //-         {
-    //-             title: "Hoạt động",
-    //-             status: "active",
-    //-             class: "filter__item--active",
-    //-         },
-    //-         {
-    //-             title: "Dừng hoạt động",
-    //-             status: "inactive",
-    //-             class: "",
-    //-         }
-    //-     ]
-
-    //- demo pagination
-    //- -   
-    //-     var paginationObject = 
-    //-     {
-    //-         totalPage: 10,
-    //-         currentPage: 7
-    //-     }
-    
     //- card
     div(class="card")
         div(class="card__head") 

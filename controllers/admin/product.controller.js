@@ -51,3 +51,26 @@ module.exports.index = async (req, res) => {
     }
 
 }
+
+// [PATCH] /admin/products/:id/:status
+module.exports.changeStatus = async (req, res) => {
+    try{
+        const {id, status} = req.params;
+        
+        // cập nhật trạng thái
+        await Product.updateOne(
+            {
+                _id: id
+            },
+            {
+                status: status
+            }
+        );
+        req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
+        res.redirect('back');
+        
+    }
+    catch(error) {
+
+    }
+}

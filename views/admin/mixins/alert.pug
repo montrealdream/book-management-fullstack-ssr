@@ -1,0 +1,7 @@
+mixin alert-success
+    - if (messages.success)
+        div( class="alert")
+            div(class="alert__item alert--success")
+                span #{messages.success}
+                span(close-alert)
+                    <i class="fa-solid fa-xmark"></i>

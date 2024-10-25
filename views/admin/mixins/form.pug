@@ -1,9 +1,9 @@
 //- form tìm kiếm
 mixin form-search(keyword)
     form(
-        action ="#" 
+        action ="" 
         class  = "form form__search"
-        method = "GET"  
+        method = "POST"  
         form-search
     )
         input(
@@ -22,9 +22,9 @@ mixin form-search(keyword)
 //- form đổi trạng thái sản phẩm
 mixin form-change-status
     form(
-        action="#"
-        class = "hidden"
         method = "POST"
+        class = "hidden"
+        data-path = '/admin/products/change-status'
         form-change-status
     )
 //- hết form đổi trạng thái sản phẩm

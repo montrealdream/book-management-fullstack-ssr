@@ -145,6 +145,7 @@ if(paginationBlock) {
 // THAY ĐỔI TRẠNG THÁI ITEM - Change Status Of Item
 const formChangeStatus = document.querySelector("[form-change-status]");
 if(formChangeStatus) {
+    const path = formChangeStatus.getAttribute("data-path");
     // lấy danh sách nút nhấn
     const listButtonStatusId = document.querySelectorAll("[button-status-id]");
 
@@ -158,10 +159,9 @@ if(formChangeStatus) {
             status = (status === "active" ? "inactive" : "active");
 
             // url: ..../change-status/:id/:status
-            let action = formChangeStatus.action;
-            action = `${action}/${id}/${status}`; 
+            const action = path + `/${id}/${status}/?_method=PATCH` 
 
-            // submit form
+            // // submit form
             formChangeStatus.action = action
             formChangeStatus.submit();
         });
@@ -296,3 +296,53 @@ document.addEventListener("click", (event) => {
     });
 });
 // HẾT TẮT CÁC TAB CON KHI NHẤN RA NGOÀI HTML
+
+// Thông báo alert 
+const alert = document.querySelector(".alert");
+if(alert) {
+    const alertItem = alert.querySelector(".alert__item");
+
+    // khi nhấn vào nút close alert thì sẽ tắt alert đó
+    const closeAlertItem = alertItem.querySelector("[close-alert");
+    closeAlertItem.addEventListener("click", (event) => {
+        alertItem.style.display = "none";
+    });
+
+    // sau TIME giây nếu không nhấn vào close alert thì nó sẽ tự tắt
+    setTimeout(() => {
+        // newAlertItem.style.display = "none";
+        alertItem.classList.add("hideAlert");
+    }, 5000);
+}
+// Hết thông báo alert
+
+// Thông báo alert đẩy
+const showAlert = (content = null, state, time) => {
+
+    if(content === null) return; // nếu không có nội dung thì return luôn
+
+    const newAlertItem = document.createElement("div");
+
+    newAlertItem.setAttribute("class", `alert__item alert--${state}`); 
+    newAlertItem.innerHTML = `
+        <span> ${content} ! </span>
+        <span close-alert>
+        <i class="fa-solid fa-xmark"></i>
+        </span>
+    `;
+    alert.appendChild(newAlertItem);
+
+    // khi nhấn vào nút close alert thì sẽ tắt alert đó
+    const closeAlertItem = newAlertItem.querySelector("[close-alert");
+    closeAlertItem.addEventListener("click", (event) => {
+        newAlertItem.style.display = "none";
+    });
+
+    // sau TIME giây nếu không nhấn vào close alert thì nó sẽ tự tắt
+    setTimeout(() => {
+        // newAlertItem.style.display = "none";
+        newAlertItem.classList.add("hideAlert");
+    }, time);
+    // return;
+}
+// Hết Thông báo alert đẩy

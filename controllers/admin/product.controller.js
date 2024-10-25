@@ -52,7 +52,7 @@ module.exports.index = async (req, res) => {
 
 }
 
-// [PATCH] /admin/products/:id/:status
+// [PATCH] /admin/products/change-status/:id/:status
 module.exports.changeStatus = async (req, res) => {
     try{
         const {id, status} = req.params;
@@ -75,7 +75,28 @@ module.exports.changeStatus = async (req, res) => {
         );
         req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
         res.redirect('back');
-        
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/products/delete-soft/:id
+module.exports.deleteSoft = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // xóa mềm
+        await Product.updateOne(
+            {
+                _id: id
+            }, {
+                deleted: true
+            }
+        );
+
+        req.flash('success', 'Xóa sản phẩm thành công');
+        res.redirect('back');
     }
     catch(error) {
 

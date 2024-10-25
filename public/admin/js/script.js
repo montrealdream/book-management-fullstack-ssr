@@ -143,7 +143,7 @@ if(paginationBlock) {
 // HẾT PHÂN TRANG - End Pagination
 
 // THAY ĐỔI TRẠNG THÁI ITEM - Change Status Of Item
-const formChangeStatus = document.querySelector("[form-change-status]");
+const formChangeStatus = document.querySelector("#form-change-status");
 if(formChangeStatus) {
     const path = formChangeStatus.getAttribute("data-path");
     // lấy danh sách nút nhấn
@@ -192,16 +192,16 @@ if(buttonResetAll) {
 
 // XÓA MỀM SẢN PHẨM - Delete Soft
 const listButtonDelete = document.querySelectorAll("[button-delete-soft]");
-const formDeleteSoft = document.querySelector("[form-delete-soft]");
+const formDeleteSoft = document.querySelector("#form-delete-soft");
 if(listButtonDelete.length > 0) {
+    const path = formDeleteSoft.getAttribute("data-path");
     listButtonDelete.forEach(button => {
         // lắng nge sự kiện
         button.addEventListener("click", (event) => {
             const id = button.getAttribute("button-delete-soft");
-            console.log(id);
+
             // .../delete-soft/id
-            let action = formDeleteSoft.action;
-            action = `${action}/${id}`;
+            let action = path + `/${id}` + '/?_method=PATCH';
 
             // submit form
             formDeleteSoft.action = action;

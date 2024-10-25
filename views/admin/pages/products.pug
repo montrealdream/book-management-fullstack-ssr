@@ -133,10 +133,10 @@ block main
                 +pagination(paginationObject)
 
         //- form đổi trạng thái item
-        +form-change-status 
+        +form-execute("form-change-status", '/products/change-status')
 
         //- form xóa mềm sản phẩm
-        +form-delete-soft
+        +form-execute("form-delete-soft", '/products/delete-soft')
         
     //- end card 
 

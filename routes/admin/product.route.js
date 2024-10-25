@@ -17,8 +17,12 @@ router.get(
 
 router.patch(
     '/change-status/:id/:status',
-    controller.changeStatus
+    controller.deleteSoft
 );
 
+router.patch(
+    '/delete-soft/:id',
+    controller.deleteSoft
+);
 // exports
 module.exports = router;

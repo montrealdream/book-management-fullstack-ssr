@@ -1,0 +1,86 @@
+extends layouts/default.pug
+
+//- Mixins
+include mixins/box-head
+include mixins/pagination
+include mixins/form
+
+//- Title
+block title 
+    title Chỉnh Sửa Tài Khoản
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Tài Khoản",
+            "Chỉnh Sửa Tài Khoản"
+        ]
+        
+    +box-head-use-breadcrumb("CHỈNH SỬA TÀI KHOẢN", breadcrumbArray)
+
+    //- card
+    div(class="card")
+        div(class="card__body")
+            form(
+                action="#"
+                class="form form__create"
+            )   
+                div(class="form__normal")
+                    div(class="form__item")
+                        label(for="" class="label") Họ và Tên
+                        input(
+                            type="text"
+                            placeholder="Nhập Họ và Tên của bạn"
+                        )
+
+                    div(class="form__item")
+                        label(for="" class="label") Vai trò
+                        select(name="" class="")
+                            option() 1 
+                            option() 2 
+                            option() 3
+                    
+                    div(class="form__item")
+                        label(for=""  class="label") Avatar
+                        div(class="upload-image")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả avatar của bạn vào đây hoặc chọn
+                                input(type="file")
+
+                        label(class="label label__desc") 
+                            | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
+
+                    div(class="form__item")
+                        label(for="" class="label") Trạng thái
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="status-active"
+                                name="status"
+                                class="checkbox"
+                                checked=true
+                            )
+                            label(
+                                for="status-active"
+                            )   Hoạt động 
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="status-inactive"
+                                name="status"
+                                class="checkbox"
+                            )
+                            label(
+                                for="status-inactive"
+                            )   Dừng hoạt động
+                
+                //- button submit
+                div(class="form__submit")
+                    button(type="submit" class="button button__outline") Tạo Mới
+
+    //- end card

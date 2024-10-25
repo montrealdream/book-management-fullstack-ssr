@@ -1,0 +1,53 @@
+extends layouts/default.pug
+
+//- Mixins
+include mixins/box-head
+include mixins/pagination
+include mixins/form
+
+//- Title
+block title 
+    title Thêm Mới Nhóm Quyền
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Nhóm Quyền",
+            "Thêm Mới Nhóm Quyền"
+        ]
+        
+    +box-head-use-breadcrumb("THÊM MỚI NHÓM QUYỀN", breadcrumbArray)
+
+    //- card
+    div(class="card")
+        div(class="card__body")
+            form(
+                action="#"
+                class="form form__create"
+            )   
+                div(class="form__normal")
+                    div(class="form__item")
+                        label(for="" class="label") Tên
+                        input(
+                            type="text"
+                            placeholder="Nhập tên nhóm quyền của bạn"
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Mô tả Nhóm Quyền
+                        textarea(
+                            name=""
+                            rows="5"
+                            placeholder="Mô Tả Nhóm Quyền..."
+                        )
+
+
+                
+                //- button submit
+                div(class="form__submit")
+                    button(type="submit" class="button button__outline") Tạo Mới
+
+    //- end card

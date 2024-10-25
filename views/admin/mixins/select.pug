@@ -1,0 +1,15 @@
+//- select sắp xếp
+mixin select-sort()
+    div(
+        class="select"
+    )
+        select(
+            class="select__sort"
+            name="sort"
+            select-sort    
+        )
+            option(value = "" selected) Sắp xếp 
+            option(value="position-desc") Vị trí giảm dần
+            option(value="position-asc") Vị trí tăng dần
+            option(value="title-asc") Tiêu đề từ A - Z
+            option(value="title-desc") Tiêu đề từ Z - A

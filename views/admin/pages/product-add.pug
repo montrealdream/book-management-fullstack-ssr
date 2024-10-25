@@ -1,0 +1,129 @@
+extends layouts/default.pug
+
+//- Mixins
+include mixins/box-head
+include mixins/pagination
+include mixins/form
+
+//- Title
+block title 
+    title Thêm Mới Sản Phẩm
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Sản Phẩm",
+            "Thêm Mới Sản Phẩm"
+        ]
+        
+    +box-head-use-breadcrumb("THÊM MỚI SẢN PHẨM", breadcrumbArray)
+
+    //- card
+    div(class="card")
+        div(class="card__body")
+            form(
+                action="#"
+                class="form form__create"
+            )   
+                //- left
+                div(class="form__left")
+                    div(class="form__item")
+                        label(for="" class="label") Tên Sản Phẩm 
+                        input(
+                            type="text"
+                            placeholder="Nhập Tên Của Sản Phẩm"
+                        )
+                        //- label() Không được nhập tên sản phẩm quá 20 ký tự.
+
+                    div(class="form__item")
+                        label(for="" class="label") Danh Mục Sản Phẩm
+                        select(name="" class="")
+                            option() 1 
+                            option() 2 
+                            option() 3
+
+                    div(class="form__item")
+                        label(for="" class="label") Mô tả Sản Phẩm
+                        textarea(
+                            name=""
+                            rows="5"
+                            placeholder="Mô Tả Sản Phẩm Của Bạn..."
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Giá
+                        input(
+                            type="text"
+                            placeholder="Nhập Giá Của Sản Phẩm"
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Giảm giá
+                        input(
+                            type="text"
+                            placeholder="Nhập % Giảm Giá Của Sản Phẩm"
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Số lượng
+                        input(
+                            type="text"
+                            placeholder="Nhập Số Lượng Của Sản Phẩm"
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Vị trí
+                        input(
+                            type="text"
+                            placeholder="Nhập Vị Trí Của Sản Phẩm"
+                        )
+                //- right
+                div(class="form__right")
+                    div(class="form__item")
+                        label(for=""  class="label") Upload Hình Ảnh 
+                        div(class="upload-image")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                input(type="file")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                input(type="file")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                input(type="file")
+
+                        label(class="label label__desc") 
+                            | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
+                    div(class="form__item")
+                        label(for="" class="label") Trạng thái
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="status-active"
+                                name="status"
+                                class="checkbox"
+                                checked=true
+                            )
+                            label(
+                                for="status-active"
+                            )   Hoạt động 
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="status-inactive"
+                                name="status"
+                                class="checkbox"
+                            )
+                            label(
+                                for="status-inactive"
+                            )   Dừng hoạt động 
+                               
+                        
+                //- button submit
+                div(class="form__submit")
+                    button(type="submit" class="button button__outline") Tạo Mới
+
+    //- end card

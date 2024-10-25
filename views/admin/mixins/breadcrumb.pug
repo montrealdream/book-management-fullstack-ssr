@@ -1,0 +1,11 @@
+mixin breadcrumb(list)
+    div(class="breadcrumb")
+        div(class="breadcrumb__wrap")
+            ul 
+                each item in list
+                    li 
+                        a(href="#") #{item} 
+                //- li 
+                //-     a(href="#") Product 
+                //- li 
+                //-     a(href="#") Product List 

@@ -1,0 +1,150 @@
+extends layouts/default.pug
+
+//- Mixins
+include mixins/box-head
+include mixins/pagination
+include mixins/form
+
+//- Title
+block title 
+    title Thêm Mới Sản Phẩm
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Sản Phẩm",
+            "Chỉnh sửa Sản Phẩm"
+        ]
+        
+    +box-head-use-breadcrumb("CHỈNH SỬA SẢN PHẨM", breadcrumbArray)
+
+    -   
+        var record = 
+        {
+            title: "Phía sau nghi can x",
+            category:"Đang Cập Nhật",
+            img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKdEUA91tfYGjoTgBW-vRTz6mynjBNgu-tMA&s",
+            price:"1,452.500",
+            status:"active",
+            discountPercentage: 10,
+            stock: 50,
+            position: 1,
+            description: "“Việc nghĩ ra một bài toán vô cùng khó và việc giải bài toán đó, việc nào khó hơn?” Khi nhấn chuông cửa nhà nghi can chính của một vụ án mới, điều tra viên Kusanagi không biết rằng anh sắp phải đương đầu với một thiên tài ẩn dật. Kusanagi càng không thể ngờ rằng, chỉ một câu nói vô thưởng vô phạt của anh đã kéo người bạn thân, Manabu Yukawa, một phó giáo sư vật lý tài năng, vào vụ án. Và điều làm sững sờ nhất, đó là vụ án kia chẳng qua cũng chỉ như một bài toán cấp ba đơn giản, tuy nhiên ấn số X khi được phơi bày ra lại không đem đến hạnh phúc cho bất cứ ai… Với một giọng văn tỉnh táo và dung dị, Higashino Keigo đã đem đến cho độc giả hơn cả một cuốn tiểu thuyết trinh thám. Mô tả tội ác không phải điều hấp dẫn nhất ở đây, mà còn là những giằng xé nội tâm thầm kín, những nhân vật bình dị, và sự quan tâm sâu sa tới con người. Tác phẩm đã đem lại cho Higashino Keigo Giải Naoki lần thứ 134, một giải thưởng văn học lâu đời sánh ngang giải Akutagawa tại Nhật."
+        }
+
+    //- card
+    div(class="card")
+        div(class="card__body")
+            form(
+                action="#"
+                class="form form__create"
+                method=""
+            )   
+                //- left
+                div(class="form__left")
+                    div(class="form__item")
+                        label(for="" class="label") Tên Sản Phẩm 
+                        input(
+                            type="text"
+                            placeholder="Nhập Tên Của Sản Phẩm"
+                            value = record.title
+                        )
+                        //- label() Không được nhập tên sản phẩm quá 20 ký tự.
+
+                    div(class="form__item")
+                        label(for="" class="label") Danh Mục Sản Phẩm
+                        select(name="" class="")
+                            option() 1 
+                            option() 2 
+                            option() 3
+
+                    div(class="form__item")
+                        label(for="" class="label") Mô tả Sản Phẩm
+                        textarea(
+                            name=""
+                            rows="5"
+                            placeholder="Mô Tả Sản Phẩm Của Bạn..."
+                        ) #{record.description}
+
+                    div(class="form__item")
+                        label(for="" class="label") Giá
+                        input(
+                            type="text"
+                            placeholder="Nhập Giá Của Sản Phẩm"
+                            value = record.price
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Giảm giá
+                        input(
+                            type="text"
+                            placeholder="Nhập % Giảm Giá Của Sản Phẩm"
+                            value = record.discountPercentage
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Số lượng
+                        input(
+                            type="text"
+                            placeholder="Nhập Số Lượng Của Sản Phẩm"
+                            value = record.stock
+                        )
+                    div(class="form__item")
+                        label(for="" class="label") Vị trí
+                        input(
+                            type="text"
+                            placeholder="Nhập Vị Trí Của Sản Phẩm"
+                            value = record.position
+                        )
+                //- right
+                div(class="form__right")
+                    div(class="form__item")
+                        label(for=""  class="label") Upload Hình Ảnh 
+                        div(class="upload-image")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                input(type="file")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                input(type="file")
+                            div(class="upload-image__item")
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                input(type="file")
+
+                        label(class="label label__desc") 
+                            | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
+                    div(class="form__item")
+                        label(for="" class="label") Trạng thái
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="status-active"
+                                name="status"
+                                class="checkbox"
+                                checked=true
+                            )
+                            label(
+                                for="status-active"
+                            )   Hoạt động 
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="status-inactive"
+                                name="status"
+                                class="checkbox"
+                            )
+                            label(
+                                for="status-inactive"
+                            )   Dừng hoạt động 
+                               
+                        
+                //- button submit
+                div(class="form__submit")
+                    button(type="submit" class="button button__outline") Tạo Mới
+
+    //- end card

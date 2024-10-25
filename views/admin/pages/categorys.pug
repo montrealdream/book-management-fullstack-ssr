@@ -1,0 +1,185 @@
+extends layouts/default.pug
+
+//- Mixins
+include mixins/box-head
+include mixins/pagination
+include mixins/form
+include mixins/filter
+include mixins/select
+
+//- Title
+block title 
+    title Danh mục sản phẩm
+
+//- Main
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Danh mục",
+            "Danh Mục Sản Phẩm"
+        ]
+        
+    +box-head-use-breadcrumb("DANH MỤC SẢN PHẨM", breadcrumbArray)
+    //- end box-head 
+
+    -   
+        var sanPham = 
+        [
+            {
+                title: "Trinh thám",
+                img:"https://mcdn.coolmate.me/image/September2023/tieu-thuyet-trinh-tham-hay-nhat-2557_155.jpg",
+                status:"active",
+                id: "001",
+            },
+            {
+                title: "Khoa học viễn tưởng",
+                img:"https://bazaarvietnam.vn/wp-content/uploads/2021/07/phim-khoa-hoc-vien-tuong-hay-nhat-moi-thoi-dai-10-e1626966924347.jpg",
+                status:"active",
+                id: "002",
+            },
+            {
+                title: "Triết học xã hội",
+                img:"https://pos.nvncdn.com/fd5775-40602/ps/20240305_ewEQ8fLJGY.jpeg",
+                status:"active",
+                id: "003",
+            },
+
+            {
+                title: "lịch sử",
+                img:"https://static.taogiaoduc.vn/2018/06/map-3409359_1920.jpg",
+                status:"inactive",
+                id: "005",
+            }
+        ]
+        //- demo filter status
+    -   
+        var filterStatusArray = 
+        [
+            {
+                title: "Tất cả",
+                status: "",
+                class: "",
+            },
+            {
+                title: "Hoạt động",
+                status: "active",
+                class: "filter__item--active",
+            },
+            {
+                title: "Dừng hoạt động",
+                status: "inactive",
+                class: "",
+            }
+        ]
+
+    //- demo pagination
+    -   
+        var paginationObject = 
+        {
+            totalPage: 10,
+            currentPage: 7
+        }
+
+    //- card
+    div(class="card")
+        div(class="card__head") 
+            div(class="card__head-wrap")
+                //- filter
+                +filter-status(filterStatusArray)
+                //- left    
+                div(class="card__head-left")
+                    //- form search
+                    +form-search("")
+                    //- select
+                    +select-sort
+
+                //- right
+                div(class="card__head-right")
+                    //- add product
+                    div(class="button button__outline")
+                        <i class="fa-solid fa-plus"></i>
+                        |   Thêm Mới
+               
+
+        div(class="card__body")
+            //- table
+            table(class="table") 
+                thead(class="table__head")
+                    tr 
+                        td 
+                            input(
+                                type = "checkbox"
+                                name=""
+                                class="checkbox-tick"
+                                check-box-all
+                            )
+                        th Danh mục
+                        th Trạng Thái
+                        th 
+                    
+                tbody(class="table__body")
+                    each item in sanPham 
+                        tr 
+                            td 
+                                input(
+                                    type = "checkbox"
+                                    name=""
+                                    class="checkbox-tick"
+                                    check-box-single = item.id
+                                )
+                            td(class="table__title")
+                                img(
+                                    src=item.img 
+                                    alt=item.title
+                                )
+                                h3 #{item.title}
+                            
+                            td 
+                                if(item.status == "active")
+                                    span(
+                                        class="badge badge--active"
+                                        button-status-id = item.id
+                                        button-status = "active"
+                                    ) Hoạt động
+                                    
+                                else 
+                                    span(
+                                        class="badge badge--inactive"
+                                        button-status-id = item.id
+                                        button-status = "inactive"
+                                    ) Dừng hoạt động
+                            td
+                                div(class="table__option-icon")
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    div(class="table__option-tab hidden")
+                                        ul 
+                                            li 
+                                                a(href="#") Chỉnh Sửa
+                                            li 
+                                                a(href="#") Xem Chi Tiết
+                                            li 
+                                                a(
+                                                    href="javascript:;"
+                                                    button-delete-soft=item.id
+                                                ) Xóa
+                    //- end table
+        
+        div(class="card__footer")
+            div(class="card__footer-left")
+            div(class="card__footer-right")
+                +pagination(paginationObject)
+        //- end card 
+
+        //- form đổi trạng thái item
+        +form-change-status 
+
+        //- form xóa mềm sản phẩm
+        +form-delete-soft
+
+
+block script 
+    script(src="js/script.js")
+

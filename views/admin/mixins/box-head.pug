@@ -1,0 +1,11 @@
+//- Mixins
+include breadcrumb 
+
+mixin box-head-use-breadcrumb(title, breacrumbArray) 
+    div(class="box-head")
+        div(class="box-head__wrap")
+            div(class="box-head__left")
+                h1(class="box-head__title") #{title}
+
+            div(class="box-head__right")
+                +breadcrumb(breacrumbArray)

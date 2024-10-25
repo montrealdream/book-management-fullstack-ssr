@@ -1,0 +1,115 @@
+extends layouts/default.pug
+
+//- Mixins
+include mixins/box-head
+include mixins/pagination
+include mixins/form
+
+//- Title
+block title 
+    title Danh sách nhóm quyền 
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Nhóm Quyền",
+            "Danh Sách Nhóm Quyền"
+        ]
+        
+    +box-head-use-breadcrumb("DANH SÁCH NHÓM QUYỀN", breadcrumbArray)
+    //- end box-head 
+
+    -   
+        var sanPham = 
+        [
+            {
+                title: "Quản trị viên",
+                description:"Quản lý toàn bộ trang web",
+                createAt:"May 31, 2023"
+            },
+            {
+                title: "Quản lý danh mục",
+                description:"Quản lý danh mục của trang web",
+                createAt:"May 31, 2023"
+            },
+            {
+                title: "Quản lý sản phẩm",
+                description:"Quản lý các sản phẩm",
+                createAt:"May 31, 2023"
+            },
+
+            {
+                title: "Nhân viên",
+                description:"",
+                createAt:"May 31, 2023" 
+            }
+        ]
+    
+    //- card
+    div(class="card")
+        div(class="card__head")
+            div(class="card__head-wrap")
+                //- left    
+                div(class="card__head-left")
+                    //- filter
+                    div(class="filter")
+                        //- icon filter
+                        div(class="filter__icon")
+                            <i class="fa-solid fa-sliders"></i>
+                    //- form search
+                    +form-search
+                //- right
+                div(class="card__head-right")
+                    //- add product
+                    div(class="button button__outline")
+                        <i class="fa-solid fa-plus"></i>
+                        |   Thêm Mới
+               
+
+        div(class="card__body")
+            //- table
+            table(class="table") 
+                thead(class="table__head")
+                    tr 
+                        td 
+                            input(
+                                type = "checkbox"
+                                name=""
+                                class="checkbox"
+                            )
+                        th Tên
+                        th Mô tả
+                        th Tạo Ngày
+                        th 
+                    
+                tbody(class="table__body")
+                    each item in sanPham 
+                        tr 
+                            td 
+                                input(
+                                    type = "checkbox"
+                                    name=""
+                                    class="checkbox"
+                                )
+
+                            td(class="table__title")
+                                h3 #{item.title}
+
+                            td  #{item.description}
+
+                            td  #{item.createAt}
+
+                            td 
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                    //- end table
+        
+        div(class="card__footer")
+            div(class="card__footer-left")
+            div(class="card__footer-right")
+                +pagination
+    //- end card 
+

@@ -1,0 +1,17 @@
+mixin filter-status(filterStatusArray)
+    if(filterStatusArray)
+        div(class="filter")
+            span(class="filter__title") 
+                <i class="fa-solid fa-filter"></i>
+                |   Bộ lọc tìm kiếm
+            div(class="filter__list")
+                each item in filterStatusArray
+                    span(
+                        class=`filter__item ${item.class}`
+                        button-filter-status = item.status
+                    ) #{item.title}
+                span(
+                    class="filter__item"
+                    button-reset-all
+                )
+                    <i class="fa-solid fa-rotate-right"></i>

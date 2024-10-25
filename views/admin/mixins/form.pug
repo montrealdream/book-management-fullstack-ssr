@@ -1,0 +1,41 @@
+//- form tìm kiếm
+mixin form-search(keyword)
+    form(
+        action ="#" 
+        class  = "form form__search"
+        method = "GET"  
+        form-search
+    )
+        input(
+            type="text" 
+            placeholder="Tìm kiếm ở đây..." 
+            class=""
+            value=keyword 
+        )
+        button(
+            type="submit" 
+            class=""
+        )
+            i(class="fa-solid fa-magnifying-glass")
+//- hết form tìm kiếm
+
+//- form đổi trạng thái sản phẩm
+mixin form-change-status
+    form(
+        action="#"
+        class = "hidden"
+        method = "POST"
+        form-change-status
+    )
+//- hết form đổi trạng thái sản phẩm
+
+//- form xóa mềm sản phẩm
+mixin form-delete-soft  
+    form(
+        action="#"
+        class="hidden"
+        method="POST"
+        form-delete-soft
+    )
+//- hết form xóa mềm sản phẩm
+

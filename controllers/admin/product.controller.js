@@ -38,7 +38,7 @@ module.exports.index = async (req, res) => {
                                         .limit(paginationObject.limit)
                                         .skip(paginationObject.skip)
         
-        res.render("admin/pages/products", {
+        res.render("admin/pages/products/index", {
             title: "Danh sách sản phẩm",
             records,
             filterStatusArray, // khối giao diện bộ lọc trạng thái

@@ -157,7 +157,7 @@ if(formChangeStatus) {
 
             // đảo trạng thái của status
             status = (status === "active" ? "inactive" : "active");
-
+            
             // url: ..../change-status/:id/:status
             const action = path + `/${id}/${status}/?_method=PATCH` 
 

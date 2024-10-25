@@ -57,6 +57,13 @@ module.exports.changeStatus = async (req, res) => {
     try{
         const {id, status} = req.params;
         
+        const statusValid = ["active", "inactive"];
+
+        if(statusValid.includes(status) === false) {
+            req.flash('warning', 'Trạng thái gửi lên không hợp lệ');
+            res.redirect('back');
+        }
+
         // cập nhật trạng thái
         await Product.updateOne(
             {

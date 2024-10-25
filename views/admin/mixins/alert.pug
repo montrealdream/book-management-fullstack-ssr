@@ -5,3 +5,17 @@ mixin alert-success
                 span #{messages.success}
                 span(close-alert)
                     <i class="fa-solid fa-xmark"></i>
+mixin alert-warning
+    - if (messages.warning)
+        div( class="alert")
+            div(class="alert__item alert--warning")
+                span #{messages.warning}
+                span(close-alert)
+                    <i class="fa-solid fa-xmark"></i>
+mixin alert-error
+    - if (messages.error)
+        div( class="alert")
+            div(class="alert__item alert--error")
+                span #{messages.error}
+                span(close-alert)
+                    <i class="fa-solid fa-xmark"></i>

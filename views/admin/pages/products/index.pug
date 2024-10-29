@@ -45,7 +45,7 @@ block main
                 //- right
                 div(class="card__head-right")
                     //- add product
-                    div(class="button button__outline")
+                    a(href= path_admin + "/products/create" class="button button__outline")
                         <i class="fa-solid fa-plus"></i>
                         |   Thêm Mới
                
@@ -81,7 +81,7 @@ block main
                                 )
                             td(class="table__title")
                                 img(
-                                    src=item.thumbnail 
+                                    src=item.thumbnail[0]
                                     alt=item.title
                                 )
                                 

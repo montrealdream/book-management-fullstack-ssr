@@ -1,9 +1,9 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
 
 //- Title
 block title 
@@ -26,8 +26,11 @@ block main
     div(class="card")
         div(class="card__body")
             form(
-                action="#"
+                id="form-create"
+                action="/admin/products/create"
                 class="form form__create"
+                method="post" 
+                enctype="multipart/form-data"
             )   
                 //- left
                 div(class="form__left")
@@ -35,7 +38,8 @@ block main
                         label(for="" class="label") Tên Sản Phẩm 
                         input(
                             type="text"
-                            placeholder="Nhập Tên Của Sản Phẩm"
+                            name="title"
+                            placeholder="Nhập tên của sản phẩm"
                         )
                         //- label() Không được nhập tên sản phẩm quá 20 ký tự.
 
@@ -49,53 +53,55 @@ block main
                     div(class="form__item")
                         label(for="" class="label") Mô tả Sản Phẩm
                         textarea(
-                            name=""
+                            name="description"
                             rows="5"
-                            placeholder="Mô Tả Sản Phẩm Của Bạn..."
+                            placeholder="Mô tả sản phẩm..."
+                            class="textarea-tinymce"
                         )
                     div(class="form__item")
                         label(for="" class="label") Giá
                         input(
                             type="text"
-                            placeholder="Nhập Giá Của Sản Phẩm"
+                            name="price"
+                            placeholder="Nhập giá của sản phẩm"
                         )
                     div(class="form__item")
                         label(for="" class="label") Giảm giá
                         input(
                             type="text"
-                            placeholder="Nhập % Giảm Giá Của Sản Phẩm"
+                            name="discountPercentage"
+                            placeholder="Mặc định sẽ là giảm giá 0%"
                         )
                     div(class="form__item")
                         label(for="" class="label") Số lượng
                         input(
                             type="text"
-                            placeholder="Nhập Số Lượng Của Sản Phẩm"
+                            name="stock"
+                            placeholder="Nhập số lượng của sản phẩm"
                         )
                     div(class="form__item")
                         label(for="" class="label") Vị trí
                         input(
                             type="text"
-                            placeholder="Nhập Vị Trí Của Sản Phẩm"
+                            name="position"
+                            placeholder="Vị trí tự động tăng"
                         )
                 //- right
                 div(class="form__right")
                     div(class="form__item")
                         label(for=""  class="label") Upload Hình Ảnh 
                         div(class="upload-image")
-                            div(class="upload-image__item")
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
-                                input(type="file")
-                            div(class="upload-image__item")
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
-                                input(type="file")
-                            div(class="upload-image__item")
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
-                                input(type="file")
+                            - for (let i = 0; i < 3; i++)
+                                div(class="upload-image__item")
+                                    div(class="upload-image__item-group")
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        label(class="") Thả hình ảnh của bạn vào đây hoặc chọn
+                                        input(type="file" name="thumbnail")
+                                    <img src="" class="hidden" img-preview/>
+                                    span(class="upload-image__close-preview" close-img-preview)
+                                        <i class="fa-solid fa-xmark"></i>
 
-                        label(class="label label__desc") 
+                        label(class="label label__desc" notice-image) 
                             | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
                     div(class="form__item")
                         label(for="" class="label") Trạng thái
@@ -104,8 +110,9 @@ block main
                                 type="radio"
                                 id="status-active"
                                 name="status"
-                                class="checkbox"
+                                class=""
                                 checked=true
+                                value="active"
                             )
                             label(
                                 for="status-active"
@@ -115,11 +122,37 @@ block main
                                 type="radio"
                                 id="status-inactive"
                                 name="status"
-                                class="checkbox"
+                                value="inactive"
+                                class=""
                             )
                             label(
                                 for="status-inactive"
                             )   Dừng hoạt động 
+                    div(class="form__item")
+                        label(for="" class="label") Sản phẩm nổi bật
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="featured-active"
+                                name="featured"
+                                value="active"
+                                class=""
+                                checked=true
+                            )
+                            label(
+                                for="featured-active"
+                            )   Nổi bật 
+                        div(class="form__item-radio")
+                            input(
+                                type="radio"
+                                id="featured-inactive"
+                                name="featured"
+                                 value="inactive"
+                                class=""
+                            )
+                            label(
+                                for="featured-inactive"
+                            )   Không nổi bật
                                
                         
                 //- button submit
@@ -127,3 +160,10 @@ block main
                     button(type="submit" class="button button__outline") Tạo Mới
 
     //- end card
+block script 
+    //- tiny-mce
+    script(src="/tinymce/tinymce.min.js")
+    script(src="/admin/js/tinymce-config.js")
+    //- hết tiny-mce
+
+    script(src="/admin/js/script.js")

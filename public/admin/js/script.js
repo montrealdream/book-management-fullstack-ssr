@@ -1,4 +1,4 @@
-// ĐÓNG MỞ SIDER CON - Opent Close Sub-Sider
+// Đóng mở sider con - Opent Close Sub-Sider
 const siderMenuItems = document.querySelectorAll("[sider__menu-item]");
 const SiderSubItems = document.querySelectorAll(".sider__menu-sub");
 if(siderMenuItems.length > 0) {
@@ -41,9 +41,9 @@ if(siderMenuItems.length > 0) {
     // lưu ý vì sider con của dashboard không có nên mới cần phải -1
     // cách làm này chưa tối ưu lắm
 }
-// HẾT ĐÓNG MỞ SIDER CON - End Opent Close Sub-Sider
+// Hết Đóng mở sider con - End Opent Close Sub-Sider
 
-// ĐÓNG MỞ OPTION TABLE -  Open Close Option Table
+// Đóng mở option table -  Open Close Option Table
 const optionTabs = document.querySelectorAll(".table__option-tab");
 const optionIcons  = document.querySelectorAll(".table__option-icon");
 if(optionIcons.length > 0 && optionTabs.length > 0) {
@@ -59,9 +59,9 @@ if(optionIcons.length > 0 && optionTabs.length > 0) {
         });
     });
 }
-// HẾT ĐÓNG MỞ OPTION TABLE -  End Open Close Option Table
+// Hết Đóng mở option table -  End Open Close Option Table
 
-// BỘ LỌC TRẠNG THÁI - Filter Button Status
+// Bộ lọc trạng thái - Filter Button Status
 const buttonFilterStatus = document.querySelectorAll("[button-filter-status]");
 if(buttonFilterStatus) {
     buttonFilterStatus.forEach(button => {
@@ -88,9 +88,9 @@ if(buttonFilterStatus) {
         });
     });
 }
-// HẾT BỘ LỌC TRẠNG THÁI - End Filter Button Status
+// Hết Bộ lọc trạng thái - End Filter Button Status
 
-// FORM TÌM KIẾM - Form Search
+// Form tìm kiếm - Form Search
 const formSearch = document.querySelector("[form-search]");
 if(formSearch) {
     // lắng nge sự kiện
@@ -116,9 +116,9 @@ if(formSearch) {
         window.location.href = url.href;
     });
 }
-// END FORM TÌM KIẾM - Hết Form Search
+// Hết Form tìm kiếm - Hết Form Search
 
-// PHÂN TRANG - Pagination
+// Phân trang - Pagination
 const paginationBlock = document.querySelector("[pagination-block]");
 if(paginationBlock) {
     // lấy các nút pagination
@@ -140,9 +140,9 @@ if(paginationBlock) {
         });
     });
 }
-// HẾT PHÂN TRANG - End Pagination
+// Hết Phân trang - End Pagination
 
-// THAY ĐỔI TRẠNG THÁI ITEM - Change Status Of Item
+// Thay đổi trạng thái item - Change Status Of Item
 const formChangeStatus = document.querySelector("#form-change-status");
 if(formChangeStatus) {
     const path = formChangeStatus.getAttribute("data-path");
@@ -167,9 +167,9 @@ if(formChangeStatus) {
         });
     })
 }
-// END THAY ĐỔI TRẠNG THÁI ITEM - EndChange Status Of Item
+// Hết Thay đổi trạng thái item - EndChange Status Of Item
 
-// NÚT RESET TẤT CẢ BỘ LỌC VÀ TÌM KIẾM - Button Reset All
+// Nút reset tất cả bộ lọc và tìm kiếm - Button Reset All
 const buttonResetAll = document.querySelector("[button-reset-all]");
 if(buttonResetAll) {
     // lắng nghe sự kiện
@@ -188,9 +188,9 @@ if(buttonResetAll) {
         window.location.href = url.href;
     });
 }
-// HẾT NÚT RESET TẤT CẢ BỘ LỌC VÀ TÌM KIẾM - End Button Reset All
+// Hết Nút reset tất cả bộ lọc và tìm kiếm - End Button Reset All
 
-// XÓA MỀM SẢN PHẨM - Delete Soft
+// Xóa mềm sản phẩm - Delete Soft
 const listButtonDelete = document.querySelectorAll("[button-delete-soft]");
 const formDeleteSoft = document.querySelector("#form-delete-soft");
 if(listButtonDelete.length > 0) {
@@ -209,9 +209,9 @@ if(listButtonDelete.length > 0) {
         });
     });
 }
-// HẾT XÓA MỀM SẢN PHẨM - End Delete Soft
+// Hết Xóa mềm sản phẩm - End Delete Soft
 
-// SẮP XẾP THEO NHIỀU TIÊU CHÍ - Sort 
+// Sắp xếp theo nhiều tiêu chí - Sort 
 const selectSort = document.querySelector("[select-sort]");
 if(selectSort) {
     // lắng nghe sự kiện thay đổi 
@@ -254,9 +254,9 @@ if(selectSort) {
 
 
 }
-// HẾT SẮP XẾP THEO NHIỀU TIÊU CHÍ - End Sort 
+// Hết Sắp xếp theo nhiều tiêu chí - End Sort 
 
-// CHECK BOX ALL VÀ SINGLE
+// Checkbox all và checkbox single
 const checkBoxAll = document.querySelector("[check-box-all]");
 const checkBoxSingles = document.querySelectorAll("[check-box-single]");
 if(checkBoxAll && checkBoxSingles.length > 0) {
@@ -284,9 +284,9 @@ if(checkBoxAll && checkBoxSingles.length > 0) {
         });
     });
 }
-// END CHECK BOX ALL VÀ SINGLE
+// Hết Checkbox all và checkbox single
 
-// TẮT CÁC TAB CON KHI NHẤN RA NGOÀI HTML -- CÁI NÀY NÊN ĐỂ CUỐI CÙNG 
+// Đóng các tab con khi nhấn ra ngoài html -- CÁI NÀY NÊN ĐỂ CUỐI CÙNG 
 document.addEventListener("click", (event) => {
     // event.target sẽ lấy được element được click vào
     optionIcons.forEach((item, index) => {
@@ -295,15 +295,15 @@ document.addEventListener("click", (event) => {
         }
     });
 });
-// HẾT TẮT CÁC TAB CON KHI NHẤN RA NGOÀI HTML
+// Hết Đóng các tab con khi nhấn ra ngoài html
 
 // Thông báo alert 
-const alert = document.querySelector(".alert");
+const alert = document.querySelector("[alert-normal]");
 if(alert) {
     const alertItem = alert.querySelector(".alert__item");
 
     // khi nhấn vào nút close alert thì sẽ tắt alert đó
-    const closeAlertItem = alertItem.querySelector("[close-alert");
+    const closeAlertItem = alertItem.querySelector("[close-alert]");
     closeAlertItem.addEventListener("click", (event) => {
         alertItem.style.display = "none";
     });
@@ -317,6 +317,7 @@ if(alert) {
 // Hết thông báo alert
 
 // Thông báo alert đẩy
+const alertPush = document.querySelector(".alert");
 const showAlert = (content = null, state, time) => {
 
     if(content === null) return; // nếu không có nội dung thì return luôn
@@ -330,7 +331,7 @@ const showAlert = (content = null, state, time) => {
         <i class="fa-solid fa-xmark"></i>
         </span>
     `;
-    alert.appendChild(newAlertItem);
+    alertPush.appendChild(newAlertItem);
 
     // khi nhấn vào nút close alert thì sẽ tắt alert đó
     const closeAlertItem = newAlertItem.querySelector("[close-alert");
@@ -346,3 +347,174 @@ const showAlert = (content = null, state, time) => {
     // return;
 }
 // Hết Thông báo alert đẩy
+
+// Warning input - Thông báo chưa nhập vào thẻ input
+const warningInput = (element, content) => {
+    if(element.value === "") {
+        element.style.border = "1px solid #B3261E";
+        // element.setAttribute("class", "textRed");
+        element.placeholder = content + "...";
+        return false; // có warning
+    }
+    return true;
+}
+// Hết Warning input - Thông báo chưa nhập vào thẻ input
+
+// Warning image - Thông báo chưa nhập vào ít nhất một ảnh
+const warningImage = (formElement) => {
+    const uploadImgItem = formElement.querySelectorAll(".upload-image__item");
+    
+    let isUpload = false; // dùng check xem có upload ít nhất 1 ảnh không
+
+    uploadImgItem.forEach(item => {
+        const fileInput = item.querySelector(`input[name="thumbnail"]`);
+        if(fileInput.value !== "") 
+            isUpload = true;    // ít nhất upload một ảnh
+    });
+
+    if(!isUpload) {
+        // in màu đỏ phần chú ý
+        const noticeImage = formCreate.querySelector("[notice-image]");
+        noticeImage.style.color = "#B3261E";
+
+        // đường viền màu đỏ cảnh báo nhập ảnh
+        uploadImgItem[0].style.border = "1px dashed #B3261E";
+        
+        // nội dung màu đỏ
+        const labelItem = uploadImgItem[0].querySelector("label");
+        labelItem.style.color = "#B3261E";
+
+        // icon màu đỏ
+        const iconItem = uploadImgItem[0].querySelector("i");
+        iconItem.style.color = "#B3261E";
+
+        return false; // có warning
+    }
+    return true;
+}
+// Hết Warning image - Thông báo chưa nhập vào ít nhất một ảnh
+
+// Tạo mới sản phẩm / danh mục
+const formCreate = document.querySelector("#form-create");
+if(formCreate) {
+    formCreate.addEventListener("submit", event => {
+        event.preventDefault(); // tạm ngăn chặn sự kiện submit của form
+
+        let isValid = true;
+
+        isValid &= warningInput(formCreate.title, "Vui lòng nhập tiêu đề");
+
+        isValid &= warningInput(formCreate.price, "Vui lòng nhập giá");
+
+        isValid &= warningInput(formCreate.stock, "Vui lòng số lượng");
+
+        // check xem có upload hình ảnh nào chưa
+        isValid &= warningImage(formCreate);   
+
+        if(!isValid) {
+            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
+            return;
+        }
+
+        formCreate.submit(); // form đầy đủ thông tin
+
+        
+    });
+}
+// Hết Tạo mới sản phẩm / danh mục
+
+// Khi nhấn vào khung thì sẽ open cửa sổ upload file
+if(formCreate) {
+    const uploadImageItem = document.querySelectorAll(".upload-image__item");
+    
+    uploadImageItem.forEach(item => {
+        const itemGroup = item.querySelector(".upload-image__item-group");
+        const imagePreview = item.querySelector("[img-preview]");
+        const closeImagePreview = item.querySelector("[close-img-preview]");
+        const inputFile = itemGroup.querySelector(`input[name="thumbnail"]`);
+
+        // cần format lại đoạn này cho gọn nha
+        const noticeImage = document.querySelector("[notice-image]");
+        const labelItem = uploadImageItem[0].querySelector("label");
+        const iconItem = uploadImageItem[0].querySelector("i");
+        
+        // nhấn vào thêm ảnh hoặc thay đổi ảnh
+        itemGroup.addEventListener("click", event => {
+            inputFile.click(); // mở thẻ input type file lên
+
+            // khi file thay đổi
+            inputFile.addEventListener("change", event => {
+                const [file] = inputFile.files;
+                if(file) {
+                    imagePreview.src = URL.createObjectURL(file);
+                    imagePreview.classList.remove("hidden");
+                    itemGroup.style.display = "none"; // ẩn các khối content hiển thị
+                    closeImagePreview.style.display = "inline-flex";
+                    item.style.border = "1px solid #fff"; // khi có ảnh thì inner vào đường viền màu trắng 
+
+                    // khi warning ảnh rồi mà upload ảnh khác thì màu chữ trở lại bình thường
+                    noticeImage.style.color = "#fff";
+                    labelItem.style.color = "#94A3B8";
+                    iconItem.style.color = "#94A3B8";
+                }
+
+                else {
+                    imagePreview.classList.add("hidden");
+                    itemGroup.style.display = "flex";
+                    closeImagePreview.style.display = "none";
+                }
+            });
+        })
+
+        // nhấn nút close
+        closeImagePreview.addEventListener("click", event => {
+            inputFile.value = "";
+            imagePreview.src = ""
+            closeImagePreview.style.display = "none";
+            imagePreview.classList.add("hidden");
+            itemGroup.style.display = "flex";
+            item.style.border = "1px dashed #2166D6"; // khi xóa ảnh không upload thì đường viền trở về bình thường
+        });
+    })
+}
+// Hết Khi nhấn vào khung thì sẽ open cửa sổ upload file
+
+// Nếu là ô để nhập số mà điền chữ vào thì sẽ warning
+const formatInputNumber = (element, contentNormal, contentWarn) => {
+    element.addEventListener("input", event => {
+        if(element.value === "") return;
+
+        const isNotDigit = isNaN(parseInt(element.value));
+        if(isNotDigit) {
+            element.value = "";
+            warningInput(element, contentWarn);
+            return;
+        }
+
+        element.style.border = "1px solid #324055";
+        element.style.outline = "none";
+        element.placeholder = contentNormal;
+    });
+
+
+    element.addEventListener("blur", event => {
+        element.style.border = "1px solid #324055";
+        element.style.outline = "none";
+        element.placeholder = contentNormal;
+    });
+}
+
+if(formCreate) {
+    const priceInput = formCreate.querySelector('input[name="price"]');
+    formatInputNumber(priceInput, "Nhập giá của sản phẩm", "Vui lòng điền đúng định dạng số");
+
+    const discountInput = formCreate.querySelector('input[name="discountPercentage"]');
+    formatInputNumber(discountInput, "Mặc định sẽ là giảm giá 0%", "Vui lòng điền đúng định dạng số");
+
+    const stockInput = formCreate.querySelector('input[name="stock"]');
+    formatInputNumber(stockInput, "Nhập số lượng của sản phẩm", "Vui lòng điền đúng định dạng số");
+
+    const positionInput = formCreate.querySelector('input[name="position"]');
+    formatInputNumber(positionInput, "Vị trí tự động tăng", "Vui lòng điền đúng định dạng số");
+}
+// Hết Nếu là ô để nhập số mà điền chữ vào thì sẽ warning

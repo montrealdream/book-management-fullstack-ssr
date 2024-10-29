@@ -102,3 +102,50 @@ module.exports.deleteSoft = async (req, res) => {
 
     }
 }
+
+// [GET] /admin/products/create
+module.exports.createUI = async (req, res) => {
+    try {
+        res.render("admin/pages/products/create", {
+            title: "Tạo mới sản phẩm"
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [POST] /admin/products/create
+module.exports.create = async (req, res) => {
+    try {
+        
+        // format lại một số trường về định dạng number
+        req.body.price = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.price);
+        req.body.stock = parseInt(req.body.stock);
+
+        if(req.body.position === "") {
+            req.body.position = await Product.countDocuments({
+                status: "active",
+                deleted: false,
+            }) + 1;
+        }
+
+        else req.body.position = parseInt(req.body.position);
+        
+        // upload một ảnh vào thư mục local
+        // req.body[req.file.fieldname] = `/uploads/${req.file.filename}`;
+
+        // upload nhiều ảnh vào thư mục local
+        // req.body[req.files[0].fieldname] = req.files.map(item => `/uploads/${item.filename}`);
+
+        // tạo bản ghi mới và lưu vào db
+        const record  = new Product(req.body);
+        await record.save();
+        req.flash('success', 'Tạo sản phẩm thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}

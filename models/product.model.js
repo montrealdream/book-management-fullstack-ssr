@@ -18,7 +18,12 @@ const productSchema = new mongoose.Schema(
         },
         author: String,             // tác giả của sách
         category_id: String,
-        thumbnail: String,
+        // thumbnail: String, // upload một ảnh 
+        thumbnail: {
+            type: Array,
+            default: []
+            // upload nhiều ảnh nên cần dùng mảng 
+        },
         description: String,
         price: Number,
         discountPercentage: Number, // % giảm giá
@@ -30,7 +35,7 @@ const productSchema = new mongoose.Schema(
             type:Boolean,
             default: false // mặc định chưa xóa sản phẩm
         },
-        featured: Boolean, // sản phẩm nổi bật
+        featured: String, // sản phẩm nổi bật
 
         // Lưu giữ user
         createdBy : {

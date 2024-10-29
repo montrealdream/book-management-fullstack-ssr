@@ -8,6 +8,7 @@ body {
   margin: 0px;
   font-family: "Be Vietnam Pro", sans-serif;
   background-color: #0F172A;
+  position: relative;
 }
 
 .show {
@@ -521,6 +522,7 @@ body {
 }
 
 .button {
+  text-decoration: none;
   padding: 15px 22px;
   font-size: 14px;
   font-weight: 700;
@@ -660,28 +662,53 @@ body {
   gap: 10px;
   height: 250px;
   margin-bottom: 12px;
+  width: 100%;
 }
 .upload-image__item {
+  width: calc(33.3333333333% - 10px);
   border: 1px dashed #2166D6;
   border-radius: 12px;
-  padding: 16px 22px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.upload-image__item-group {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
-.upload-image__item i {
+.upload-image__item-group i {
   color: #94A3B8;
   font-size: 24px;
 }
-.upload-image__item label {
+.upload-image__item-group label {
   color: #94A3B8;
   font-size: 12px;
+  padding: 0px 22px;
 }
-.upload-image__item input[type=file] {
+.upload-image__item-group input[type=file] {
   display: none;
+}
+.upload-image__close-preview {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid red;
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -8px;
+  right: -11px;
 }
 
 .label {
@@ -799,7 +826,8 @@ body {
 .alert {
   /* vị trí */
   position: fixed;
-  top: 180px;
+  z-index: 999;
+  top: 69px;
   right: 80px;
   /* thông báo đẩy */
   display: inline-flex;
@@ -810,6 +838,7 @@ body {
   position: relative;
   display: inline-flex;
   width: 250px;
+  height: 32px;
   padding: 8px 10px;
   font-size: 12px;
   border-radius: 5px;
@@ -853,5 +882,21 @@ body {
 }
 
 /* hết alert */
+/*  image preview */
+[img-preview] {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/*  hết image preview */
+.textRed::placeholder, .textRedColor {
+  color: #B3261E;
+}
+
+.custome-tinymce {
+  background-color: red;
+}
 
 /*# sourceMappingURL=style.css.map */

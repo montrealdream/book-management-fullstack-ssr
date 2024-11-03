@@ -30,6 +30,12 @@ module.exports.index = async (req, res) => {
         // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
         const quantityRecords = await Product.countDocuments(findObject);
         
+        // sắp xếp
+        const sortObject = {};
+        let sortKey =   req.query.sortKey || 'position';
+        let sortValue = req.query.sortValue || 'desc';
+        sortObject[sortKey] = sortValue;
+
         // phân trang
         const paginationObject = paginationHelper.pagination(req.query, quantityRecords);
 
@@ -37,6 +43,7 @@ module.exports.index = async (req, res) => {
         const records  = await Product.find(findObject)
                                         .limit(paginationObject.limit)
                                         .skip(paginationObject.skip)
+                                        .sort(sortObject)
         
         res.render("admin/pages/products/index", {
             title: "Danh sách sản phẩm",

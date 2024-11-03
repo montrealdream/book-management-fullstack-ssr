@@ -191,12 +191,24 @@ body {
 
 // #bdcfd3
 
+// main
+.body {
+    display: flex;
+}
+
+.main {
+    width: 82%;
+    padding: 30px;
+}
+// end main
+
 // sider
 .sider {
     background-color: $color-bg-dark;
     border-top: 0.5px solid #283548;
     width: 260px;
-    height: 100%; // fix tạm
+    height: 792px; // fix tạm
+    border-radius: 0px 0px 12px 0px;
 
     &__wrap {
         display: flex;
@@ -306,17 +318,6 @@ body {
     }
 }
 // end sider
-
-// main
-.body {
-    display: flex;
-}
-
-.main {
-    width: 82%;
-    padding: 30px;
-}
-// end main
 
 // box-head
 .box-head {

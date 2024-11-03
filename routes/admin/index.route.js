@@ -7,6 +7,7 @@
 const systemConfig = require("../../config/system.config");
 const dashboardRoute = require("./dashboard.route");
 const productsRoute  = require('./product.route');
+const productCategoryRoute = require('./product-category.route');
 
 // exports
 module.exports = (app) => {
@@ -20,6 +21,11 @@ module.exports = (app) => {
     app.use(
         PATH_ADMIN + '/products',
         productsRoute
+    );
+
+    app.use(
+        PATH_ADMIN + '/products-category',
+        productCategoryRoute
     );
 }
 

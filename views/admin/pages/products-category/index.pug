@@ -1,18 +1,22 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
-include mixins/filter
-include mixins/select
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/filter
+include ../../mixins/select
+include ../../mixins/alert
 
 //- Title
 block title 
-    title Danh mục sản phẩm
+    title #{title}
 
 //- Main
 block main
+    +alert-success
+    +alert-warning
+    +alert-error
     //- box-head
     -
         var breadcrumbArray = 
@@ -24,64 +28,6 @@ block main
         
     +box-head-use-breadcrumb("DANH MỤC SẢN PHẨM", breadcrumbArray)
     //- end box-head 
-
-    -   
-        var sanPham = 
-        [
-            {
-                title: "Trinh thám",
-                img:"https://mcdn.coolmate.me/image/September2023/tieu-thuyet-trinh-tham-hay-nhat-2557_155.jpg",
-                status:"active",
-                id: "001",
-            },
-            {
-                title: "Khoa học viễn tưởng",
-                img:"https://bazaarvietnam.vn/wp-content/uploads/2021/07/phim-khoa-hoc-vien-tuong-hay-nhat-moi-thoi-dai-10-e1626966924347.jpg",
-                status:"active",
-                id: "002",
-            },
-            {
-                title: "Triết học xã hội",
-                img:"https://pos.nvncdn.com/fd5775-40602/ps/20240305_ewEQ8fLJGY.jpeg",
-                status:"active",
-                id: "003",
-            },
-
-            {
-                title: "lịch sử",
-                img:"https://static.taogiaoduc.vn/2018/06/map-3409359_1920.jpg",
-                status:"inactive",
-                id: "005",
-            }
-        ]
-        //- demo filter status
-    -   
-        var filterStatusArray = 
-        [
-            {
-                title: "Tất cả",
-                status: "",
-                class: "",
-            },
-            {
-                title: "Hoạt động",
-                status: "active",
-                class: "filter__item--active",
-            },
-            {
-                title: "Dừng hoạt động",
-                status: "inactive",
-                class: "",
-            }
-        ]
-
-    //- demo pagination
-    -   
-        var paginationObject = 
-        {
-            totalPage: 10,
-            currentPage: 7
-        }
 
     //- card
     div(class="card")
@@ -99,7 +45,7 @@ block main
                 //- right
                 div(class="card__head-right")
                     //- add product
-                    div(class="button button__outline")
+                    a(href= path_admin + "/products-category/create" class="button button__outline")
                         <i class="fa-solid fa-plus"></i>
                         |   Thêm Mới
                
@@ -121,7 +67,7 @@ block main
                         th 
                     
                 tbody(class="table__body")
-                    each item in sanPham 
+                    each item in records 
                         tr 
                             td 
                                 input(
@@ -132,7 +78,7 @@ block main
                                 )
                             td(class="table__title")
                                 img(
-                                    src=item.img 
+                                    src=item.thumbnail 
                                     alt=item.title
                                 )
                                 h3 #{item.title}
@@ -174,10 +120,10 @@ block main
         //- end card 
 
         //- form đổi trạng thái item
-        +form-change-status 
+        +form-execute("form-change-status", '/products-category/change-status')
 
         //- form xóa mềm sản phẩm
-        +form-delete-soft
+        +form-execute("form-delete-soft", '/products-category/delete-soft')
 
 
 block script 

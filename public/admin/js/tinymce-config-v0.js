@@ -1,6 +1,6 @@
 // Đoạn code mang tính chất tham khảo
 tinymce.init({
-    selector: '.textarea-tinymce', // class cho thẻ sử dụng tinymce
+    selector: '#class', // class cho thẻ sử dụng tinymce
     license_key: 'gpl',
     plugins: 'image emoticons insertdatetime',
     toolbar: 'undo redo | image | emoticons | insertdatetime',

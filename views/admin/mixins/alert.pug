@@ -1,21 +1,21 @@
 mixin alert-success
     - if (messages.success)
         div( class="alert" alert-normal)
-            div(class="alert__item alert--success")
+            div(class="alert__item alert__item--success")
                 span #{messages.success}
                 span(close-alert)
                     <i class="fa-solid fa-xmark"></i>
 mixin alert-warning
     - if (messages.warning)
         div( class="alert" alert-normal)
-            div(class="alert__item alert--warning")
+            div(class="alert__item alert__item--warning")
                 span #{messages.warning}
                 span(close-alert)
                     <i class="fa-solid fa-xmark"></i>
 mixin alert-error
     - if (messages.error)
         div( class="alert" alert-normal)
-            div(class="alert__item alert--error")
+            div(class="alert__item alert__item--error")
                 span #{messages.error}
                 span(close-alert)
                     <i class="fa-solid fa-xmark"></i>

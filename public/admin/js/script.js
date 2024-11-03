@@ -111,7 +111,6 @@ if(formSearch) {
         else
             url.searchParams.delete("keyword");
             
-        
         // chuyển hướng url
         window.location.href = url.href;
     });
@@ -161,7 +160,7 @@ if(formChangeStatus) {
             // url: ..../change-status/:id/:status
             const action = path + `/${id}/${status}/?_method=PATCH` 
 
-            // // submit form
+            // submit form
             formChangeStatus.action = action
             formChangeStatus.submit();
         });
@@ -200,7 +199,10 @@ if(listButtonDelete.length > 0) {
         button.addEventListener("click", (event) => {
             const id = button.getAttribute("button-delete-soft");
 
-            // .../delete-soft/id
+            /**
+             * url: .../delete-soft/id
+             * /?method=PATCH ghi đè phương thức npm method override
+             */
             let action = path + `/${id}` + '/?_method=PATCH';
 
             // submit form
@@ -251,8 +253,6 @@ if(selectSort) {
 
         findOptionSelected.selected = true;
     }    
-
-
 }
 // Hết Sắp xếp theo nhiều tiêu chí - End Sort 
 
@@ -286,17 +286,6 @@ if(checkBoxAll && checkBoxSingles.length > 0) {
 }
 // Hết Checkbox all và checkbox single
 
-// Đóng các tab con khi nhấn ra ngoài html -- CÁI NÀY NÊN ĐỂ CUỐI CÙNG 
-document.addEventListener("click", (event) => {
-    // event.target sẽ lấy được element được click vào
-    optionIcons.forEach((item, index) => {
-        if(item !== event.target) {
-            optionTabs[index].classList.add("hidden");
-        }
-    });
-});
-// Hết Đóng các tab con khi nhấn ra ngoài html
-
 // Thông báo alert 
 const alert = document.querySelector("[alert-normal]");
 if(alert) {
@@ -324,7 +313,7 @@ const showAlert = (content = null, state, time) => {
 
     const newAlertItem = document.createElement("div");
 
-    newAlertItem.setAttribute("class", `alert__item alert--${state}`); 
+    newAlertItem.setAttribute("class", `alert__item alert__item--${state}`); 
     newAlertItem.innerHTML = `
         <span> ${content} ! </span>
         <span close-alert>
@@ -349,10 +338,9 @@ const showAlert = (content = null, state, time) => {
 // Hết Thông báo alert đẩy
 
 // Warning input - Thông báo chưa nhập vào thẻ input
-const warningInput = (element, content) => {
+const warningInput = (element, content, colorWarning) => {
     if(element.value === "") {
-        element.style.border = "1px solid #B3261E";
-        // element.setAttribute("class", "textRed");
+        element.style.border = `1px solid ${colorWarning}`;
         element.placeholder = content + "...";
         return false; // có warning
     }
@@ -363,50 +351,111 @@ const warningInput = (element, content) => {
 // Warning image - Thông báo chưa nhập vào ít nhất một ảnh
 const warningImage = (formElement) => {
     const uploadImgItem = formElement.querySelectorAll(".upload-image__item");
+    const noticeImage = formElement.querySelector("[notice-image]");
+    
+    let state =  "unwarning";
+    const stateChosen = {
+        "warning": {
+            noticeColor: '#FFC107',
+            borderColor: '#FFC107',
+            labelColor:  '#FFC107',
+            iconColor:   '#FFC107',
+        },
+
+        "unwarning": {
+            noticeColor: '#fff',     // màu của nội dung thông báo bên dưới
+            borderColor: '#2166D6',  // color của khung upload ảnh 
+            labelColor: '#94A3B8',  // nội dung bên trong khung upload ảnh
+            iconColor:  '#94A3B8'   // icon bên trong khung upload ảnh
+        }
+    }
     
     let isUpload = false; // dùng check xem có upload ít nhất 1 ảnh không
 
-    uploadImgItem.forEach(item => {
+    // check xem đã upload ít nhất 1 ảnh chưa
+    uploadImgItem.forEach((item, index) => {
         const fileInput = item.querySelector(`input[name="thumbnail"]`);
-        if(fileInput.value !== "") 
-            isUpload = true;    // ít nhất upload một ảnh
+
+        if(item.classList.contains("preview"))
+            isUpload = true;
+
+        // if(fileInput.value !== "") 
+        //     isUpload = true;    // ít nhất upload một ảnh
     });
 
-    if(!isUpload) {
-        // in màu đỏ phần chú ý
-        const noticeImage = formCreate.querySelector("[notice-image]");
-        noticeImage.style.color = "#B3261E";
+    if(!isUpload) state = "warning"; // nếu chưa có ảnh nào upload thì warning lên
 
-        // đường viền màu đỏ cảnh báo nhập ảnh
-        uploadImgItem[0].style.border = "1px dashed #B3261E";
-        
-        // nội dung màu đỏ
-        const labelItem = uploadImgItem[0].querySelector("label");
-        labelItem.style.color = "#B3261E";
+    // khung ảnh
+    uploadImgItem.forEach(item => {
+        const inputFile = item.querySelector(`input[name="thumbnail"]`);
 
-        // icon màu đỏ
-        const iconItem = uploadImgItem[0].querySelector("i");
-        iconItem.style.color = "#B3261E";
+        // đường viền khung ảnh
+        item.style.border = `1px dashed ${stateChosen[state].borderColor}`; 
 
-        return false; // có warning
-    }
-    return true;
+        // nội dung trong khung ảnh
+        const labelItem = item.querySelector("label"); 
+        labelItem.style.color = stateChosen[state].labelColor;
+
+        // icon trong khung ảnh
+        const iconItem = item.querySelector("i");
+        iconItem.style.color = stateChosen[state].iconColor;
+    });
+
+    // nội dung bên dưới toàn bộ khung ảnh
+    noticeImage.style.color = stateChosen[state].noticeColor;
+
+    return isUpload; // nếu false là chưa upload ảnh nào
 }
 // Hết Warning image - Thông báo chưa nhập vào ít nhất một ảnh
 
-// Tạo mới sản phẩm / danh mục
+// Khi nhấn vào khung thì sẽ open cửa sổ upload file
+const uploadImgEvent = (formElement) => {
+    const uploadImgItem = formElement.querySelectorAll(".upload-image__item");
+    
+    uploadImgItem.forEach(item => {
+        const itemGroup = item.querySelector(".upload-image__item-group"); // khung hiển thị khi chưa upload ảnh
+        const inputFile = itemGroup.querySelector(`input[name="thumbnail"]`); // thẻ input type file
+        const imagePreview = item.querySelector("[img-preview]"); // thẻ img chứa image preview
+        const closeImagePreview = item.querySelector(".upload-image__close-preview"); // nút gỡ ảnh đã upload
+
+        // khi nhấn vào khung để chọn ảnh hoặc đổi ảnh
+        itemGroup.addEventListener("click", (event) => {
+            inputFile.click(); // mở thẻ input type file lên
+
+            // khi file thay đổi
+            inputFile.addEventListener("change", event => {
+                const [file] = inputFile.files;
+                if(file) {
+                    imagePreview.src = URL.createObjectURL(file);
+                    /** khi mà chưa upload ít nhất 1 ảnh mà submit thì sẽ bị warning đỏ. Thả đoạn warning này vào đây để khi có ảnh  */
+                    // warningImage(formElement);
+
+                    item.classList.add("preview");
+                }
+            });
+        });
+
+        // sự kiện đóng ảnh preview
+        closeImagePreview.addEventListener("click", event => {
+            item.classList.remove("preview"); 
+            imagePreview.src = ""; // xóa khỏi source preview
+            inputFile.value  = ""; // xóa giá trị để tránh bị upload nhầm
+        });
+    });
+}
+// Hết Khi nhấn vào khung thì sẽ open cửa sổ upload file
+
+// Tạo mới sản phẩm
 const formCreate = document.querySelector("#form-create");
 if(formCreate) {
     formCreate.addEventListener("submit", event => {
         event.preventDefault(); // tạm ngăn chặn sự kiện submit của form
 
-        let isValid = true;
+        let isValid = true; // nếu thiếu 1 trường nào đó nó sẽ AND với false từ đó kq là false và dùng nó để warning alert
 
-        isValid &= warningInput(formCreate.title, "Vui lòng nhập tiêu đề");
-
-        isValid &= warningInput(formCreate.price, "Vui lòng nhập giá");
-
-        isValid &= warningInput(formCreate.stock, "Vui lòng số lượng");
+        isValid &= warningInput(formCreate.title, "Vui lòng nhập tiêu đề", '#FFC107');
+        isValid &= warningInput(formCreate.price, "Vui lòng nhập giá", '#FFC107');
+        isValid &= warningInput(formCreate.stock, "Vui lòng số lượng", '#FFC107');
 
         // check xem có upload hình ảnh nào chưa
         isValid &= warningImage(formCreate);   
@@ -415,79 +464,29 @@ if(formCreate) {
             showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
             return;
         }
-
-        formCreate.submit(); // form đầy đủ thông tin
-
-        
+        formCreate.submit(); // submit form đầy đủ thông tin
     });
+
+    // sự kiện upload ảnh khi nhấn vào
+    uploadImgEvent(formCreate);
 }
 // Hết Tạo mới sản phẩm / danh mục
-
-// Khi nhấn vào khung thì sẽ open cửa sổ upload file
-if(formCreate) {
-    const uploadImageItem = document.querySelectorAll(".upload-image__item");
-    
-    uploadImageItem.forEach(item => {
-        const itemGroup = item.querySelector(".upload-image__item-group");
-        const imagePreview = item.querySelector("[img-preview]");
-        const closeImagePreview = item.querySelector("[close-img-preview]");
-        const inputFile = itemGroup.querySelector(`input[name="thumbnail"]`);
-
-        // cần format lại đoạn này cho gọn nha
-        const noticeImage = document.querySelector("[notice-image]");
-        const labelItem = uploadImageItem[0].querySelector("label");
-        const iconItem = uploadImageItem[0].querySelector("i");
-        
-        // nhấn vào thêm ảnh hoặc thay đổi ảnh
-        itemGroup.addEventListener("click", event => {
-            inputFile.click(); // mở thẻ input type file lên
-
-            // khi file thay đổi
-            inputFile.addEventListener("change", event => {
-                const [file] = inputFile.files;
-                if(file) {
-                    imagePreview.src = URL.createObjectURL(file);
-                    imagePreview.classList.remove("hidden");
-                    itemGroup.style.display = "none"; // ẩn các khối content hiển thị
-                    closeImagePreview.style.display = "inline-flex";
-                    item.style.border = "1px solid #fff"; // khi có ảnh thì inner vào đường viền màu trắng 
-
-                    // khi warning ảnh rồi mà upload ảnh khác thì màu chữ trở lại bình thường
-                    noticeImage.style.color = "#fff";
-                    labelItem.style.color = "#94A3B8";
-                    iconItem.style.color = "#94A3B8";
-                }
-
-                else {
-                    imagePreview.classList.add("hidden");
-                    itemGroup.style.display = "flex";
-                    closeImagePreview.style.display = "none";
-                }
-            });
-        })
-
-        // nhấn nút close
-        closeImagePreview.addEventListener("click", event => {
-            inputFile.value = "";
-            imagePreview.src = ""
-            closeImagePreview.style.display = "none";
-            imagePreview.classList.add("hidden");
-            itemGroup.style.display = "flex";
-            item.style.border = "1px dashed #2166D6"; // khi xóa ảnh không upload thì đường viền trở về bình thường
-        });
-    })
-}
-// Hết Khi nhấn vào khung thì sẽ open cửa sổ upload file
 
 // Nếu là ô để nhập số mà điền chữ vào thì sẽ warning
 const formatInputNumber = (element, contentNormal, contentWarn) => {
     element.addEventListener("input", event => {
         if(element.value === "") return;
 
-        const isNotDigit = isNaN(parseInt(element.value));
-        if(isNotDigit) {
+        // cách này cũng được nhưng mà lỡ có 1 số trong chuỗi thì nó cho đúng luôn nên cũng không được
+        // const isNotDigit = isNaN(parseInt(element.value));
+
+        // dùng regex, nếu chuỗi có chữ thì không được 
+        const pattern = /^[0-9]+$/;
+        const isDigit = pattern.test(element.value);
+
+        if(isDigit === false) {
             element.value = "";
-            warningInput(element, contentWarn);
+            warningInput(element, contentWarn, '#FFC107');
             return;
         }
 
@@ -518,3 +517,14 @@ if(formCreate) {
     formatInputNumber(positionInput, "Vị trí tự động tăng", "Vui lòng điền đúng định dạng số");
 }
 // Hết Nếu là ô để nhập số mà điền chữ vào thì sẽ warning
+
+// Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
+document.addEventListener("click", (event) => {
+    // event.target sẽ lấy được element được click vào
+    optionIcons.forEach((item, index) => {
+        if(item !== event.target) {
+            optionTabs[index].classList.add("hidden");
+        }
+    });
+});
+// Hết Đóng các tab con khi nhấn ra ngoài html

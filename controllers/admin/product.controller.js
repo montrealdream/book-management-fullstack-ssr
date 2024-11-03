@@ -149,3 +149,40 @@ module.exports.create = async (req, res) => {
 
     }
 }
+
+// [GET] /admin/products/edit/:id
+module.exports.editUI = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // tìm kiếm database
+        const record = await Product.findOne({_id: id});
+        
+        res.render("admin/pages/products/edit", {
+            title: "Chỉnh sửa",
+            record
+        })
+        
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await Product.updateOne(
+            {
+                _id: id
+            }, 
+            req.body
+        )
+        res.redirect('back');  
+    }
+    catch(error) {
+
+    }
+}

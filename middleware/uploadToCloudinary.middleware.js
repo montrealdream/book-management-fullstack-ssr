@@ -18,7 +18,7 @@ module.exports.uploadSingle = async (req, res, next) => {
 
 // upload nhiều file (nhiều ảnh, ... )
 module.exports.uploadArray = async (req, res, next) => {
-    if(req.files) {
+    if(req.files.length > 0) {
         let linkImage = [];
 
         for(file of req.files) {

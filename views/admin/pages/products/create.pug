@@ -4,6 +4,7 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head
 include ../../mixins/pagination
 include ../../mixins/form
+include ../../mixins/upload-image
 
 //- Title
 block title 
@@ -88,18 +89,9 @@ block main
                         )
                 //- right
                 div(class="form__right")
-                    div(class="form__item")
+                    div(class="form__item" upload-image)
                         label(for=""  class="label") Upload Hình Ảnh 
-                        div(class="upload-image")
-                            - for (let i = 0; i < 3; i++)
-                                div(class="upload-image__item")
-                                    div(class="upload-image__item-group")
-                                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                                        label(class="") Thả hình ảnh của bạn vào đây hoặc chọn
-                                        input(type="file" name="thumbnail")
-                                    <img src="" class="hidden" img-preview/>
-                                    span(class="upload-image__close-preview" close-img-preview)
-                                        <i class="fa-solid fa-xmark"></i>
+                        +upload-image("", 3)
 
                         label(class="label label__desc" notice-image) 
                             | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết

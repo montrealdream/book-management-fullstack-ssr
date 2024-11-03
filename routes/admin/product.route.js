@@ -49,5 +49,19 @@ router.post(
     cloudinaryMiddleware.uploadArray, // upload nhiều ảnh lên cloudinary
     controller.create
 );
+
+router.get(
+    '/edit/:id',
+    controller.editUI
+);
+
+router.patch(
+    '/edit/:id',
+    // upload.single('thumbnail'), // upload một ảnh 
+    upload.array("thumbnail", 3),  // upload nhiều ảnh
+    cloudinaryMiddleware.uploadArray, // upload nhiều ảnh lên cloudinary
+    controller.edit
+);
+
 // exports
 module.exports = router;

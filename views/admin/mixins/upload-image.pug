@@ -1,0 +1,16 @@
+mixin upload-image(thumbnail, repeat)
+    div(class="upload-image")
+        - for (let i = 0; i < repeat; i++)
+            -   var classPreview = thumbnail[i] ? 'preview' : ""
+            div(class=`upload-image__item upload-image__item-${repeat} ${classPreview}`)
+                div(class="upload-image__item-group")
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    label(class="") Thả hình ảnh của bạn vào đây hoặc chọn
+                    input(type="file" name="thumbnail")
+                img( 
+                    src=thumbnail[i] 
+                    class="hidden" 
+                    img-preview
+                )
+                span(class="upload-image__close-preview" close-img-preview)
+                    <i class="fa-solid fa-xmark"></i>

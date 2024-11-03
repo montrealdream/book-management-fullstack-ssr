@@ -128,7 +128,7 @@ module.exports.create = async (req, res) => {
         
         // format lại một số trường về định dạng number
         req.body.price = parseInt(req.body.price);
-        req.body.discountPercentage = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
         req.body.stock = parseInt(req.body.stock);
 
         if(req.body.position === "") {
@@ -187,6 +187,7 @@ module.exports.edit = async (req, res) => {
             }, 
             req.body
         )
+        req.flash('success', 'Tạo sản phẩm thành công');
         res.redirect('back');  
     }
     catch(error) {

@@ -5,6 +5,7 @@
 
 const express = require('express');
 const controller = require("../../controllers/admin/product.controller");
+const validate = require('../../validates/admin/product.validate');
 
 // upload ảnh dưới local
 // const multer  = require('multer');
@@ -46,7 +47,8 @@ router.post(
     '/create',
     // upload.single('thumbnail'), // upload một ảnh 
     upload.array("thumbnail", 3),  // upload nhiều ảnh
-    cloudinaryMiddleware.uploadArray, // upload nhiều ảnh lên cloudinary
+    cloudinaryMiddleware.uploadArray, // upload nhiều ảnh lên cloudinary,
+    validate.create,
     controller.create
 );
 
@@ -60,6 +62,7 @@ router.patch(
     // upload.single('thumbnail'), // upload một ảnh 
     upload.array("thumbnail", 3),  // upload nhiều ảnh
     cloudinaryMiddleware.uploadArray, // upload nhiều ảnh lên cloudinary
+    validate.create, // sử dụng lại vẫn ok nha
     controller.edit
 );
 

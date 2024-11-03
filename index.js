@@ -20,7 +20,7 @@ app.locals.path_admin = systemConfig.PATH_ADMIN; // app locals
 app.use(methodOverride('_method'))
 
 // express flash
-app.use(cookieParser('keyboard cat'));
+app.use(cookieParser('qudjbhajhfb6868habdahdb3274237847'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 

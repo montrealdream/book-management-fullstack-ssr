@@ -80,7 +80,29 @@ module.exports.changeStatus = async (req, res) => {
                 status: status
             }
         );
-        req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
+        req.flash('success', 'Thay đổi trạng thái danh mục thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/products-category/delete-soft/:id
+module.exports.deleteSoft = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // xóa mềm
+        await ProductCategory.updateOne(
+            {
+                _id: id
+            }, {
+                deleted: true
+            }
+        );
+
+        req.flash('success', 'Xóa danh mục thành công');
         res.redirect('back');
     }
     catch(error) {

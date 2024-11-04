@@ -1,0 +1,158 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/filter
+include ../../mixins/select
+include ../../mixins/alert
+
+//- Title
+block title 
+    title #{title}
+
+//- Mai Title
+block main
+    +alert-success
+    +alert-warning
+    +alert-error
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Tài khoản",
+            "Danh Sách Tài Khoản"
+        ]
+        
+    +box-head-use-breadcrumb("DANH SÁCH TÀI KHOẢN", breadcrumbArray)
+    //- end box-head 
+
+    //- -   
+    //-     var sanPham = 
+    //-     [
+    //-         {
+    //-             title: "Giang Trường",
+    //-             img:"https://mcdn.coolmate.me/image/September2023/tieu-thuyet-trinh-tham-hay-nhat-2557_155.jpg",
+    //-             status:"active",
+    //-             email:"giangtruonghomo@gmail.com",
+    //-             role:"Quản trị viên"
+    //-         },
+    //-         {
+    //-             title: "Văn Thiệu",
+    //-             img:"https://bazaarvietnam.vn/wp-content/uploads/2021/07/phim-khoa-hoc-vien-tuong-hay-nhat-moi-thoi-dai-10-e1626966924347.jpg",
+    //-             status:"active",
+    //-             email:"vanthieuhomo@gmail.com",
+    //-             role:"Quản lý danh mục"
+    //-         },
+    //-         {
+    //-             title: "Nguyễn Nhân",
+    //-             img:"https://pos.nvncdn.com/fd5775-40602/ps/20240305_ewEQ8fLJGY.jpeg",
+    //-             status:"active",
+    //-             email:"nguyennhanhomo@gmail.com",
+    //-             role:"Nhân viên"
+    //-         },
+
+    //-         {
+    //-             title: "Trường Giang",
+    //-             img:"https://static.taogiaoduc.vn/2018/06/map-3409359_1920.jpg",
+    //-             status:"inactive",
+    //-             email:"gianghomo@gmail.com",
+    //-             role:"Nhân viên"
+    //-         }
+    //-     ]
+    
+    //- card
+    div(class="card")
+        div(class="card__head") 
+            div(class="card__head-wrap")
+                //- filter
+                +filter-status(filterStatusArray)
+                //- left    
+                div(class="card__head-left")
+                    //- form search
+                    +form-search("")
+                    //- select
+                    +select-sort
+
+                //- right
+                div(class="card__head-right")
+                    //- add product
+                    a(href= path_admin + "/accounts/create" class="button button__outline")
+                        <i class="fa-solid fa-plus"></i>
+                        |   Thêm Mới
+               
+
+        div(class="card__body")
+            //- table
+            table(class="table") 
+                thead(class="table__head")
+                    tr 
+                        td 
+                            input(
+                                type = "checkbox"
+                                name=""
+                                class="checkbox-tick"
+                                check-box-all
+                            )
+                        th Tài khoản
+                        th Email
+                        th Trạng Thái
+                        th 
+                    
+                tbody(class="table__body")
+                    each item in records 
+                        tr 
+                            td 
+                                input(
+                                    type = "checkbox"
+                                    name=""
+                                    class="checkbox-tick"
+                                    check-box-single = item.id
+                                )
+
+                            td(class="table__title")
+                                img(
+                                    src=item.avatar 
+                                    alt=""
+                                )
+                                div(class="table__tile-sub")
+                                    h3 #{item.fullName}
+                                    span #{item.role}
+
+                            td
+                                span(class="table__email")  #{item.email}
+
+                            td 
+                                if(item.status == "active")
+                                    span(
+                                        class="badge badge--active"
+                                        button-status-id = item.id
+                                        button-status = "active"
+                                    ) Hoạt động
+                                    
+                                else 
+                                    span(
+                                        class="badge badge--inactive"
+                                        button-status-id = item.id
+                                        button-status = "inactive"
+                                    ) Dừng hoạt động
+                            td 
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                    //- end table
+        
+        div(class="card__footer")
+            div(class="card__footer-left")
+            div(class="card__footer-right")
+                +pagination
+    //- end card 
+
+     //- form đổi trạng thái item
+    +form-execute("form-change-status", '/products-category/change-status')
+
+    //- form xóa mềm sản phẩm
+    +form-execute("form-delete-soft", '/products-category/delete-soft')
+
+block script 
+    script(src="js/script.js")

@@ -5,8 +5,8 @@
 
 /**
  * @description Hàm tạo cây danh mục
- * @param {*} listProductsCategory 
- * @param {*} parent_category_id 
+ * @param {*} listProductsCategory: mảng danh mục
+ * @param {*} parent_category_id: id danh mục cha
  * @returns 
  */
 

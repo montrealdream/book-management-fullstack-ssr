@@ -13,7 +13,7 @@ const createTreeHelper = require('../../helper/createTree.helper');
 
 // [GET] /admin/products/
 module.exports.index = async (req, res) => {
-    try {
+    try {  
         // mặc định sẽ lấy ra những sản phẩm chưa bị xóa
         const findObject = {
             deleted: false

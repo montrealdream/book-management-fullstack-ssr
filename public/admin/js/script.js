@@ -445,33 +445,6 @@ const uploadImgEvent = (formElement) => {
 }
 // Hết Khi nhấn vào khung thì sẽ open cửa sổ upload file
 
-// Tạo mới sản phẩm
-const formCreate = document.querySelector("#form-create");
-if(formCreate) {
-    formCreate.addEventListener("submit", event => {
-        event.preventDefault(); // tạm ngăn chặn sự kiện submit của form
-
-        let isValid = true; // nếu thiếu 1 trường nào đó nó sẽ AND với false từ đó kq là false và dùng nó để warning alert
-
-        isValid &= warningInput(formCreate.title, "Vui lòng nhập tiêu đề", '#FFC107');
-        isValid &= warningInput(formCreate.price, "Vui lòng nhập giá", '#FFC107');
-        isValid &= warningInput(formCreate.stock, "Vui lòng số lượng", '#FFC107');
-
-        // check xem có upload hình ảnh nào chưa
-        isValid &= warningImage(formCreate);   
-
-        if(!isValid) {
-            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
-            return;
-        }
-        formCreate.submit(); // submit form đầy đủ thông tin
-    });
-
-    // sự kiện upload ảnh khi nhấn vào
-    uploadImgEvent(formCreate);
-}
-// Hết Tạo mới sản phẩm / danh mục
-
 // Nếu là ô để nhập số mà điền chữ vào thì sẽ warning
 const formatInputNumber = (element, contentNormal, contentWarn) => {
     element.addEventListener("input", event => {
@@ -502,20 +475,6 @@ const formatInputNumber = (element, contentNormal, contentWarn) => {
         element.placeholder = contentNormal;
     });
 }
-
-if(formCreate) {
-    const priceInput = formCreate.querySelector('input[name="price"]');
-    formatInputNumber(priceInput, "Nhập giá của sản phẩm", "Vui lòng điền đúng định dạng số");
-
-    const discountInput = formCreate.querySelector('input[name="discountPercentage"]');
-    formatInputNumber(discountInput, "Mặc định sẽ là giảm giá 0%", "Vui lòng điền đúng định dạng số");
-
-    const stockInput = formCreate.querySelector('input[name="stock"]');
-    formatInputNumber(stockInput, "Nhập số lượng của sản phẩm", "Vui lòng điền đúng định dạng số");
-
-    const positionInput = formCreate.querySelector('input[name="position"]');
-    formatInputNumber(positionInput, "Vị trí tự động tăng", "Vui lòng điền đúng định dạng số");
-}
 // Hết Nếu là ô để nhập số mà điền chữ vào thì sẽ warning
 
 // Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
@@ -528,3 +487,70 @@ document.addEventListener("click", (event) => {
     });
 });
 // Hết Đóng các tab con khi nhấn ra ngoài html
+
+// Tạo mới sản phẩm
+const formCreate = document.querySelector("#form-create");
+if(formCreate) {
+    formCreate.addEventListener("submit", event => {
+        event.preventDefault(); // tạm ngăn chặn sự kiện submit của form
+
+        let isValid = true; // nếu thiếu 1 trường nào đó nó sẽ AND với false từ đó kq là false và dùng nó để warning alert
+
+        isValid &= warningInput(formCreate.title, "Vui lòng nhập tiêu đề", '#FFC107');
+        isValid &= warningInput(formCreate.price, "Vui lòng nhập giá", '#FFC107');
+        isValid &= warningInput(formCreate.stock, "Vui lòng số lượng", '#FFC107');
+
+        // check xem có upload hình ảnh nào chưa
+        isValid &= warningImage(formCreate);   
+
+        if(!isValid) {
+            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
+            return;
+        }
+        formCreate.submit(); // submit form đầy đủ thông tin
+    });
+
+    // formmat lại định dạng các ô input nếu nhập sai
+    const priceInput = formCreate.querySelector('input[name="price"]');
+    formatInputNumber(priceInput, "Nhập giá của sản phẩm", "Vui lòng điền đúng định dạng số");
+
+    const discountInput = formCreate.querySelector('input[name="discountPercentage"]');
+    formatInputNumber(discountInput, "Mặc định sẽ là giảm giá 0%", "Vui lòng điền đúng định dạng số");
+
+    const stockInput = formCreate.querySelector('input[name="stock"]');
+    formatInputNumber(stockInput, "Nhập số lượng của sản phẩm", "Vui lòng điền đúng định dạng số");
+
+    const positionInput = formCreate.querySelector('input[name="position"]');
+    formatInputNumber(positionInput, "Vị trí tự động tăng", "Vui lòng điền đúng định dạng số");
+    // hết formmat lại định dạng các ô input nếu nhập sai
+
+    // sự kiện upload ảnh khi nhấn vào
+    uploadImgEvent(formCreate);
+}
+// Hết Tạo mới sản phẩm
+
+// Tạo mới danh mục
+const formCreateProductsCategory = document.querySelector("#form-create-products-category");
+if(formCreateProductsCategory) {
+    // lắng nghe sự kiện submit
+    formCreateProductsCategory.addEventListener("submit", event => {
+        event.preventDefault();
+
+        let isValid = true;
+
+        isValid &= warningInput(formCreateProductsCategory.title, "Vui lòng nhập tiêu đề", '#FFC107');
+
+        // cảnh báo upload ảnh
+        isValid &= warningImage(formCreateProductsCategory);
+        
+        if(!isValid) {
+            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
+            return;
+        }
+
+        formCreateProductsCategory.submit();
+    });
+    // sự kiện upload ảnh khi nhấn vào
+    uploadImgEvent(formCreateProductsCategory);
+}
+// Hết Tạo mới danh mục

@@ -831,7 +831,7 @@ body {
 
     // số lượng ảnh upload
     &__item-1 {
-        width: 100%;
+        width: 18%;
     }
 
     &__item-2 {
@@ -1152,9 +1152,18 @@ body {
         outline: none;
     }
 }
+
 .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
     padding: 0px 10px;
     color: #757373;
 }
-
 // hết custom tiny mce
+
+// select tree (drop down tree)
+.select-tree {
+    width: 250px;
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+}
+// hết select tree (drop down tree)

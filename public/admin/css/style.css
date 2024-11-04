@@ -668,7 +668,7 @@ body {
   /*  hết image preview */
 }
 .upload-image__item-1 {
-  width: 100%;
+  width: 18%;
 }
 .upload-image__item-2 {
   width: calc(50% - 5px);
@@ -928,6 +928,13 @@ body {
 .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
   padding: 0px 10px;
   color: #757373;
+}
+
+.select-tree {
+  width: 250px;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
 }
 
 /*# sourceMappingURL=style.css.map */

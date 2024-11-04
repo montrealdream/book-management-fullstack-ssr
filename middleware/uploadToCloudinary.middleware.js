@@ -8,7 +8,7 @@ const cloudinaryHelper = require('../helper/uploadToCloudinary.helper');
 // upload một file (một ảnh, ... )
 module.exports.uploadSingle = async (req, res, next) => {
     if(req.file) {
-        let link = await cloudinaryHelper(req.file);
+        let link = await cloudinaryHelper(req.file.buffer);
 
         // gán vào trưởng dữ liệu sẽ cập nhật vào database luôn, do đó bên controller không cần xử lý
         req.body[req.file.fieldname] = link; 

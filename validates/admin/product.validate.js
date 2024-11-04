@@ -10,7 +10,6 @@ module.exports.create = async (req, res, next) => {
 
         console.log(req.body);
         if(!regexDigit.test(req.body.price)) {
-            console.log(req.body.price)
             req.flash('warning', 'Nhập sai định dạng giá');
             res.redirect('back');
             return;

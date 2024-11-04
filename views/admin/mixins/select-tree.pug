@@ -1,0 +1,18 @@
+//- Ứng dụng: Tạo cây danh mục
+//- listProductsCategoryTree: danh sách danh mục
+//- parent_category_id: id của danh mục cha
+//- level câp của danh mục (cấp cao nhất là cấp 0)
+
+mixin select-tree(listProductsCategoryTree, parent_category_id = "", level = 0)
+    each category in listProductsCategoryTree
+        //- tạo tiền tố (tức khoảng trắng để nó nằm thụt vào)
+        -   const prefix = new Array(level + 1).join("-- ");
+        
+        option(
+            value=category.id
+            selected=(category.id === parent_category_id ? true : false)
+        ) #{prefix} #{category.title}
+
+        //- nếu có phần tử con thì sẽ đệ quy đến
+        if(category.children && category.children.length > 0) 
+            +select-tree(category.children, category.id, level + 1)

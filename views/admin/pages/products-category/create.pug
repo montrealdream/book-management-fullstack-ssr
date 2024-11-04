@@ -1,9 +1,14 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/filter
+include ../../mixins/select
+include ../../mixins/upload-image
+include ../../mixins/alert
+include ../../mixins/select-tree
 
 //- Title
 block title 
@@ -11,6 +16,9 @@ block title
 
 //- Mai Title
 block main
+    +alert-success
+    +alert-warning
+    +alert-error
     //- box-head
     -
         var breadcrumbArray = 
@@ -26,28 +34,39 @@ block main
     div(class="card")
         div(class="card__body")
             form(
-                action="#"
+                id="form-create-products-category"
                 class="form form__create"
+                action=`${path_admin}/products-category/create`
+                method="POST"
+                enctype="multipart/form-data"
             )   
                 div(class="form__normal")
                     div(class="form__item")
                         label(for="" class="label") Tên Danh Mục
                         input(
                             type="text"
+                            name="title"
                             placeholder="Nhập Tên Của Danh Mục"
                         )
 
                     div(class="form__item")
                         label(for="" class="label") Danh Mục Cha
-                        select(name="" class="")
-                            option() 1 
-                            option() 2 
-                            option() 3
+                        select(
+                            name="parent_category_id" 
+                            class="select-tree"
+                        )
+                            option(value="") Danh mục  
+                            if(listProductsCategoryTree)
+                                +select-tree(listProductsCategoryTree, "", 0)
+                                //- each item in listProductsCategoryTree
+                                //-     option(value=item.id) #{item.title}
+
 
                     div(class="form__item")
                         label(for="" class="label") Mô tả
                         textarea(
-                            name=""
+                            class="textarea-tinymce"
+                            name="description"
                             rows="5"
                             placeholder="Mô Tả Danh Mục Của Bạn..."
                         )
@@ -56,18 +75,15 @@ block main
                         label(for="" class="label") Vị trí
                         input(
                             type="text"
+                            name="position"
                             placeholder="Nhập Vị Trí Của Danh Mục"
                         )
                     
                     div(class="form__item")
                         label(for=""  class="label") Upload Hình Ảnh 
-                        div(class="upload-image")
-                            div(class="upload-image__item")
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                label(for="") Thả hình ảnh của bạn vào đây hoặc chọn
-                                input(type="file")
+                        +upload-image("thumbnail", "", 1)
 
-                        label(class="label label__desc") 
+                        label(class="label label__desc" notice-image) 
                             | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
 
                     div(class="form__item")
@@ -77,6 +93,7 @@ block main
                                 type="radio"
                                 id="status-active"
                                 name="status"
+                                value="active"
                                 class="checkbox"
                                 checked=true
                             )
@@ -88,6 +105,7 @@ block main
                                 type="radio"
                                 id="status-inactive"
                                 name="status"
+                                value="inactive"
                                 class="checkbox"
                             )
                             label(
@@ -99,3 +117,10 @@ block main
                     button(type="submit" class="button button__outline") Tạo Mới
 
     //- end card
+block script 
+    //- tiny-mce
+    script(src="/tinymce/tinymce.min.js")
+    script(src="/admin/js/tinymce-config.js")
+    //- hết tiny-mce
+
+    script(src="/admin/js/script.js")

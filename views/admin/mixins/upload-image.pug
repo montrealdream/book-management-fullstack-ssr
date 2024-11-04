@@ -1,4 +1,8 @@
-mixin upload-image(thumbnail, repeat)
+//- field: tên của trường dữ liệu sẽ lưu trong db
+//- thumbnail: file ảnh nếu có
+//- repeat: số ảnh muốn upload
+
+mixin upload-image(field, thumbnail, repeat)
     div(class="upload-image")
         - for (let i = 0; i < repeat; i++)
             -   var classPreview = thumbnail[i] ? 'preview' : ""
@@ -6,7 +10,7 @@ mixin upload-image(thumbnail, repeat)
                 div(class="upload-image__item-group")
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     label(class="") Thả hình ảnh của bạn vào đây hoặc chọn
-                    input(type="file" name="thumbnail")
+                    input(type="file" name=field)
                 img( 
                     src=thumbnail[i] 
                     class="hidden" 

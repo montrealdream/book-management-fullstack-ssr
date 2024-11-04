@@ -8,6 +8,7 @@ const ProductCategory = require('../../models/product-category.model');
 const filterHelper = require('../../helper/filter.helper');
 const searchHelper = require('../../helper/search.helper');
 const paginationHelper = require('../../helper/pagination.helper');
+const createTreeHelper = require('../../helper/createTree.helper');
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
@@ -103,6 +104,55 @@ module.exports.deleteSoft = async (req, res) => {
         );
 
         req.flash('success', 'Xóa danh mục thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}
+
+// [GET] /admin/products-category/create
+module.exports.createUI = async (req, res) => {
+    try {
+        // lấy ra danh sách danh mục
+        const listProductsCategory = await ProductCategory.find({deleted: false})
+
+        // tạo cây danh mục
+        const listProductsCategoryTree = createTreeHelper(listProductsCategory);
+
+        res.render("admin/pages/products-category/create", {
+            title: "Tạo mới danh mục",
+            listProductsCategoryTree
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [POST] /admin/products/create
+module.exports.create = async (req, res) => {
+    try {   
+        if(req.body.position === "") {
+            req.body.position = await ProductCategory.countDocuments({
+                status: "active",
+                deleted: false,
+            }) + 1;
+        }
+
+        else req.body.position = parseInt(req.body.position);
+        
+        // upload một ảnh vào thư mục local
+        // req.body[req.file.fieldname] = `/uploads/${req.file.filename}`;
+
+        // upload nhiều ảnh vào thư mục local
+        // req.body[req.files[0].fieldname] = req.files.map(item => `/uploads/${item.filename}`);
+
+        // tạo bản ghi mới và lưu vào db
+        const record  = new ProductCategory(req.body);
+        await record.save();
+
+        req.flash('success', 'Tạo danh mục thành công');
         res.redirect('back');
     }
     catch(error) {

@@ -488,7 +488,7 @@ document.addEventListener("click", (event) => {
 });
 // Hết Đóng các tab con khi nhấn ra ngoài html
 
-// Tạo mới sản phẩm
+// Tạo mới sản phẩm, Chỉnh sửa sản phẩm
 const formCreate = document.querySelector("#form-create");
 if(formCreate) {
     formCreate.addEventListener("submit", event => {
@@ -527,9 +527,9 @@ if(formCreate) {
     // sự kiện upload ảnh khi nhấn vào
     uploadImgEvent(formCreate);
 }
-// Hết Tạo mới sản phẩm
+// Hết Tạo mới sản phẩm, Chỉnh sửa sản phẩm
 
-// Tạo mới danh mục
+// Tạo mới danh mục, Chỉnh sửa danh mục
 const formCreateProductsCategory = document.querySelector("#form-create-products-category");
 if(formCreateProductsCategory) {
     // lắng nghe sự kiện submit
@@ -553,4 +553,4 @@ if(formCreateProductsCategory) {
     // sự kiện upload ảnh khi nhấn vào
     uploadImgEvent(formCreateProductsCategory);
 }
-// Hết Tạo mới danh mục
+// Hết Tạo mới danh mục, Chỉnh sửa danh mục

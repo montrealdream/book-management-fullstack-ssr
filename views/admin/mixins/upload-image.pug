@@ -1,6 +1,8 @@
+//- @description: mixin upload nhiều ảnh
 //- field: tên của trường dữ liệu sẽ lưu trong db
 //- thumbnail: file ảnh nếu có
 //- repeat: số ảnh muốn upload
+//- lưu ý: với mixin upload nhiều ảnh thì số lần repeat ít nhất là 2
 
 mixin upload-image(field, thumbnail, repeat)
     div(class="upload-image")
@@ -18,3 +20,22 @@ mixin upload-image(field, thumbnail, repeat)
                 )
                 span(class="upload-image__close-preview" close-img-preview)
                     <i class="fa-solid fa-xmark"></i>
+
+//- @description: mixin upload 1 ảnh
+//- field: tên của trường dữ liệu sẽ lưu trong db
+//- thumbnail: file ảnh nếu có
+mixin upload-image-single(field, thumbnail)
+    div(class="upload-image")
+        -   var classPreview = thumbnail ? 'preview' : ""
+        div(class=`upload-image__item upload-image__item-1 ${classPreview}`)
+            div(class="upload-image__item-group")
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                label(class="") Thả hình ảnh của bạn vào đây hoặc chọn
+                input(type="file" name=field)
+            img( 
+                src=thumbnail
+                class="hidden" 
+                img-preview
+            )
+            span(class="upload-image__close-preview" close-img-preview)
+                <i class="fa-solid fa-xmark"></i>

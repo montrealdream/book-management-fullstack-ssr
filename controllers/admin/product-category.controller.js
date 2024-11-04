@@ -159,3 +159,48 @@ module.exports.create = async (req, res) => {
 
     }
 }
+
+// [GET] /admin/products-category/edit/:id
+module.exports.editUI = async (req, res) => {
+    try {
+        const id = req.params.id; // id của danh mục muốn chỉnh sửa
+
+        // lấy ra danh sách danh mục
+        const listProductsCategory = await ProductCategory.find({deleted: false})
+
+        // tạo cây danh mục
+        const listProductsCategoryTree = createTreeHelper(listProductsCategory);
+
+        // tìm kiếm database
+        const record = await ProductCategory.findOne({_id: id});
+        
+        res.render("admin/pages/products-category/edit", {
+            title: "Chỉnh sửa",
+            record,
+            listProductsCategoryTree
+        })
+        
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/products-category/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await ProductCategory.updateOne(
+            {
+                _id: id
+            }, 
+            req.body
+        )
+        req.flash('success', 'Chỉnh sửa thành công');
+        res.redirect('back');  
+    }
+    catch(error) {
+
+    }
+}

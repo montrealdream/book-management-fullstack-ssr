@@ -138,8 +138,20 @@ block main
                                         button-status-id = item.id
                                         button-status = "inactive"
                                     ) Dừng hoạt động
-                            td 
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            td
+                                div(class="table__option-icon")
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    div(class="table__option-tab hidden")
+                                        ul 
+                                            li 
+                                                a(href=path_admin + `/accounts/edit/${item.id}`) Chỉnh Sửa
+                                            li 
+                                                a(href="#") Xem Chi Tiết
+                                            li 
+                                                a(
+                                                    href="javascript:;"
+                                                    button-delete-soft=item.id
+                                                ) Xóa
                     //- end table
         
         div(class="card__footer")

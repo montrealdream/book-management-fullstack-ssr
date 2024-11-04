@@ -87,3 +87,25 @@ module.exports.changeStatus = async (req, res) => {
 
     }
 }
+
+// [PATCH] /admin/accounts/delete-soft/:id
+module.exports.deleteSoft = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // xóa mềm
+        await Account.updateOne(
+            {
+                _id: id
+            }, {
+                deleted: true
+            }
+        );
+
+        req.flash('success', 'Xóa tài khoản thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}

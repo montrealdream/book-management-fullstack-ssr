@@ -33,5 +33,10 @@ router.patch(
     controller.changeStatus
 );
 
+router.patch(
+    '/delete-soft/:id',
+    controller.deleteSoft
+);
+
 // exports
 module.exports = router;

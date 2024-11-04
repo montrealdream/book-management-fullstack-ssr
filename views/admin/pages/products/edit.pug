@@ -6,6 +6,7 @@ include ../../mixins/pagination
 include ../../mixins/form
 include ../../mixins/upload-image
 include ../../mixins/alert
+include ../../mixins/select-tree
 
 //- Title
 block title 
@@ -50,10 +51,15 @@ block main
 
                     div(class="form__item")
                         label(for="" class="label") Danh Mục Sản Phẩm
-                        select(name="" class="")
-                            option() 1 
-                            option() 2 
-                            option() 3
+                        select(
+                            name="parent_category_id" 
+                            class="select-tree"
+                        )
+                            option(value="") Danh mục  
+                            if(listProductsCategoryTree)
+                                +select-tree(listProductsCategoryTree, "", 0, record.parent_category_id)
+                                //- each item in listProductsCategoryTree
+                                //-     option(value=item.id) #{item.title}
 
                     div(class="form__item")
                         label(for="" class="label") Mô tả Sản Phẩm

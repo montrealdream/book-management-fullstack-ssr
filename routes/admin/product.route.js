@@ -30,7 +30,7 @@ router.get(
 
 router.patch(
     '/change-status/:id/:status',
-    controller.deleteSoft
+    controller.changeStatus
 );
 
 router.patch(

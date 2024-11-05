@@ -605,6 +605,39 @@ if(formCreateAccount) {
 }
 // Hết Tạo mới tài khoản quản trị
 
+// Chỉnh sửa tài khoản quản trị
+const formEditAccount = document.querySelector("#form-edit-account");
+if(formEditAccount) {
+    // lắng nghe sự kiện submit
+    formEditAccount.addEventListener("submit", event => {
+        event.preventDefault();
+
+        let isValid = true;
+
+        isValid &= warningInput(formEditAccount.fullName, "Vui lòng họ tên", '#FFC107');
+
+        isValid &= warningInput(formEditAccount.email, "Vui lòng điền email", '#FFC107');
+
+        isValid &= warningInput(formEditAccount.tel, "Vui lòng số điện thoại", '#FFC107');
+
+        // cảnh báo upload ảnh
+        isValid &= warningImage(formEditAccount);
+        
+        if(!isValid) {
+            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
+            return;
+        }
+
+        formEditAccount.submit();
+    });
+    // sự kiện upload ảnh khi nhấn vào
+    uploadImgEvent(formEditAccount);
+
+    // sự kiện hiển thị nhập khẩu hoặc không
+    showPasswordEvent(formEditAccount);
+}
+// Hết Chỉnh sửa tài khoản quản trị
+
 // Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
 document.addEventListener("click", (event) => {
     // event.target sẽ lấy được element được click vào

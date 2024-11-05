@@ -163,3 +163,64 @@ module.exports.create = async (req, res) => {
 
     }
 }
+
+// [GET] /admin/accounts/edit/:id
+module.exports.editUI = async (req, res) => {
+    try {
+        const id = req.params.id; // id của sản phẩm
+
+        // tìm kiếm database, không lấy password vì nếu cập nhật mật khẩu mới thì sẽ tự gõ vào
+        const record = await Account.findOne({_id: id})
+                                    .select("-password");
+        
+        res.render("admin/pages/accounts/edit", {
+            title: "Chỉnh sửa",
+            record,
+        })
+        
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // check xem email đang cập nhật có bị trùng lặp không
+        const isEmailExits = await Account.findOne({
+            _id: {$ne: id}, // không xét theo tài khoản của chính mình
+            email: req.body.email
+        })
+
+        // nếu email này đã được người dùng khác sử dụng thì không cập nhật
+        if(isEmailExits) {
+            req.flash('warning', 'Email đã tồn tại');
+            res.redirect('back');
+            return;
+        }
+
+        // nếu không cập nhật mật khẩu thì mật khẩu sẽ trống, vậy để tránh cập nhật sai thì chỉ cần xóa nó
+        if(req.body.password === "")
+            delete req.body['password'];
+        
+        // nếu trường password không trống thì mã hóa mật khẩu mới
+        else {
+            req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+        }
+
+        await Account.updateOne(
+            {
+                _id: id
+            }, 
+            req.body
+        )
+        req.flash('success', 'Chỉnh sửa thành công');
+        res.redirect('back');  
+    }
+    catch(error) {
+
+    }
+}

@@ -50,5 +50,19 @@ router.post(
     validate.create,
     controller.create
 );
+
+router.get(
+    '/edit/:id',
+    controller.editUI
+);
+
+router.patch(
+    '/edit/:id',
+    upload.single('avatar'), // upload một ảnh 
+    cloudinaryMiddleware.uploadSingle, // upload một ảnh lên cloudinary,
+    validate.edit,
+    controller.edit
+);
+
 // exports
 module.exports = router;

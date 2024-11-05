@@ -1,16 +1,21 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/upload-image
+include ../../mixins/alert
 
 //- Title
 block title 
-    title Chỉnh Sửa Tài Khoản
+    title #{title}
 
 //- Mai Title
 block main
+    +alert-success
+    +alert-warning
+    +alert-error
     //- box-head
     -
         var breadcrumbArray = 
@@ -26,14 +31,21 @@ block main
     div(class="card")
         div(class="card__body")
             form(
-                action="#"
+                id="form-edit-account"
+                action=`${path_admin}/accounts/edit/${record.id}/?_method=PATCH`
                 class="form form__create"
+                method="post" 
+                enctype="multipart/form-data"
             )   
-                div(class="form__normal")
+                //- div(class="form__normal")
+                //- left
+                div(class="form__left-account")
                     div(class="form__item")
                         label(for="" class="label") Họ và Tên
                         input(
                             type="text"
+                            name="fullName"
+                            value=record.fullName
                             placeholder="Nhập Họ và Tên của bạn"
                         )
 
@@ -43,17 +55,36 @@ block main
                             option() 1 
                             option() 2 
                             option() 3
-                    
-                    div(class="form__item")
-                        label(for=""  class="label") Avatar
-                        div(class="upload-image")
-                            div(class="upload-image__item")
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                label(for="") Thả avatar của bạn vào đây hoặc chọn
-                                input(type="file")
 
-                        label(class="label label__desc") 
-                            | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
+                    div(class="form__item")
+                        label(for="" class="label") Email
+                        input(
+                            type="email"
+                            name="email"
+                            value=record.email
+                            placeholder="Điền email của bạn"
+                        )
+
+                    div(class="form__item")
+                        label(for="" class="label") Số điện thoại
+                        input(
+                            type="text"
+                            name="tel"
+                            value=record.tel
+                            placeholder="Điền số điện thoại của bạn"
+                        )
+                        
+
+                    div(class="form__item")
+                        label(for="" class="label") Mật khẩu
+                        input(
+                            type="password"
+                            name="password"
+                            value=record.password
+                            placeholder="Các kí tự đặc biệt cho phép : @, $, #, *, !, %, &"
+                        )
+                        div(class="icon-eye-password")
+                            <i class="fa-regular fa-eye"></i>
 
                     div(class="form__item")
                         label(for="" class="label") Trạng thái
@@ -62,8 +93,9 @@ block main
                                 type="radio"
                                 id="status-active"
                                 name="status"
+                                value="active"
                                 class="checkbox"
-                                checked=true
+                                checked=(record.status === "active" ? true : false)
                             )
                             label(
                                 for="status-active"
@@ -73,14 +105,31 @@ block main
                                 type="radio"
                                 id="status-inactive"
                                 name="status"
+                                value="inactive"
                                 class="checkbox"
+                                checked=(record.status === "inactive" ? true : false)
                             )
                             label(
                                 for="status-inactive"
                             )   Dừng hoạt động
+                                div(class="form__right")
                 
+                //- right
+                div(class="form__right-account")  
+                    div(class="form__item")
+                        label(for=""  class="label") Avatar
+                        +upload-avatar("avatar", record.avatar)
+                    //- label(class="label label__desc" notice-image) 
+                    //-     |   Hãy chú ý đến chất lượng hình ảnh bạn thêm vào.
                 //- button submit
                 div(class="form__submit")
-                    button(type="submit" class="button button__outline") Tạo Mới
+                    button(type="submit" class="button button__outline") Cập nhật
 
     //- end card
+block script 
+    //- tiny-mce
+    script(src="/tinymce/tinymce.min.js")
+    script(src="/admin/js/tinymce-config.js")
+    //- hết tiny-mce
+
+    script(src="/admin/js/script.js")

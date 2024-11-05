@@ -32,8 +32,8 @@ module.exports.email = (email) => {
     return errorsLog[0]; // hợp lệ
 }
 
-// Validate Mật khẩu
-module.exports.password = (password) => {
+// Validate Mật khẩu, khi tạo mật khẩu thì dùng validate này
+module.exports.passwordCreate = (password) => {
     const errorsLog = [
         {
             status: true,
@@ -47,12 +47,47 @@ module.exports.password = (password) => {
             status: false,
             message: "Mật khẩu có ít nhất 8 kí tự"
         }, 
+        {
+            status: false,
+            message: "Mật khẩu không hợp lệ"
+        }, 
     ];
     if(password === "") 
         return errorsLog[1];
 
     if(password.length < 8) 
         return errorsLog[2];
+
+    const regexIsNotValid = /[^\w\@\$\#\*\!\%\&]/; // nếu có các kí tự nằm ngoài các kí tự trong regex thì sẽ không hợp lệ
+    if(regexIsNotValid.test(password)) 
+        return errorsLog[3];
+
+    return errorsLog[0]; // hợp lệ
+}
+
+// Validate Mật khẩu, khi chỉnh sửa mật khẩu thì dùng validate này
+module.exports.passwordEdit = (password) => {
+    const errorsLog = [
+        {
+            status: true,
+            message: "Mật khẩu hợp lệ"
+        }, 
+        {
+            status: false,
+            message: "Mật khẩu có ít nhất 8 kí tự"
+        }, 
+        {
+            status: false,
+            message: "Mật khẩu không hợp lệ"
+        }, 
+    ];
+
+    if(password !== "" && password.length < 8) 
+        return errorsLog[2];
+
+    const regexIsNotValid = /[^\w\@\$\#\*\!\%\&]/; // nếu có các kí tự nằm ngoài các kí tự trong regex thì sẽ không hợp lệ
+    if(regexIsNotValid.test(password)) 
+        return errorsLog[3];
 
     return errorsLog[0]; // hợp lệ
 }

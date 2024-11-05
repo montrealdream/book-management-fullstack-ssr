@@ -39,3 +39,22 @@ mixin upload-image-single(field, thumbnail)
             )
             span(class="upload-image__close-preview" close-img-preview)
                 <i class="fa-solid fa-xmark"></i>
+
+//- @description: mixin upload avatar
+//- field: tên của trường dữ liệu sẽ lưu trong db
+//- thumbnail: file ảnh nếu có
+mixin upload-avatar(field, thumbnail)
+    div(class="upload-image upload-avatar")
+        -   var classPreview = thumbnail ? 'preview' : ""
+        div(class=`upload-image__item upload-image__avatar upload-image__item-1 ${classPreview}`)
+            div(class="upload-image__item-group")
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                label(class="") Thả hình ảnh của bạn vào đây hoặc chọn
+                input(type="file" name=field)
+            img( 
+                src=thumbnail
+                class="hidden" 
+                img-preview
+            )
+            span(class="upload-image__close-preview" close-img-preview)
+                <i class="fa-solid fa-xmark"></i>

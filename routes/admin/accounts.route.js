@@ -5,7 +5,7 @@
 
 const express = require('express');
 const controller = require("../../controllers/admin/account.controller");
-const validate = require('../../validates/admin/product-category.validate');
+const validate = require('../../validates/admin/account.validate');
 
 // upload ảnh dưới local
 // const multer  = require('multer');
@@ -38,5 +38,17 @@ router.patch(
     controller.deleteSoft
 );
 
+router.get(
+    '/create',
+    controller.createUI
+);
+
+router.post(
+    '/create',
+    upload.single('avatar'), // upload một ảnh 
+    cloudinaryMiddleware.uploadSingle, // upload một ảnh lên cloudinary,
+    validate.create,
+    controller.create
+);
 // exports
 module.exports = router;

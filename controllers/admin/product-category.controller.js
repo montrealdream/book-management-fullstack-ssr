@@ -130,7 +130,7 @@ module.exports.createUI = async (req, res) => {
     }
 }
 
-// [POST] /admin/products/create
+// [POST] /admin/products-category/create
 module.exports.create = async (req, res) => {
     try {   
         if(req.body.position === "") {

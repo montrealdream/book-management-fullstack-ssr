@@ -374,7 +374,8 @@ const warningImage = (formElement) => {
 
     // check xem đã upload ít nhất 1 ảnh chưa
     uploadImgItem.forEach((item, index) => {
-        const fileInput = item.querySelector(`input[name="thumbnail"]`);
+        // const fileInput = item.querySelector(`input[name="thumbnail"]`);
+        const fileInput = item.querySelector(`input[type="file"]`);
 
         if(item.classList.contains("preview"))
             isUpload = true;
@@ -402,7 +403,8 @@ const warningImage = (formElement) => {
     });
 
     // nội dung bên dưới toàn bộ khung ảnh
-    noticeImage.style.color = stateChosen[state].noticeColor;
+    if(noticeImage)
+        noticeImage.style.color = stateChosen[state].noticeColor;
 
     return isUpload; // nếu false là chưa upload ảnh nào
 }
@@ -414,7 +416,8 @@ const uploadImgEvent = (formElement) => {
     
     uploadImgItem.forEach(item => {
         const itemGroup = item.querySelector(".upload-image__item-group"); // khung hiển thị khi chưa upload ảnh
-        const inputFile = itemGroup.querySelector(`input[name="thumbnail"]`); // thẻ input type file
+        // const inputFile = itemGroup.querySelector(`input[name="thumbnail"]`); // thẻ input type file
+        const inputFile = itemGroup.querySelector(`input[type="file"]`); // thẻ input type file
         const imagePreview = item.querySelector("[img-preview]"); // thẻ img chứa image preview
         const closeImagePreview = item.querySelector(".upload-image__close-preview"); // nút gỡ ảnh đã upload
 
@@ -477,16 +480,28 @@ const formatInputNumber = (element, contentNormal, contentWarn) => {
 }
 // Hết Nếu là ô để nhập số mà điền chữ vào thì sẽ warning
 
-// Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
-document.addEventListener("click", (event) => {
-    // event.target sẽ lấy được element được click vào
-    optionIcons.forEach((item, index) => {
-        if(item !== event.target) {
-            optionTabs[index].classList.add("hidden");
-        }
-    });
-});
-// Hết Đóng các tab con khi nhấn ra ngoài html
+// Icon hiển thị password và không hiển thị password
+const showPasswordEvent = (formElement) => {
+    const iconShowPassword = formElement.querySelector(".icon-eye-password");
+
+    const inputPassword = formElement.querySelector('input[type="password"]');
+    if(iconShowPassword) {
+        iconShowPassword.addEventListener("click", event => {
+            const currType = inputPassword.type;
+
+            if(currType === "password") {
+                inputPassword.type = "text";
+                iconShowPassword.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
+            }
+
+            else {
+                inputPassword.type = "password";
+                iconShowPassword.innerHTML = '<i class="fa-regular fa-eye"></i>';
+            }
+        });
+    }
+}
+// Hết Icon hiển thị password và không hiển thị password
 
 // Tạo mới sản phẩm, Chỉnh sửa sản phẩm
 const formCreate = document.querySelector("#form-create");
@@ -554,3 +569,49 @@ if(formCreateProductsCategory) {
     uploadImgEvent(formCreateProductsCategory);
 }
 // Hết Tạo mới danh mục, Chỉnh sửa danh mục
+
+// Tạo mới tài khoản quản trị
+const formCreateAccount = document.querySelector("#form-create-account");
+if(formCreateAccount) {
+    // lắng nghe sự kiện submit
+    formCreateAccount.addEventListener("submit", event => {
+        event.preventDefault();
+
+        let isValid = true;
+
+        isValid &= warningInput(formCreateAccount.fullName, "Vui lòng họ tên", '#FFC107');
+
+        isValid &= warningInput(formCreateAccount.email, "Vui lòng điền email", '#FFC107');
+
+        isValid &= warningInput(formCreateAccount.tel, "Vui lòng số điện thoại", '#FFC107');
+
+        isValid &= warningInput(formCreateAccount.password, "Vui lòng mật khẩu", '#FFC107');
+
+        // cảnh báo upload ảnh
+        isValid &= warningImage(formCreateAccount);
+        
+        if(!isValid) {
+            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
+            return;
+        }
+
+        formCreateAccount.submit();
+    });
+    // sự kiện upload ảnh khi nhấn vào
+    uploadImgEvent(formCreateAccount);
+
+    // sự kiện hiển thị nhập khẩu hoặc không
+    showPasswordEvent(formCreateAccount);
+}
+// Hết Tạo mới tài khoản quản trị
+
+// Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
+document.addEventListener("click", (event) => {
+    // event.target sẽ lấy được element được click vào
+    optionIcons.forEach((item, index) => {
+        if(item !== event.target) {
+            optionTabs[index].classList.add("hidden");
+        }
+    });
+});
+// Hết Đóng các tab con khi nhấn ra ngoài html

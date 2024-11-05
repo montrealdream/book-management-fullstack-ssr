@@ -5,9 +5,13 @@
 
 const Account = require('../../models/account.model');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10; // Số vòng lặp, càng cao càng an toàn
+
 const filterHelper = require('../../helper/filter.helper');
 const searchHelper = require('../../helper/search.helper');
 const paginationHelper = require('../../helper/pagination.helper');
+const generateHelper = require('../../helper/generate.helper');
 
 // [GET] /admin/accounts/
 module.exports.index = async (req, res) => {
@@ -103,6 +107,56 @@ module.exports.deleteSoft = async (req, res) => {
         );
 
         req.flash('success', 'Xóa tài khoản thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}
+
+// [GET] /admin/accounts/create
+module.exports.createUI = async (req, res) => {
+    try {
+        res.render("admin/pages/accounts/create", {
+            title: "Tạo tài khoản",
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [POST] /admin/accounts/create
+module.exports.create = async (req, res) => {
+    try {   
+        // upload một ảnh vào thư mục local
+        // req.body[req.file.fieldname] = `/uploads/${req.file.filename}`;
+
+        // upload nhiều ảnh vào thư mục local
+        // req.body[req.files[0].fieldname] = req.files.map(item => `/uploads/${item.filename}`);
+
+        // check xem email đã tồn tại chưa
+        const emailExits = await Account.findOne({
+            email: req.body.email
+        });
+
+        if(emailExits) {
+            req.flash('warning', 'Email đã tồn tại');
+            res.redirect('back');
+            return;
+        }
+
+        // tạo token cho tài khoản, cộng thêm date.now() cho nó tạo ra unique an toàn
+        req.body["token"] = generateHelper.randomString(30) + Date.now();
+
+        // mã hóa password
+        req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+
+        // tạo bản ghi mới và lưu vào db
+        const record  = new Account(req.body);
+        await record.save();
+
+        req.flash('success', 'Tạo tài khoản thành công');
         res.redirect('back');
     }
     catch(error) {

@@ -9,6 +9,7 @@ const dashboardRoute = require("./dashboard.route");
 const productsRoute  = require('./product.route');
 const productCategoryRoute = require('./product-category.route');
 const accountRoute = require('./accounts.route');
+const roleRoute = require('./role.route.js');
 
 // exports
 module.exports = (app) => {
@@ -32,6 +33,11 @@ module.exports = (app) => {
     app.use(
         PATH_ADMIN + '/accounts',
         accountRoute
+    );
+
+    app.use(
+        PATH_ADMIN + '/roles',
+        roleRoute
     );
 }
 

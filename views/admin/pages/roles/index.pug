@@ -1,16 +1,22 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/filter
+include ../../mixins/select
+include ../../mixins/alert
 
 //- Title
 block title 
-    title Danh sách nhóm quyền 
+    title #{title}
 
 //- Mai Title
 block main
+    +alert-success
+    +alert-warning
+    +alert-error
     //- box-head
     -
         var breadcrumbArray = 
@@ -23,49 +29,23 @@ block main
     +box-head-use-breadcrumb("DANH SÁCH NHÓM QUYỀN", breadcrumbArray)
     //- end box-head 
 
-    -   
-        var sanPham = 
-        [
-            {
-                title: "Quản trị viên",
-                description:"Quản lý toàn bộ trang web",
-                createAt:"May 31, 2023"
-            },
-            {
-                title: "Quản lý danh mục",
-                description:"Quản lý danh mục của trang web",
-                createAt:"May 31, 2023"
-            },
-            {
-                title: "Quản lý sản phẩm",
-                description:"Quản lý các sản phẩm",
-                createAt:"May 31, 2023"
-            },
-
-            {
-                title: "Nhân viên",
-                description:"",
-                createAt:"May 31, 2023" 
-            }
-        ]
-    
     //- card
     div(class="card")
-        div(class="card__head")
+        div(class="card__head") 
             div(class="card__head-wrap")
+                //- filter
+                +filter-status(filterStatusArray)
                 //- left    
                 div(class="card__head-left")
-                    //- filter
-                    div(class="filter")
-                        //- icon filter
-                        div(class="filter__icon")
-                            <i class="fa-solid fa-sliders"></i>
                     //- form search
-                    +form-search
+                    +form-search(keyword)
+                    //- select
+                    +select-sort
+
                 //- right
                 div(class="card__head-right")
                     //- add product
-                    div(class="button button__outline")
+                    a(href= path_admin + "/roles/create" class="button button__outline")
                         <i class="fa-solid fa-plus"></i>
                         |   Thêm Mới
                
@@ -79,7 +59,9 @@ block main
                             input(
                                 type = "checkbox"
                                 name=""
+                                class="checkbox-tick"
                                 class="checkbox"
+                                check-box-all
                             )
                         th Tên
                         th Mô tả
@@ -87,21 +69,23 @@ block main
                         th 
                     
                 tbody(class="table__body")
-                    each item in sanPham 
+                    each item in records 
                         tr 
                             td 
                                 input(
                                     type = "checkbox"
                                     name=""
-                                    class="checkbox"
+                                    class="checkbox-tick"
+                                    check-box-single = item.id
                                 )
 
                             td(class="table__title")
                                 h3 #{item.title}
 
-                            td  #{item.description}
+                            td !{(item.description) ? item.description : 'Đang cập nhật'}
 
-                            td  #{item.createAt}
+                            td  #{(item.createAt) ? item.description : 'Đang cập nhật'}
+                            
 
                             td 
                                 <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -110,6 +94,11 @@ block main
         div(class="card__footer")
             div(class="card__footer-left")
             div(class="card__footer-right")
-                +pagination
+                +pagination(paginationObject)
     //- end card 
 
+    //- form xóa mềm sản phẩm
+    +form-execute("form-delete-soft", '/accounts/delete-soft')
+
+block script 
+    script(src="/admin/js/script.js")

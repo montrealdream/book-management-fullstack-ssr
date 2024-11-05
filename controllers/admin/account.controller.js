@@ -60,7 +60,6 @@ module.exports.index = async (req, res) => {
     catch(error) {
         console.log("Danh sách tài khoản xảy ra lỗi");
     }
-
 }
 
 // [PATCH] /admin/accounts/change-status/:id/:status

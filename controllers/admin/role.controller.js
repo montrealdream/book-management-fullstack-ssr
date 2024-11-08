@@ -9,7 +9,7 @@ const filterHelper = require('../../helper/filter.helper');
 const searchHelper = require('../../helper/search.helper');
 const paginationHelper = require('../../helper/pagination.helper');
 
-// [GET] /admin/accounts/
+// [GET] /admin/roles/
 module.exports.index = async (req, res) => {
     try {  
         // mặc định sẽ lấy ra những sản phẩm chưa bị xóa
@@ -55,5 +55,33 @@ module.exports.index = async (req, res) => {
     }
     catch(error) {
         console.log("Danh nhóm quyền khoản xảy ra lỗi");
+    }
+}
+
+// [GET] /admin/roles/create
+module.exports.createUI = async (req, res) => {
+    try {
+        res.render("admin/pages/roles/create", {
+            title: "Tạo quyền",
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [POST] /admin/roles/create
+module.exports.create = async (req, res) => {
+    try {   
+
+        // tạo bản ghi mới và lưu vào db
+        const record  = new Role(req.body);
+        await record.save();
+
+        req.flash('success', 'Tạo danh mục thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
     }
 }

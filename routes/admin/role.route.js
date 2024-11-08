@@ -5,7 +5,7 @@
 
 const express = require('express');
 const controller = require("../../controllers/admin/role.controller");
-const validate = require('../../validates/admin/product.validate');
+const validate = require('../../validates/admin/role.validate');
 
 // khởi tạo instance router
 const router = express.Router();
@@ -14,6 +14,17 @@ const router = express.Router();
 router.get(
     '/',
     controller.index
+);
+
+router.get(
+    '/create',
+    controller.createUI
+);
+
+router.post(
+    '/create',
+    validate.create,
+    controller.create
 );
 
 // exports

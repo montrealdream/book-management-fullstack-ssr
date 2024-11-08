@@ -638,6 +638,26 @@ if(formEditAccount) {
 }
 // Hết Chỉnh sửa tài khoản quản trị
 
+// Tạo mới quyền
+const formCreateRole = document.querySelector("#form-create-role");
+if(formCreateRole) {
+    formCreateRole.addEventListener("submit", event => {
+        event.preventDefault();
+
+        let isValid = true; // nếu thiếu 1 trường nào đó nó sẽ AND với false từ đó kq là false và dùng nó để warning alert
+
+        isValid &= warningInput(formCreateRole.title, "Vui lòng nhập tiêu đề", '#FFC107');
+
+        if(!isValid) {
+            showAlert("Hãy điền đầy đủ thông tin", "warning", 5000);
+            return;
+        }
+
+        formCreateRole.submit();
+    });
+}
+// Hết Tạo mới quyền
+
 // Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
 document.addEventListener("click", (event) => {
     // event.target sẽ lấy được element được click vào

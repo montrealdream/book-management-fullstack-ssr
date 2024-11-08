@@ -58,6 +58,28 @@ module.exports.index = async (req, res) => {
     }
 }
 
+// [PATCH] /admin/products-category/delete-soft/:id
+module.exports.deleteSoft = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // xóa mềm
+        await Role.updateOne(
+            {
+                _id: id
+            }, {
+                deleted: true
+            }
+        );
+
+        req.flash('success', 'Xóa nhóm quyền thành công');
+        res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}
+
 // [GET] /admin/roles/create
 module.exports.createUI = async (req, res) => {
     try {

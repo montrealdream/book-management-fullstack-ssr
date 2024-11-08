@@ -16,6 +16,11 @@ router.get(
     controller.index
 );
 
+router.patch(
+    '/delete-soft/:id',
+    controller.deleteSoft
+);
+
 router.get(
     '/create',
     controller.createUI

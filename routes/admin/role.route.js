@@ -32,5 +32,15 @@ router.post(
     controller.create
 );
 
+router.get(
+    '/edit/:id',
+    controller.editUI
+);
+
+router.patch(
+    '/edit/:id',
+    validate.create,
+    controller.edit
+);
 // exports
 module.exports = router;

@@ -84,7 +84,7 @@ module.exports.deleteSoft = async (req, res) => {
 module.exports.createUI = async (req, res) => {
     try {
         res.render("admin/pages/roles/create", {
-            title: "Tạo quyền",
+            title: "Tạo nhóm quyền",
         });
     }
     catch(error) {
@@ -102,6 +102,43 @@ module.exports.create = async (req, res) => {
 
         req.flash('success', 'Tạo danh mục thành công');
         res.redirect('back');
+    }
+    catch(error) {
+
+    }
+}
+
+// [GET] /admin/roles/edit/:id
+module.exports.editUI = async (req, res) => {
+    try {
+        const id = req.params.id; // id của nhóm quyền muốn chỉnh sửa
+
+        // tìm kiếm database
+        const record = await Role.findOne({_id: id});
+
+        res.render("admin/pages/roles/edit", {
+            title: "Chỉnh sửa quyền",
+            record
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/roles/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await Role.updateOne(
+            {
+                _id: id
+            }, 
+            req.body
+        )
+        req.flash('success', 'Chỉnh sửa thành công');
+        res.redirect('back');  
     }
     catch(error) {
 

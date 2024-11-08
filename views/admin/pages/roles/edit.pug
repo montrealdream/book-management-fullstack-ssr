@@ -1,16 +1,21 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/upload-image
+include ../../mixins/alert
 
 //- Title
 block title 
-    title Chỉnh Sửa Nhóm Quyền
+    title #{title}
 
 //- Mai Title
 block main
+    +alert-success
+    +alert-warning
+    +alert-error
     //- box-head
     -
         var breadcrumbArray = 
@@ -26,28 +31,38 @@ block main
     div(class="card")
         div(class="card__body")
             form(
-                action="#"
+                id="form-create-role"
+                action=`${path_admin}/roles/edit/${record.id}/?_method=PATCH`
+                method="post"
                 class="form form__create"
             )   
                 div(class="form__normal")
                     div(class="form__item")
                         label(for="" class="label") Tên
                         input(
+                            name="title"
+                            value=record.title
                             type="text"
                             placeholder="Nhập tên nhóm quyền của bạn"
                         )
                     div(class="form__item")
                         label(for="" class="label") Mô tả Nhóm Quyền
                         textarea(
-                            name=""
+                            name="description"
                             rows="5"
                             placeholder="Mô Tả Nhóm Quyền..."
-                        )
+                            class="textarea-tinymce"
+                        ) !{record.description}
 
-
-                
                 //- button submit
                 div(class="form__submit")
                     button(type="submit" class="button button__outline") Cập Nhật
 
     //- end card
+block script 
+    //- tiny-mce
+    script(src="/tinymce/tinymce.min.js")
+    script(src="/admin/js/tinymce-config.js")
+    //- hết tiny-mce
+
+    script(src="/admin/js/script.js")

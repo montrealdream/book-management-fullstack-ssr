@@ -42,5 +42,15 @@ router.patch(
     validate.create,
     controller.edit
 );
+
+router.get(
+    '/permission',
+    controller.permissionUI
+);
+
+router.patch(
+    '/permission',
+    controller.permission
+);
 // exports
 module.exports = router;

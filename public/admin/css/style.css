@@ -800,6 +800,7 @@ body {
 }
 
 .table-permission {
+  position: relative;
   border-collapse: collapse;
   width: 100%;
 }
@@ -807,20 +808,31 @@ body {
   color: #94A3B8;
   font-weight: 400;
   text-align: center;
-  padding: 14px;
+  padding: 10px;
+  border: 1px solid #94A3B8;
 }
 .table-permission th:first-child, .table-permission td:first-child {
   text-align: left;
 }
-.table-permission td[colspan="5"] {
-  color: white;
-  font-size: 16px;
-  font-weight: 400;
+.table-permission td {
+  padding: 0;
+}
+.table-permission td:first-child {
+  padding-left: 10px;
 }
 .table-permission__head {
   color: #94A3B8;
   font-size: 16px;
   font-weight: 500;
+  position: sticky;
+  top: 0;
+  background-color: #1E293A;
+  z-index: 9999;
+}
+.table-permission__body tr .title {
+  font-size: 24px;
+  text-transform: uppercase;
+  padding: 5px 0px 5px 10px;
 }
 .table-permission__body tr:nth-child(2n) {
   background-color: #212D3F;
@@ -829,24 +841,28 @@ body {
 .radio-tick {
   appearance: none;
   position: relative;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 1px solid gray;
+  width: 100%;
+  height: 35px;
   /* Adjusts the position of the checkboxes on the text baseline */
   vertical-align: -2px;
   /* Set here so that Windows' High-Contrast Mode can override */
   color: green;
+  margin: 0;
   cursor: pointer;
+  display: flex;
 }
 .radio-tick::before {
   content: "✔";
   position: absolute;
-  font-size: 1.2em;
+  font-size: 24px;
   right: -1px;
-  top: -0.3em;
+  top: 0px;
   visibility: hidden;
   color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .radio-tick:checked::before {
   /* Use `visibility` instead of `display` to avoid recalculating layout */

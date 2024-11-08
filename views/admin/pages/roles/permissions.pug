@@ -1,12 +1,14 @@
-extends layouts/default.pug
+extends ../../layouts/default.pug
 
 //- Mixins
-include mixins/box-head
-include mixins/pagination
-include mixins/form
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/upload-image
+include ../../mixins/alert
 
 block title 
-    title Phân Quyền
+    title #{title}
 
 //- Main
 block main
@@ -21,113 +23,202 @@ block main
         
     +box-head-use-breadcrumb("PHÂN QUYỀN", breadcrumbArray)
 
-    -   
-        var roles = [
-            {
-                title: "Quản trị viên",
-            },
-            {
-                title: "Quản lý danh mục"
-            },
-            {
-                title: "Quản lý sản phẩm",
-            },
-            {
-                title: "Nhân viên"
-            }
-        ]
     //- card
     div(class="card")
-        div(class="card__body")
-            div(class="card__head")
-                div(class="card__head-wrap")
-                    //- left    
-                    div(class="card__head-left")
-                        //- form search
-                        +form-search
-                    //- right
-                    div(class="card__head-right")
-                        //- add product
-                        div(class="button button__outline")
-                            |   Cập nhật
+        div(class="card__head")
+            div(class="card__head-wrap")
+                //- left    
+                div(class="card__head-left")
+                    //- form search
+                    +form-search
+                //- right
+                div(class="card__head-right")
+                    //- form chứa 
+                    form(
+                        id="form-permission"
+                        action=`${path_admin}/roles/permission/?_method=PATCH`
+                        method="POST"
+                        class="hidden"
+                    )
+                        input(type="text" name="perrmision" value="")
+                    //- nút cập nhật gửi lên backend
+                    div(class="button button__outline" button-update-permission)
+                        |   Cập nhật
             
         div(class="card__body")
             //- table
-            table(class="table-permission")
+            table(class="table-permission" table-permission = roles)
                 thead(class="table-permission__head")
                     tr 
-                        th Tính năng 
+                        th 
                         each item in roles 
                             th  #{item.title}
                 tbody(class="table-permission__body")
+
+                    //- id của nhóm quyền
+                    tr(class="hidden" data-name="id")
+                        td
+                        each item in roles 
+                            td 
+                                input(
+                                    type='text'
+                                    value=item.id
+                                )
+                    
                     //- sản phẩm
                     tr
-                        td(colspan="5")  Sản phẩm
-                    tr 
+                        td(colspan="5" class="title")  Sản phẩm
+                    tr(data-name="products_view")
                         td  Xem 
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
-                    tr 
+                    tr(data-name="products_create")
                         td  Thêm
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
-                    tr 
+                    tr(data-name="products_edit")
                         td  Sửa
                         each item,index in roles 
                             td 
                                 input(
-                                        type="radio"
+                                        type="checkbox"
                                     class="radio-tick"
                                 )
-                    tr 
+                    tr(data-name="products_delete")
                         td  Xóa
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
+                    
                     //- danh mục
                     tr
-                        td(colspan="5")  Danh mục
-                    tr 
+                        td(colspan="5" class="title")  Danh mục
+                    tr(data-name="products-category_view")
                         td  Xem 
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
-                    tr 
+                    tr(data-name="products-category_create") 
                         td  Thêm
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
-                    tr 
+                    tr(data-name="products-category_edit")
                         td  Sửa
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
-                    tr 
+                    tr(data-name="products-category_delete") 
                         td  Xóa
                         each item,index in roles 
                             td 
                                 input(
-                                    type="radio"
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    
+                    //- tài khoản
+                    tr
+                        td(colspan="5" class="title")  Tài khoản quản trị
+                    tr(data-name="accounts_view")
+                        td  Xem 
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    tr(data-name="accounts_create") 
+                        td  Thêm
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    tr(data-name="accounts_edit")
+                        td  Sửa
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    tr(data-name="accounts_delete") 
+                        td  Xóa
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
                                     class="radio-tick"
                                 )
 
+                    //- nhóm quyền
+                    tr
+                        td(colspan="5" class="title")  Nhóm quyền
+                    tr(data-name="roles_view")
+                        td  Xem 
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    tr(data-name="roles_create") 
+                        td  Thêm
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    tr(data-name="roles_edit")
+                        td  Sửa
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+                    tr(data-name="roles_delete") 
+                        td  Xóa
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+
+                    //- cài đặt
+                    tr
+                        td(colspan="5" class="title")  Cài đặt
+                    tr(data-name="setting_edit")
+                        td  Chỉnh sửa 
+                        each item,index in roles 
+                            td 
+                                input(
+                                    type="checkbox"
+                                    class="radio-tick"
+                                )
+block script 
+    script(src="/admin/js/script.js")

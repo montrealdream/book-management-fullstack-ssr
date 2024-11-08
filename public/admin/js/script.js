@@ -668,3 +668,83 @@ document.addEventListener("click", (event) => {
     });
 });
 // Hết Đóng các tab con khi nhấn ra ngoài html
+
+// xử lý phân quyền
+const tablePermission = document.querySelector("[table-permission]");
+const buttonUpdatePermission = document.querySelector("[button-update-permission]");
+if(tablePermission && buttonUpdatePermission) {
+    const permission = [
+        // {
+        //     id: "", // id của nhóm quyền
+        //     permissions: [], // array chứa danh sách các quyền được truy cập
+        // } 
+        // lưu ý không được khởi tạo trước nếu không nó sẽ bị dư
+    ]
+
+    // lấy các hàng có thuộc tính [data-name] chứa các ID của quyền và Tên Quyền
+    const rows = tablePermission.querySelectorAll("[data-name]");
+    
+    // cập nhật phân quyền
+    buttonUpdatePermission.addEventListener("click", event => {
+        rows.forEach((row, index) => {
+            const name = row.getAttribute("data-name");
+            
+            // nếu là data-name là id => lấy danh sách id của nhóm quyền
+            if(name === "id") {
+                // lấy ID của quyền
+                const inputs = row.querySelectorAll("input");
+                
+                inputs.forEach(input => {
+                    const id = input.value;
+                        permission.push({
+                            id: id,
+                            permissions: []
+                        });
+                });
+            }
+    
+            // lấy các quyền đưa vào 
+            else {
+                const inputs = row.querySelectorAll("input");
+                
+                inputs.forEach((input, index) => {
+                    const checked = input.checked;
+    
+                    if(checked) {
+                        permission[index].permissions.push(name);
+                    }
+                });
+            }
+        });
+        
+        // Lấy form permission
+        const formPermission = document.querySelector("#form-permission");
+        if(formPermission) {
+            const input = formPermission.querySelector("input");
+
+            const permissionJson = JSON.stringify(permission);
+            input.value = permissionJson;
+
+            formPermission.submit();
+        }
+    });   
+    // hết cập nhật phân quyền
+
+    // render đánh dấu nếu quyền đó được phân
+    const dataRolesJSON = tablePermission.getAttribute("table-permission");
+
+    const dataRolesJS = JSON.parse(dataRolesJSON); // khi gán vào thuộc tính html nó tự chuyển sang JSON nên cần phải chuyển sang JS
+    dataRolesJS.forEach((role, index) => {
+        const permissions = role.permissions;
+        
+        permissions.forEach(permission => {
+            const row = tablePermission.querySelector(`[data-name="${permission}"]`);
+            
+            const input = row.querySelectorAll("input")[index];
+            input.checked = true;
+        });
+    });
+
+    // hết render đánh dấu nếu quyền đó được phân
+}
+// hết xử lý phân quyền

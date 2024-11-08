@@ -144,3 +144,46 @@ module.exports.edit = async (req, res) => {
 
     }
 }
+
+// [GET] /admin/roles/permission
+module.exports.permissionUI = async (req, res) => {
+    try {
+
+        const roles = await Role.find({deleted: false})
+                                    .select("-description")
+
+        res.render("admin/pages/roles/permissions", {
+            title: "Phân quyền",
+            roles
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [PATCH] /admin/roles/permission
+module.exports.permission = async (req, res) => {
+    try {
+        
+        const permission = JSON.parse(req.body.perrmision);
+
+        permission.forEach( async item => {
+            const {id, permissions} = item;
+            
+            await Role.updateOne({
+                _id: id
+            }, {
+                permissions: permissions
+            });
+        });
+        
+        req.flash('success', 'Phân quyền thành công');
+
+        res.redirect('back');
+
+    }
+    catch(error) {
+
+    }
+}

@@ -1233,3 +1233,125 @@ body {
     outline: none;
 }
 // hết select tree (drop down tree)
+
+// background authen
+.background-auth {
+    background-image: url('../images/auth-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    // width: 100%;
+    height: 100vh;
+}
+// hết background authen
+
+// căn giữa form
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+// hết căn giữa form
+
+// form login
+
+.form {
+
+    &__login {
+        width: 540px;
+        padding: 48px 72px;
+        border-radius: 20px;
+        background-color: #131316CC;
+    }
+
+    &__login-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__login-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 28px;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__login-title {
+        margin: 0px;
+        color: white;
+        font-size: 36px;
+        font-weight: 600;
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 32px;
+    }
+
+    &__login-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        margin-bottom: 24px;
+
+        label {
+            color: #D1D1D6;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        input {
+            outline: none;
+            background-color: transparent;
+            padding: 10px;
+            height: 48px;
+            border-radius: 12px;
+            color: #D1D1D6;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        // fix lại autocomplete
+        input:-webkit-autofill{
+            -webkit-text-fill-color: #D1D1D6 !important;
+            -webkit-background-clip: text;
+        }
+    }
+
+    &__login-password-icon {
+        cursor: pointer;
+        color: #70707B;
+        position: absolute;
+        right: 13px;
+        top: 47px;
+    }
+    
+    &__login-button[type="submit"] {
+        cursor: pointer;
+        padding: 16px;
+        width: 100%;
+        border-radius: 8px;
+        border: 0;
+        background-color: #1570EF;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+// hết form login
+
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
+    color: transparent;
+}

@@ -3,7 +3,7 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-
+        
         //- favicon
         link(href="https://cdn-icons-png.flaticon.com/512/714/714032.png" rel="icon" type="image/x-icon")
         
@@ -13,29 +13,12 @@ html(lang="en")
         //- css
         link(rel="stylesheet" href="/admin/css/style.css")
 
-        //- title
         block title
-    body 
+    body(class="background-auth")
         //- <!-- alert thông báo -->
-        <div class="alert"></div>  
+        div(class="alert")  
         //- <!-- hết alert thông báo -->
-        
-        //- header
-        include ../partials/header
-        //- end header
 
-        .body 
-            //- sider
-            include ../partials/sider
-            //- end sider
+        block main
 
-            //- main content
-            .main
-                block main
-            //- end main content
-    script(type='module' src="/admin/js/sider.js")
-    block script
-
-
-        
-
+        block script

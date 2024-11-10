@@ -3,6 +3,8 @@
  * @author GIANG TRƯỜNG
 */
 
+const crypto = require('crypto');
+
 /**
  * @description Hàm tạo chuỗi random
  * @param {*} length: độ dài chuỗi random muốn tạo ra
@@ -20,4 +22,14 @@ module.exports.randomString = (length) => {
                             );
     }
     return result;
+}
+
+/**
+ * 
+ * @param {*} length 
+ * @returns 
+ */
+module.exports.keyCrypto = (length) => {
+    const token = crypto.randomBytes(length).toString('hex');
+    return token;
 }

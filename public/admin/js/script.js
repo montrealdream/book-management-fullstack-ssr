@@ -1,49 +1,8 @@
-// Đóng mở sider con - Opent Close Sub-Sider
-const siderMenuItems = document.querySelectorAll("[sider__menu-item]");
-const SiderSubItems = document.querySelectorAll(".sider__menu-sub");
-if(siderMenuItems.length > 0) {
-    siderMenuItems.forEach((itemMenu, index) => {
-        // lắng nghe sự kiện khi nhấn vào sider cha
-        itemMenu.addEventListener("click", (event) => {
+import { warningInput, warningImage } from "./warning.js";
+import { showAlert } from "./alert.js";
+import clickOutSide from "./clickOutSide.js";
 
-            // đóng tất cả các sider con đã mở ra
-            SiderSubItems.forEach(item => {
-                // đóng các sider khác ngoại trừ sider được nhấn
-                if(item !== SiderSubItems[index - 1])
-                    item.classList.add("hidden");
-            });
-
-            // ----------- CÁCH 1 ----------- //
-            // // mở sider con của sider cha đã nhấn vào
-            // const isHidden = SiderSubItems[index - 1].getAttribute("class");
-
-            // // nếu đã có class hide thì lần này nhấn sẽ đóng sider lại
-            // if(isHidden.includes('hidden') === true )
-            //     SiderSubItems[index-1].classList.remove("hidden");
-            // else
-            //     SiderSubItems[index-1].classList.add("hidden");
-
-
-
-            // ----------- CÁCH 2 ----------- //
-            // const isHidden = SiderSubItems[index - 1].classList.contains("hidden");
-            // if(isHidden)
-            //     SiderSubItems[index-1].classList.remove("hidden");
-            // else
-            //     SiderSubItems[index-1].classList.add("hidden");
-            
-
-
-            // ----------- CÁCH 3 ----------- //
-            SiderSubItems[index - 1].classList.toggle("hidden");
-        });
-    });
-    // lưu ý vì sider con của dashboard không có nên mới cần phải -1
-    // cách làm này chưa tối ưu lắm
-}
-// Hết Đóng mở sider con - End Opent Close Sub-Sider
-
-// Đóng mở option table -  Open Close Option Table
+// Đóng mở option table -  Open Close Option Table - Bảng hành động của Item
 const optionTabs = document.querySelectorAll(".table__option-tab");
 const optionIcons  = document.querySelectorAll(".table__option-icon");
 if(optionIcons.length > 0 && optionTabs.length > 0) {
@@ -59,7 +18,7 @@ if(optionIcons.length > 0 && optionTabs.length > 0) {
         });
     });
 }
-// Hết Đóng mở option table -  End Open Close Option Table
+// Hết Đóng mở option table -  End Open Close Option Table - Bảng hành động của Item
 
 // Bộ lọc trạng thái - Filter Button Status
 const buttonFilterStatus = document.querySelectorAll("[button-filter-status]");
@@ -285,130 +244,6 @@ if(checkBoxAll && checkBoxSingles.length > 0) {
     });
 }
 // Hết Checkbox all và checkbox single
-
-// Thông báo alert 
-const alert = document.querySelector("[alert-normal]");
-if(alert) {
-    const alertItem = alert.querySelector(".alert__item");
-
-    // khi nhấn vào nút close alert thì sẽ tắt alert đó
-    const closeAlertItem = alertItem.querySelector("[close-alert]");
-    closeAlertItem.addEventListener("click", (event) => {
-        alertItem.style.display = "none";
-    });
-
-    // sau TIME giây nếu không nhấn vào close alert thì nó sẽ tự tắt
-    setTimeout(() => {
-        // newAlertItem.style.display = "none";
-        alertItem.classList.add("hideAlert");
-    }, 5000);
-}
-// Hết thông báo alert
-
-// Thông báo alert đẩy
-const alertPush = document.querySelector(".alert");
-const showAlert = (content = null, state, time) => {
-
-    if(content === null) return; // nếu không có nội dung thì return luôn
-
-    const newAlertItem = document.createElement("div");
-
-    newAlertItem.setAttribute("class", `alert__item alert__item--${state}`); 
-    newAlertItem.innerHTML = `
-        <span> ${content} ! </span>
-        <span close-alert>
-        <i class="fa-solid fa-xmark"></i>
-        </span>
-    `;
-    alertPush.appendChild(newAlertItem);
-
-    // khi nhấn vào nút close alert thì sẽ tắt alert đó
-    const closeAlertItem = newAlertItem.querySelector("[close-alert");
-    closeAlertItem.addEventListener("click", (event) => {
-        newAlertItem.style.display = "none";
-    });
-
-    // sau TIME giây nếu không nhấn vào close alert thì nó sẽ tự tắt
-    setTimeout(() => {
-        // newAlertItem.style.display = "none";
-        newAlertItem.classList.add("hideAlert");
-    }, time);
-    // return;
-}
-// Hết Thông báo alert đẩy
-
-// Warning input - Thông báo chưa nhập vào thẻ input
-const warningInput = (element, content, colorWarning) => {
-    if(element.value === "") {
-        element.style.border = `1px solid ${colorWarning}`;
-        element.placeholder = content + "...";
-        return false; // có warning
-    }
-    return true;
-}
-// Hết Warning input - Thông báo chưa nhập vào thẻ input
-
-// Warning image - Thông báo chưa nhập vào ít nhất một ảnh
-const warningImage = (formElement) => {
-    const uploadImgItem = formElement.querySelectorAll(".upload-image__item");
-    const noticeImage = formElement.querySelector("[notice-image]");
-    
-    let state =  "unwarning";
-    const stateChosen = {
-        "warning": {
-            noticeColor: '#FFC107',
-            borderColor: '#FFC107',
-            labelColor:  '#FFC107',
-            iconColor:   '#FFC107',
-        },
-
-        "unwarning": {
-            noticeColor: '#fff',     // màu của nội dung thông báo bên dưới
-            borderColor: '#2166D6',  // color của khung upload ảnh 
-            labelColor: '#94A3B8',  // nội dung bên trong khung upload ảnh
-            iconColor:  '#94A3B8'   // icon bên trong khung upload ảnh
-        }
-    }
-    
-    let isUpload = false; // dùng check xem có upload ít nhất 1 ảnh không
-
-    // check xem đã upload ít nhất 1 ảnh chưa
-    uploadImgItem.forEach((item, index) => {
-        // const fileInput = item.querySelector(`input[name="thumbnail"]`);
-        const fileInput = item.querySelector(`input[type="file"]`);
-
-        if(item.classList.contains("preview"))
-            isUpload = true;
-
-        // if(fileInput.value !== "") 
-        //     isUpload = true;    // ít nhất upload một ảnh
-    });
-
-    if(!isUpload) state = "warning"; // nếu chưa có ảnh nào upload thì warning lên
-
-    // khung ảnh
-    uploadImgItem.forEach(item => {
-        const inputFile = item.querySelector(`input[name="thumbnail"]`);
-
-        // đường viền khung ảnh
-        item.style.border = `1px dashed ${stateChosen[state].borderColor}`; 
-
-        // nội dung trong khung ảnh
-        const labelItem = item.querySelector("label"); 
-        labelItem.style.color = stateChosen[state].labelColor;
-
-        // icon trong khung ảnh
-        const iconItem = item.querySelector("i");
-        iconItem.style.color = stateChosen[state].iconColor;
-    });
-
-    // nội dung bên dưới toàn bộ khung ảnh
-    if(noticeImage)
-        noticeImage.style.color = stateChosen[state].noticeColor;
-
-    return isUpload; // nếu false là chưa upload ảnh nào
-}
-// Hết Warning image - Thông báo chưa nhập vào ít nhất một ảnh
 
 // Khi nhấn vào khung thì sẽ open cửa sổ upload file
 const uploadImgEvent = (formElement) => {
@@ -658,17 +493,6 @@ if(formCreateRole) {
 }
 // Hết Tạo mới quyền
 
-// Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
-document.addEventListener("click", (event) => {
-    // event.target sẽ lấy được element được click vào
-    optionIcons.forEach((item, index) => {
-        if(item !== event.target) {
-            optionTabs[index].classList.add("hidden");
-        }
-    });
-});
-// Hết Đóng các tab con khi nhấn ra ngoài html
-
 // xử lý phân quyền
 const tablePermission = document.querySelector("[table-permission]");
 const buttonUpdatePermission = document.querySelector("[button-update-permission]");
@@ -748,3 +572,15 @@ if(tablePermission && buttonUpdatePermission) {
     // hết render đánh dấu nếu quyền đó được phân
 }
 // hết xử lý phân quyền
+
+// Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
+// clickOutSide()
+// document.addEventListener("click", (event) => {
+//     // event.target sẽ lấy được element được click vào
+//     optionIcons.forEach((item, index) => {
+//         if(item !== event.target) {
+//             optionTabs[index].classList.add("hidden");
+//         }
+//     });
+// });
+// Hết Đóng các tab con khi nhấn ra ngoài html

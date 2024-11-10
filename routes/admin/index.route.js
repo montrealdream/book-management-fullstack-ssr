@@ -10,6 +10,7 @@ const productsRoute  = require('./product.route');
 const productCategoryRoute = require('./product-category.route');
 const accountRoute = require('./accounts.route');
 const roleRoute = require('./role.route.js');
+const authRoute = require('./auth.route.js');
 
 // exports
 module.exports = (app) => {
@@ -38,6 +39,11 @@ module.exports = (app) => {
     app.use(
         PATH_ADMIN + '/roles',
         roleRoute
+    );
+
+    app.use(
+        PATH_ADMIN + '/auth',
+        authRoute
     );
 }
 

@@ -6,6 +6,8 @@
 const Account = require('../../models/account.model');
 
 const systemConfig = require('../../config/system.config');
+const PATH_ADMIN = systemConfig.PATH_ADMIN; // đường dẫn /admin
+
 const generateHelper = require('../../helper/generate.helper');
 
 const jwt = require('jsonwebtoken');
@@ -27,8 +29,6 @@ module.exports.loginUI = async (req, res) => {
 // [POST] /admin/auth/login
 module.exports.login = async (req, res) => {
     try {
-        const PATH_ADMIN = systemConfig.PATH_ADMIN; // đường dẫn /admin
-
         let {email, password} = req.body;
         
         // check email
@@ -61,6 +61,18 @@ module.exports.login = async (req, res) => {
         });
 
         res.redirect(PATH_ADMIN + '/dashboard');
+    }
+    catch(error) {
+
+    }
+}
+
+// [GET] /admin/auth/logout 
+module.exports.logout = async (req, res) => {
+    try {
+        res.clearCookie('acc'); // xóa token
+
+        res.redirect(PATH_ADMIN + '/auth/login');
     }
     catch(error) {
 

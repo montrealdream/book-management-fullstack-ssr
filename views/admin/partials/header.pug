@@ -37,6 +37,16 @@ header(class="header")
                 div(class="header__user-title")
                     h3 Giang Trường
                     span Admin
+                ul(class="header__user-list hidden")
+                    li 
+                        a(href="javascript:;")
+                            <i class="fa-regular fa-user"></i>
+                            | Thông tin cá nhân  
+                    li 
+                        
+                        a(href=`${path_admin}/auth/logout`)
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            | Đăng xuất  
             
             //- setting
             button(class="header__setting")

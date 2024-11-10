@@ -80,8 +80,7 @@ if(formSearch) {
 const paginationBlock = document.querySelector("[pagination-block]");
 if(paginationBlock) {
     // lấy các nút pagination
-    paginationListItem = paginationBlock.querySelectorAll("[pagination-item]");
-
+    const paginationListItem = paginationBlock.querySelectorAll("[pagination-item]");
     paginationListItem.forEach(item => {
         // lắng nghe sự kiện
         item.addEventListener("click", (event) => {
@@ -89,7 +88,7 @@ if(paginationBlock) {
             let url = new URL(window.location.href);
 
             let page = item.getAttribute("pagination-item");
-            console.log(page);
+
             // set ?query
             url.searchParams.set("page", page);
 
@@ -575,12 +574,24 @@ if(tablePermission && buttonUpdatePermission) {
 
 // Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
 // clickOutSide()
-// document.addEventListener("click", (event) => {
-//     // event.target sẽ lấy được element được click vào
-//     optionIcons.forEach((item, index) => {
-//         if(item !== event.target) {
-//             optionTabs[index].classList.add("hidden");
-//         }
-//     });
-// });
+document.addEventListener("click", (event) => {
+    // event.target sẽ lấy được element được click vào
+    optionIcons.forEach((item, index) => {
+        if(item !== event.target) {
+            optionTabs[index].classList.add("hidden");
+        }
+    });
+});
 // Hết Đóng các tab con khi nhấn ra ngoài html
+
+// mở thông tin account đã đăng nhập
+const headerAccount = document.querySelector(".header__user");
+if(headerAccount) {
+    headerAccount.addEventListener("click", event => {
+        
+        const headerUserList = headerAccount.querySelector(".header__user-list");
+
+        headerUserList.classList.toggle('hidden');
+    });
+}
+// hết mở thông tin account đã đăng nhập

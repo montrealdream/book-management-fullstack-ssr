@@ -48,3 +48,15 @@ if(FormloginAdmin) {
     showPasswordEvent(FormloginAdmin); // sự kiện ẩn hiện password;
 }
 // hết đăng nhập trang quản trị
+
+// mở thông tin account đã đăng nhập
+const headerAccount = document.querySelector(".header__user");
+if(headerAccount) {
+    headerAccount.addEventListener("click", event => {
+        
+        const headerUserList = headerAccount.querySelector(".header__user-list");
+
+        headerUserList.style.toggle = 'hidden'
+    });
+}
+// hết mở thông tin account đã đăng nhập

@@ -1,7 +1,7 @@
 /**
- * @description Cấu hình database 
+ * @description Cấu hình MongoDb database 
  * @author GIANG TRƯỜNG
- */
+*/
 
 require('dotenv').config();
 

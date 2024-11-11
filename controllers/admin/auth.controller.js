@@ -63,7 +63,6 @@ module.exports.login = async (req, res) => {
         res.redirect(PATH_ADMIN + '/dashboard');
     }
     catch(error) {
-        console.log(error);
     }
 }
 

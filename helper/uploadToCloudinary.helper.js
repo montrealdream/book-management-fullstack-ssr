@@ -3,16 +3,13 @@
  * @author GIANG TRƯỜNG
 */
 require('dotenv').config(); // hỗ trợ process env
+const cloudinaryConfig =  require('../config/cloudinary.config');
 
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
 
-// Configuration
-cloudinary.config({ 
-    cloud_name: process.env.CLOUDINARY_NAME, 
-    api_key: process.env.CLOUDINARY_API_KEY, 
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
+// cấu hình cloudinary
+cloudinaryConfig();
 
 let streamUpload = (buffer) => {
     return new Promise((resolve, reject) => {

@@ -13,7 +13,6 @@ const paginationHelper = require('../helper/pagination.helper');
 const createTreeHelper = require('../helper/createTree.helper');
 
 class ProductService {
-
     // lấy danh sách sản phẩm
     static async getListProduct(body, query) {
         // mặc định sẽ lấy ra những sản phẩm chưa bị xóa

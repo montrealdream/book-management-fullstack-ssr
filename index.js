@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const database = require("./config/database.config");
+const database = require('./databases/connect.database');
 require('dotenv').config();
 const methodOverride = require('method-override');
 const flash = require('express-flash');
@@ -12,7 +12,7 @@ const routerAdmin = require('./routes/admin/index.route');
 
 // configuration default
 const app = express();
-const port = process.env.PORT;
+const port = process.env.DEV_APP_PORT;
 
 app.locals.path_admin = systemConfig.PATH_ADMIN; // app locals
 
@@ -32,7 +32,7 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 app.use(express.static('public'));  // static files
-database.connect();                 // database
+database.connect(); // kết nối database
 
 // tiny-mce
 app.use(

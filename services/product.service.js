@@ -57,8 +57,14 @@ class ProductService {
     }
 
     // lấy sản phẩm theo ID
-    static findProductById({product_id}) {
+    static async findProductById({product_id}) {
+        // tìm kiếm database
+        const record = await Product.findOne({_id: id});
 
+        return {
+            record,
+
+        }
     }
 
     // tạo sản phẩm
@@ -90,6 +96,67 @@ class ProductService {
             code: 'xxx',
             record
         }
+    }
+
+    // thay đổi trạng thái sản phẩm
+    static async changeStatus(product_id, product_status) {
+        const statusValid = ["active", "inactive"];
+
+        if(statusValid.includes(product_status) === false) return {
+            code: 404,
+            message: 'Thay đổi sản phẩm thất bại'
+        }
+
+        // cập nhật trạng thái
+        await Product.updateOne(
+            {
+                _id: product_id
+            },
+            {
+                status: product_status
+            }
+        );
+
+        return {
+            code: 200,
+            message: 'Thay đổi trạng thái thành công'
+        }
+    }
+
+    // xóa mềm sản phẩm
+    static async deleteSoft(product_id) {
+        // xóa mềm
+        await Product.updateOne(
+            {
+                _id: product_id
+            }, {
+                deleted: true
+            }
+        );
+    }
+
+    // chỉnh sửa sản phẩm
+    static async edit (product_id, body) {
+        // format lại một số trường về định dạng number
+        body.price = parseInt(body.price);
+        body.discountPercentage = parseInt(body.discountPercentage);
+        body.stock = parseInt(body.stock);
+
+        if(body.position === "") {
+            body.position = await Product.countDocuments({
+                status: "active",
+                deleted: false,
+            }) + 1;
+        }
+
+        else body.position = parseInt(body.position);
+
+        await Product.updateOne(
+            {
+                _id: product_id
+            }, 
+            body
+        )
     }
 }
 

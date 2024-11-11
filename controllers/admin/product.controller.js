@@ -3,15 +3,10 @@
  * @author GIANG TRƯỜNG
 */
 
-const Product = require('../../models/product.model');
-const ProductCategory = require('../../models/product-category.model');
-
-const filterHelper = require('../../helper/filter.helper');
-const searchHelper = require('../../helper/search.helper');
-const paginationHelper = require('../../helper/pagination.helper');
-const createTreeHelper = require('../../helper/createTree.helper');
-
+// Service
 const ProductService = require('../../services/product.service');
+const ProductCategoryService = require('../../services/product-category.service');
+
 
 // [GET] /admin/products/
 module.exports.index = async (req, res) => {
@@ -39,24 +34,12 @@ module.exports.index = async (req, res) => {
 // [PATCH] /admin/products/change-status/:id/:status
 module.exports.changeStatus = async (req, res) => {
     try{
-        const {id, status} = req.params;
+        const product_id = req.params.id;
+        const product_status = req.params.status;
+        const record = await ProductService.changeStatus(product_id, product_status);
         
-        const statusValid = ["active", "inactive"];
+        if(record.status === 404) return req.flash('warning', record.message);
 
-        if(statusValid.includes(status) === false) {
-            req.flash('warning', 'Trạng thái gửi lên không hợp lệ');
-            res.redirect('back');
-        }
-
-        // cập nhật trạng thái
-        await Product.updateOne(
-            {
-                _id: id
-            },
-            {
-                status: status
-            }
-        );
         req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
         res.redirect('back');
     }
@@ -68,17 +51,7 @@ module.exports.changeStatus = async (req, res) => {
 // [PATCH] /admin/products/delete-soft/:id
 module.exports.deleteSoft = async (req, res) => {
     try {
-        const id = req.params.id;
-
-        // xóa mềm
-        await Product.updateOne(
-            {
-                _id: id
-            }, {
-                deleted: true
-            }
-        );
-
+        await ProductService.deleteSoft(req.params.id);
         req.flash('success', 'Xóa sản phẩm thành công');
         res.redirect('back');
     }
@@ -90,19 +63,13 @@ module.exports.deleteSoft = async (req, res) => {
 // [GET] /admin/products/create
 module.exports.createUI = async (req, res) => {
     try {
-        // lấy ra danh sách danh mục
-        const listProductsCategory = await ProductCategory.find({deleted: false})
-
-        // tạo cây danh mục
-        const listProductsCategoryTree = createTreeHelper(listProductsCategory);
-
         res.render("admin/pages/products/create", {
             title: "Tạo mới sản phẩm",
-            listProductsCategoryTree
+            listProductsCategoryTree: await ProductCategoryService.treeProductCategory()
         });
     }
     catch(error) {
-
+        console.log(error);
     }
 }
 
@@ -121,16 +88,11 @@ module.exports.create = async (req, res) => {
 // [GET] /admin/products/edit/:id
 module.exports.editUI = async (req, res) => {
     try {
-        const id = req.params.id; // id của sản phẩm
-
-        // lấy ra danh sách danh mục
-        const listProductsCategory = await ProductCategory.find({deleted: false})
-
-        // tạo cây danh mục
-        const listProductsCategoryTree = createTreeHelper(listProductsCategory);
+        // tạo cây danh mục 
+        const listProductsCategoryTree = await ProductCategoryService.treeProductCategory();
 
         // tìm kiếm database
-        const record = await Product.findOne({_id: id});
+        const record = await ProductService.findProductById(req.params.id);
         
         res.render("admin/pages/products/edit", {
             title: "Chỉnh sửa",
@@ -147,14 +109,7 @@ module.exports.editUI = async (req, res) => {
 // [PATCH] /admin/products/edit/:id
 module.exports.edit = async (req, res) => {
     try {
-        const id = req.params.id;
-
-        await Product.updateOne(
-            {
-                _id: id
-            }, 
-            req.body
-        )
+        await ProductService.edit(req.params.id, req.body);
         req.flash('success', 'Tạo sản phẩm thành công');
         res.redirect('back');  
     }

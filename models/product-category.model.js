@@ -7,23 +7,19 @@ const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
 mongoose.plugin(slug);
 
+const DOCUMMENT_NAME = 'ProductCategory';
+const COLLECTION_NAME = 'products-category';
+
 // schema
 const productCategorySchema = new mongoose.Schema(
     {
-        title: String,
-        slug: {
-            type: String,
-            slug: "title", // tạo slug dựa vào title
-            unique: true   // tạo slug riêng biệt, tên giống nhau thì gắn thêm token ngẫu nhiên
-        },
-        parent_category_id: String,     // id danh mục cha nếu có
+        title: { type: String, required: true },
+        slug: { type: String, slug: "title", unique: true },
+        parent_category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'products-category' },     // id danh mục cha nếu có
         description: String,
-        thumbnail: String,
-        status: String,
-        deleted: {
-            type:Boolean,
-            default: false // mặc định chưa xóa sản phẩm
-        },
+        thumbnail:  { type: String, required: true },
+        status: { type: String, enum: ['active', 'inactive'], default: 'active' },  
+        deleted: { type:Boolean, default: false },
 
         // Lưu giữ user
         createdBy : {
@@ -46,11 +42,13 @@ const productCategorySchema = new mongoose.Schema(
             userId: String,
             deleteAt: Date
         }
-    },
+    }, {
+        timestamps: true
+    }
 );
 
 // modal
-const ProductCategory = mongoose.model("ProductCategory", productCategorySchema, 'products-category');
+const ProductCategory = mongoose.model(DOCUMMENT_NAME, productCategorySchema, COLLECTION_NAME);
 
 // exports
 module.exports = ProductCategory;

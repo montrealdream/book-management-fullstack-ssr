@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
         title: { type: String, required: true },
         slug: { type: String,  slug: "title", unique: true },
         author: {  type: String, default:"" },  // tác giả của sách
-        category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'products-category'},
+        category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'products-category' },
         thumbnail: { type: Array,  default: [], required: true },
         description: String,
         price: { type: Number, required: true },

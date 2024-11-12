@@ -49,7 +49,9 @@ const productSchema = new mongoose.Schema(
             userId: String,
             deleteAt: Date
         }
-    },
+    },{
+        timestamps: true
+    }
 );
 
 // modal

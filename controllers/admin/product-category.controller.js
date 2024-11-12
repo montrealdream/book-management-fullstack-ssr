@@ -10,48 +10,20 @@ const searchHelper = require('../../helper/search.helper');
 const paginationHelper = require('../../helper/pagination.helper');
 const createTreeHelper = require('../../helper/createTree.helper');
 
+const ProductCategoryService = require('../../services/product-category.service');
+
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
     try {
-        // mặc định sẽ lấy ra những sản phẩm chưa bị xóa
-        const findObject = {
-            deleted: false
-        }
+        const metadata = await ProductCategoryService.getListProductCategory(req.query);
 
-        // bộ lọc trạng thái
-        if(req.query.status) findObject.status = req.query.status;
-        const filterStatusArray = filterHelper.filterStatus(req.query);
+        const { records, filterStatusArray, keyword, paginationObject } = metadata;
 
-        // tính năng tìm kiếm theo keyword
-        let keyword = "";
-        const searchObject = searchHelper.searchKeyword(req.query);
-        if(searchObject.keywordRegex !== "")
-            findObject.title = searchObject.keywordRegex;
-
-        // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
-        const quantityRecords = await ProductCategory.countDocuments(findObject);
-
-        // sắp xếp
-        const sortObject = {};
-        let sortKey =   req.query.sortKey || 'position';
-        let sortValue = req.query.sortValue || 'desc';
-        sortObject[sortKey] = sortValue;
-
-        // phân trang
-        const paginationObject = paginationHelper.pagination(req.query, quantityRecords);
-
-        // tìm kiếm database
-        const records  = await ProductCategory.find(findObject)
-                                        .limit(paginationObject.limit)
-                                        .skip(paginationObject.skip)
-                                        .sort(sortObject)
-
-        
         res.render("admin/pages/products-category/index", {
             title: "Danh mục sản phẩm",
             records,
             filterStatusArray, // khối giao diện bộ lọc trạng thái
-            keyword: searchObject.keyword,
+            keyword,
             paginationObject
         });
     }
@@ -64,23 +36,9 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     try{
         const {id, status} = req.params;
-        
-        const statusValid = ["active", "inactive"];
+        await ProductCategoryService.changeStatus(id, status);
 
-        if(statusValid.includes(status) === false) {
-            req.flash('warning', 'Trạng thái gửi lên không hợp lệ');
-            res.redirect('back');
-        }
 
-        // cập nhật trạng thái
-        await ProductCategory.updateOne(
-            {
-                _id: id
-            },
-            {
-                status: status
-            }
-        );
         req.flash('success', 'Thay đổi trạng thái danh mục thành công');
         res.redirect('back');
     }
@@ -95,13 +53,7 @@ module.exports.deleteSoft = async (req, res) => {
         const id = req.params.id;
 
         // xóa mềm
-        await ProductCategory.updateOne(
-            {
-                _id: id
-            }, {
-                deleted: true
-            }
-        );
+        await ProductCategoryService.deleteSoft(id);
 
         req.flash('success', 'Xóa danh mục thành công');
         res.redirect('back');
@@ -114,11 +66,7 @@ module.exports.deleteSoft = async (req, res) => {
 // [GET] /admin/products-category/create
 module.exports.createUI = async (req, res) => {
     try {
-        // lấy ra danh sách danh mục
-        const listProductsCategory = await ProductCategory.find({deleted: false})
-
-        // tạo cây danh mục
-        const listProductsCategoryTree = createTreeHelper(listProductsCategory);
+        const listProductsCategoryTree = await ProductCategoryService.treeProductCategory();
 
         res.render("admin/pages/products-category/create", {
             title: "Tạo mới danh mục",
@@ -133,25 +81,7 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/products-category/create
 module.exports.create = async (req, res) => {
     try {   
-        if(req.body.position === "") {
-            req.body.position = await ProductCategory.countDocuments({
-                status: "active",
-                deleted: false,
-            }) + 1;
-        }
-
-        else req.body.position = parseInt(req.body.position);
-        
-        // upload một ảnh vào thư mục local
-        // req.body[req.file.fieldname] = `/uploads/${req.file.filename}`;
-
-        // upload nhiều ảnh vào thư mục local
-        // req.body[req.files[0].fieldname] = req.files.map(item => `/uploads/${item.filename}`);
-
-        // tạo bản ghi mới và lưu vào db
-        const record  = new ProductCategory(req.body);
-        await record.save();
-
+        await ProductCategoryService.create(req.body);
         req.flash('success', 'Tạo danh mục thành công');
         res.redirect('back');
     }
@@ -165,15 +95,11 @@ module.exports.editUI = async (req, res) => {
     try {
         const id = req.params.id; // id của danh mục muốn chỉnh sửa
 
-        // lấy ra danh sách danh mục
-        const listProductsCategory = await ProductCategory.find({deleted: false})
-
         // tạo cây danh mục
-        const listProductsCategoryTree = createTreeHelper(listProductsCategory);
+        const listProductsCategoryTree = await ProductCategoryService.treeProductCategory();
 
-        // tìm kiếm database
-        const record = await ProductCategory.findOne({_id: id});
-        
+        const record = await ProductCategoryService.findCategoryById(id);
+
         res.render("admin/pages/products-category/edit", {
             title: "Chỉnh sửa",
             record,
@@ -190,13 +116,9 @@ module.exports.editUI = async (req, res) => {
 module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
+        
+        await ProductCategoryService.edit(id, req.body);
 
-        await ProductCategory.updateOne(
-            {
-                _id: id
-            }, 
-            req.body
-        )
         req.flash('success', 'Chỉnh sửa thành công');
         res.redirect('back');  
     }

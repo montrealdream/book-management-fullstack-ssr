@@ -11,6 +11,7 @@ const createTreeHelper = require('../helper/createTree.helper');
 const filterHelper = require('../helper/filter.helper');
 const paginationHelper = require('../helper/pagination.helper');
 const searchHelper = require('../helper/search.helper');
+const sortHelper = require('../helper/sort.helper');
 
 class ProductCategoryService {
 
@@ -41,10 +42,7 @@ class ProductCategoryService {
         const quantityRecords = await ProductCategory.countDocuments(findObject);
 
         // sắp xếp
-        const sortObject = {};
-        let sortKey = query.sortKey || 'position';
-        let sortValue = query.sortValue || 'desc';
-        sortObject[sortKey] = sortValue;
+        const sortObject = sortHelper.sortQuery(query);
 
         // phân trang
         const paginationObject = paginationHelper.pagination(query, quantityRecords);

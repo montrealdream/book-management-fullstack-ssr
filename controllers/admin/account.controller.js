@@ -4,6 +4,7 @@
 */
 
 const AccountService = require('../../services/account.service');
+const RoleService = require('../../services/role.service');
 
 // [GET] /admin/accounts/
 module.exports.index = async (req, res) => {
@@ -65,8 +66,11 @@ module.exports.deleteSoft = async (req, res) => {
 // [GET] /admin/accounts/create
 module.exports.createUI = async (req, res) => {
     try {
+        const {records} = await RoleService.getListRole(req.query);
+
         res.render("admin/pages/accounts/create", {
             title: "Tạo tài khoản",
+            roles: records
         });
     }
     catch(error) {
@@ -100,9 +104,12 @@ module.exports.editUI = async (req, res) => {
 
         const record = await AccountService.getAccountById(id);
         
+        const {records} = await RoleService.getListRole(req.query);
+
         res.render("admin/pages/accounts/edit", {
             title: "Chỉnh sửa",
             record,
+            roles: records
         })
         
     }

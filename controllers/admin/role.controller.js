@@ -116,7 +116,7 @@ module.exports.permissionUI = async (req, res) => {
         });
     }
     catch(error) {
-
+        console.log('Lỗi trang phân quyền', error);
     }
 }
 

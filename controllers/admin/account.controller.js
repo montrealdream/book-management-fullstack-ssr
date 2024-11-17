@@ -3,23 +3,13 @@
  * @author GIANG TRƯỜNG
 */
 
-const Account = require('../../models/account.model');
-
-const bcrypt = require('bcrypt');
-const saltRounds = 10; // Số vòng lặp, càng cao càng an toàn
-
-const filterHelper = require('../../helper/filter.helper');
-const searchHelper = require('../../helper/search.helper');
-const paginationHelper = require('../../helper/pagination.helper');
-const generateHelper = require('../../helper/generate.helper');
-
 const AccountService = require('../../services/account.service');
 
 // [GET] /admin/accounts/
 module.exports.index = async (req, res) => {
     try {  
         const metadata = await AccountService.getListAccount(req.query);
-        
+
         const { records, filterStatusArray, keyword, paginationObject } = metadata;
 
         res.render("admin/pages/accounts/index", {

@@ -8,6 +8,8 @@ const Account = require('../models/account.model');
 const systemConfig = require('../config/system.config');
 const PATH_ADMIN = systemConfig.PATH_ADMIN; // đường dẫn /admin
 
+const jwt = require('jsonwebtoken');
+
 module.exports.requireAuth = async (req, res, next) => {
     try {
         const tokenAccount = req.cookies['acc']; // lấy token trên user
@@ -17,8 +19,12 @@ module.exports.requireAuth = async (req, res, next) => {
             return;
         }      
 
+        // verify token lấy về
+        const secret = process.env.JWT_SECRET;
+        const tokenVerify = jwt.verify(tokenAccount, secret);
+        
         const account = await Account.findOne({
-            token: tokenAccount, 
+            email: tokenVerify.email,
             status: "active",
             deleted: false
         }).select("-password")

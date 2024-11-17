@@ -16,13 +16,13 @@ const saltRounds = 10; // Số vòng lặp, càng cao càng an toàn
 
 // [GET] /admin/auth/login
 module.exports.loginUI = async (req, res) => {
-    try {
+    try {    
         res.render("admin/pages/auth/login", {
             title: "Đăng nhập"
         });
     }
     catch(error) {
-
+        console.log(error);
     }
 }
 
@@ -53,10 +53,18 @@ module.exports.login = async (req, res) => {
             return;
         }
 
+        // sử dụng jwt token để gán login
+        const payload = { id: account._id, email: account.email }
+        const secret  = process.env.JWT_SECRET;
+
+        const tokenJWT = jwt.sign(payload, secret, {
+            expiresIn: '2 days'
+        })
+
         //  set cookie 
-        const ONE_WEEK =  7* 24 * 60 * 1000; // thời gian hết hạn cookie
-        res.cookie('acc', account.token, { 
-            expires: new Date(Date.now() + ONE_WEEK), 
+        const TWO_DAYS =  2* 24 * 60 * 1000; // thời gian hết hạn cookie
+        res.cookie('acc', tokenJWT, { 
+            expires: new Date(Date.now() + TWO_DAYS), 
             httpOnly: true 
         });
 

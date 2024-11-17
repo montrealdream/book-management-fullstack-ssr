@@ -9,52 +9,27 @@ const filterHelper = require('../../helper/filter.helper');
 const searchHelper = require('../../helper/search.helper');
 const paginationHelper = require('../../helper/pagination.helper');
 
+const RoleService = require('../../services/role.service');
+
 // [GET] /admin/roles/
 module.exports.index = async (req, res) => {
     try {  
-        // mặc định sẽ lấy ra những sản phẩm chưa bị xóa
-        const findObject = {
-            deleted: false
-        }
-
-        // bộ lọc trạng thái
-        if(req.query.status) findObject.status = req.query.status;
-        const filterStatusArray = filterHelper.filterStatus(req.query);
-
-        // tính năng tìm kiếm theo keyword
-        let keyword = "";
-        const searchObject = searchHelper.searchKeyword(req.query);
-        if(searchObject.keywordRegex !== "")
-            findObject.title = searchObject.keywordRegex;
-
-        // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
-        const quantityRecords = await Role.countDocuments(findObject);
         
-        // sắp xếp
-        const sortObject = {};
-        let sortKey =   req.query.sortKey || 'position';
-        let sortValue = req.query.sortValue || 'desc';
-        sortObject[sortKey] = sortValue;
+        const metadata = await RoleService.getListRole(req.query);
 
-        // phân trang
-        const paginationObject = paginationHelper.pagination(req.query, quantityRecords);
+        const { records, filterStatusArray, keyword, paginationObject } = metadata;
 
-        // tìm kiếm database
-        const records  = await Role.find(findObject)
-                                        .limit(paginationObject.limit)
-                                        .skip(paginationObject.skip)
-                                        .sort(sortObject)
-        
         res.render("admin/pages/roles/index", {
             title: "Danh sách nhóm quyền",
             records,
             filterStatusArray, // khối giao diện bộ lọc trạng thái
-            keyword: searchObject.keyword,
+            keyword: keyword,
             paginationObject
         });
     }
     catch(error) {
         console.log("Danh nhóm quyền khoản xảy ra lỗi");
+        console.log(error);
     }
 }
 
@@ -63,14 +38,7 @@ module.exports.deleteSoft = async (req, res) => {
     try {
         const id = req.params.id;
 
-        // xóa mềm
-        await Role.updateOne(
-            {
-                _id: id
-            }, {
-                deleted: true
-            }
-        );
+        await RoleService.deleteSoft(id);
 
         req.flash('success', 'Xóa nhóm quyền thành công');
         res.redirect('back');
@@ -95,10 +63,7 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/roles/create
 module.exports.create = async (req, res) => {
     try {   
-
-        // tạo bản ghi mới và lưu vào db
-        const record  = new Role(req.body);
-        await record.save();
+        await RoleService.create(req.body);
 
         req.flash('success', 'Tạo danh mục thành công');
         res.redirect('back');
@@ -113,8 +78,7 @@ module.exports.editUI = async (req, res) => {
     try {
         const id = req.params.id; // id của nhóm quyền muốn chỉnh sửa
 
-        // tìm kiếm database
-        const record = await Role.findOne({_id: id});
+        await RoleService.getRoleById(id);
 
         res.render("admin/pages/roles/edit", {
             title: "Chỉnh sửa quyền",
@@ -131,12 +95,7 @@ module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await Role.updateOne(
-            {
-                _id: id
-            }, 
-            req.body
-        )
+        await RoleService.edit(id, req.body);
         req.flash('success', 'Chỉnh sửa thành công');
         res.redirect('back');  
     }
@@ -149,8 +108,7 @@ module.exports.edit = async (req, res) => {
 module.exports.permissionUI = async (req, res) => {
     try {
 
-        const roles = await Role.find({deleted: false})
-                                    .select("-description")
+        const roles = await RoleService.permissionUI();
 
         res.render("admin/pages/roles/permissions", {
             title: "Phân quyền",
@@ -168,15 +126,7 @@ module.exports.permission = async (req, res) => {
         
         const permission = JSON.parse(req.body.perrmision);
 
-        permission.forEach( async item => {
-            const {id, permissions} = item;
-            
-            await Role.updateOne({
-                _id: id
-            }, {
-                permissions: permissions
-            });
-        });
+        await RoleService.permission(permission);
         
         req.flash('success', 'Phân quyền thành công');
 
@@ -184,6 +134,6 @@ module.exports.permission = async (req, res) => {
 
     }
     catch(error) {
-
+        console.log('Lỗi phân quyền', error);
     }
 }

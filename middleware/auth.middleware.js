@@ -36,7 +36,7 @@ module.exports.requireAuth = async (req, res, next) => {
         }         
         
         // lấy nhóm quyền mà account này có
-
+        
         res.locals.account = account;
         // respone nhóm quyền của account
 

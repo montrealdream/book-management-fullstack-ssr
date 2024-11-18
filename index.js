@@ -25,7 +25,8 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // template engines
 app.set('views', './views');

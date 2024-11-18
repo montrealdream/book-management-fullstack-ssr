@@ -601,6 +601,18 @@ if(tablePermission && buttonUpdatePermission) {
 }
 // hết xử lý phân quyền
 
+// Cài đặt chung 
+const formSettingGeneral = document.querySelector("#form-setting-general");
+if(formSettingGeneral) {
+    // formSettingGeneral.addEventListener("submit", event => {
+    //     event.preventDefault();
+    //     console.log(formSettingGeneral.websiteName.value);
+    // });
+    // sự kiện upload ảnh khi nhấn vào
+    uploadImgEvent(formSettingGeneral);
+}
+// Hết Cài đặt chung 
+
 // Đóng các tab con khi nhấn ra ngoài html -- cái này nên để cuối cùng
 // clickOutSide()
 document.addEventListener("click", (event) => {

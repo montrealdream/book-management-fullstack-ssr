@@ -11,6 +11,7 @@ const productCategoryRoute = require('./product-category.route');
 const accountRoute = require('./accounts.route');
 const roleRoute = require('./role.route.js');
 const authRoute = require('./auth.route.js');
+const settingRoute = require('./setting.route.js');
 
 const authenMiddleware = require('../../middleware/auth.middleware.js');
 
@@ -47,6 +48,12 @@ module.exports = (app) => {
         authenMiddleware.requireAuth,
         roleRoute
     );
+
+    app.use(
+        PATH_ADMIN + '/setting',
+        authenMiddleware.requireAuth,
+        settingRoute
+    )
 
     // trang đăng nhập thì không cần private router
     app.use(

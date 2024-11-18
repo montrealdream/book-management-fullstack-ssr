@@ -1,0 +1,98 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/box-head
+include ../../mixins/alert
+include ../../mixins/upload-image
+
+//- Title
+block title 
+    title #{title}
+
+//- Mai Title
+block main
+    +alert-success
+    +alert-warning
+    +alert-error
+    
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Cài đặt",
+            "Cài đặt chung"
+        ]
+        
+    +box-head-use-breadcrumb("CÀI ĐẶT CHUNG", breadcrumbArray)
+
+    //- card
+    div(class="card")
+        div(class="card__body")
+            form(
+                id="form-setting-general"
+                action=`${path_admin}/setting/general/?_method=PATCH`
+                class="form form__create"
+                method="POST" 
+                enctype="multipart/form-data"
+            )
+                div(class="form__left-account")
+                    div(class="form__item")
+                        label(for="websiteName" class="label") Tên Website
+                        input(
+                            id="websiteName"
+                            name="websiteName"
+                            type="text"
+                            value=record.websiteName
+                            placeholder="Nhập tên website của bạn"
+                        )
+                    div(class="form__item")
+                        label(for="email" class="label") Email
+                        input(
+                            id="email"
+                            name="email"
+                            value=record.email
+                            type="text"
+                            placeholder="Nhập email của bạn"
+                        )
+                    div(class="form__item")
+                        label(for="tel" class="label") Số điện thoại
+                        input(
+                            id="tel"
+                            name="tel"
+                            value=record.tel
+                            type="text"
+                            placeholder="Nhập số điện thoại của bạn"
+                        )
+                    div(class="form__item")
+                        label(for="address" class="label") Địa chỉ
+                        input(
+                            id="address"
+                            name="address"
+                            value=record.address
+                            type="text"
+                            placeholder="Nhập địa chỉ của bạn"
+                        )
+                    div(class="form__item")
+                        label(for="copyright" class="label") Copyright
+                        input(
+                            id="copyright"
+                            name="copyright"
+                            value=record.copyright
+                            type="text"
+                            placeholder="Nhập tên nhóm quyền của bạn"
+                        )
+                     
+                div(class="form__right-account")  
+                    div(class="form__item")
+                        label(for=""  class="label") Logo
+                        +upload-avatar("logo", record.logo)
+
+                div(class="form__submit")
+                    button(type="submit" class="button button__outline") Cập nhật
+block script 
+    //- tiny-mce
+    script(src="/tinymce/tinymce.min.js")
+    script(src="/admin/js/tinymce-config.js")
+    //- hết tiny-mce
+
+    script(type='module' src="/admin/js/script.js")

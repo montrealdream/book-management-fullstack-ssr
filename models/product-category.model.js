@@ -15,7 +15,7 @@ const productCategorySchema = new mongoose.Schema(
     {
         title: { type: String, required: true },
         slug: { type: String, slug: "title", unique: true },
-        parent_category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'products-category' },     // id danh mục cha nếu có
+        parent_category_id: { type: String, default: "" },     // id danh mục cha nếu có
         description: String,
         thumbnail:  { type: String, required: true },
         status: { type: String, enum: ['active', 'inactive'], default: 'active' },  

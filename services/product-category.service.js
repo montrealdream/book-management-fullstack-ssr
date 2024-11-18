@@ -22,7 +22,7 @@ class ProductCategoryService {
 
         // tạo cây danh mục
         const listProductsCategoryTree = createTreeHelper(listProductsCategory);
-        
+
         return listProductsCategoryTree;
     }
 

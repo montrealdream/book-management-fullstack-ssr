@@ -109,18 +109,32 @@ if(formChangeStatus) {
     listButtonStatusId.forEach(button => {
         //  lắng nghe sự kiện
         button.addEventListener("click", (evnet) => {
-            const id = button.getAttribute("button-status-id");
-            let status = button.getAttribute("button-status");
 
-            // đảo trạng thái của status
-            status = (status === "active" ? "inactive" : "active");
-            
-            // url: ..../change-status/:id/:status
-            const action = path + `/${id}/${status}/?_method=PATCH` 
-
-            // submit form
-            formChangeStatus.action = action
-            formChangeStatus.submit();
+            Swal.fire({
+                title: "Bạn có chắc muốn thay đổi trạng thái",
+                input: "Nếu thay đổi trạng thái tài khoản hãy chú ý tài khoản của bạn",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6", // màu nút xác nhận
+                cancelButtonColor: "#d33", // màu nút từ chối
+                confirmButtonText: "Vẫn thay đổi!",
+                cancelButtonText: "Không thay đổi"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const id = button.getAttribute("button-status-id");
+                    let status = button.getAttribute("button-status");
+        
+                    // đảo trạng thái của status
+                    status = (status === "active" ? "inactive" : "active");
+                    
+                    // url: ..../change-status/:id/:status
+                    const action = path + `/${id}/${status}/?_method=PATCH` 
+        
+                    // submit form
+                    formChangeStatus.action = action
+                    formChangeStatus.submit();
+                }
+            });
         });
     })
 }
@@ -161,11 +175,26 @@ if(listButtonDelete.length > 0) {
              * url: .../delete-soft/id
              * /?method=PATCH ghi đè phương thức npm method override
              */
-            let action = path + `/${id}` + '/?_method=PATCH';
+            Swal.fire({
+                title: "Bạn có chắc muốn xóa",
+                input: "Sau khi xóa sẽ không khôi phục lại được",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6", // màu nút xác nhận
+                cancelButtonColor: "#d33", // màu nút từ chối
+                confirmButtonText: "Vẫn xóa!",
+                cancelButtonText: "Không xóa"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let action = path + `/${id}` + '/?_method=PATCH';
 
-            // submit form
-            formDeleteSoft.action = action;
-            formDeleteSoft.submit();
+                    // submit form
+                    formDeleteSoft.action = action;
+                    formDeleteSoft.submit();
+                }
+            });
+
+
         });
     });
 }

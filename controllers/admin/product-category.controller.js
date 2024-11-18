@@ -86,7 +86,7 @@ module.exports.create = async (req, res) => {
         res.redirect('back');
     }
     catch(error) {
-
+        console.log('Lỗi táo sản phẩm', error);
     }
 }
 

@@ -81,7 +81,7 @@ module.exports.create = async (req, res) => {
         res.redirect('back');
     }
     catch(error) {
-
+        console.log('Lỗi tạo danh mục', error);
     }
 }
 
@@ -92,7 +92,7 @@ module.exports.editUI = async (req, res) => {
         const listProductsCategoryTree = await ProductCategoryService.treeProductCategory();
 
         // tìm kiếm database
-        const record = await ProductService.findProductById(req.params.id);
+        const { record } = await ProductService.findProductById(req.params.id);
         
         res.render("admin/pages/products/edit", {
             title: "Chỉnh sửa",
@@ -102,7 +102,7 @@ module.exports.editUI = async (req, res) => {
         
     }
     catch(error) {
-
+        console.log('Trang chỉnh sửa sản phẩm', error);
     }
 }
 

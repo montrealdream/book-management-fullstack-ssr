@@ -54,13 +54,12 @@ class ProductService {
     }
 
     // lấy sản phẩm theo ID
-    static async findProductById({product_id}) {
+    static async findProductById(product_id) {
         // tìm kiếm database
-        const record = await Product.findOne({_id: id});
+        const record = await Product.findOne({_id: product_id, deleted: false});
 
         return {
             record,
-
         }
     }
 

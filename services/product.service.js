@@ -26,10 +26,7 @@ class ProductService {
         const filterStatusArray = filterHelper.filterStatus(query);
 
         // tìm kiếm theo keyword
-        let keyword = "";
-        const searchObject = searchHelper.searchKeyword(query);
-        if(searchObject.keywordRegex !== "")
-            findObject.title = searchObject.keywordRegex;
+        const { keyword, title, slug } = searchHelper.searchKeywordAdvanced(query);
 
         // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
         const quantityRecords = await Product.countDocuments(findObject);
@@ -41,14 +38,36 @@ class ProductService {
         const paginationObject = paginationHelper.pagination(query, quantityRecords);
 
         // tìm kiếm database
-        const records  = await Product.find(findObject)
-                                    .limit(paginationObject.limit)
-                                    .skip(paginationObject.skip)
-                                    .sort(sortObject)
+        let records = {};
+
+        if(title && slug) {
+            console.log('findObject ::: ', findObject);
+            console.log('keyword ::: ', keyword);
+            console.log('title ::: ', title);
+            console.log('slug:::', slug);
+            records  = await Product
+                .find({
+                    $or: [ {title: title}, {slug: slug} ],
+                    ...findObject                     
+                })                            
+                .limit(paginationObject.limit)
+                .skip(paginationObject.skip)
+                .sort(sortObject)                               
+        }
+
+        else {
+            records  = await Product.find({
+                ...findObject
+            })
+                                        .limit(paginationObject.limit)
+                                        .skip(paginationObject.skip)
+                                        .sort(sortObject)
+        }
+
         return {
             records,
             filterStatusArray,
-            keyword: searchObject.keyword,
+            keyword,
             paginationObject
         }
     }

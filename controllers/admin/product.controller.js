@@ -7,11 +7,13 @@
 const ProductService = require('../../services/product.service');
 const ProductCategoryService = require('../../services/product-category.service');
 
+const searchHelper = require('../../helper/search.helper');
 
 // [GET] /admin/products/
 module.exports.index = async (req, res) => {
     try {  
-        
+        searchHelper.searchKeywordAdvanced(req.query)
+
         const metadata = await ProductService.getListProduct(req.body, req.query);
 
         const { records, filterStatusArray, keyword, paginationObject } = metadata;

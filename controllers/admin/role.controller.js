@@ -15,9 +15,14 @@ const RoleService = require('../../services/role.service');
 module.exports.index = async (req, res) => {
     try {  
         
-        const metadata = await RoleService.getListRole(req.query);
+        const metadata = await RoleService.findAll(req.query);
 
-        const { records, filterStatusArray, keyword, paginationObject } = metadata;
+        const { 
+            records, 
+            filterStatusArray, 
+            keyword, 
+            paginationObject 
+        } = metadata;
 
         res.render("admin/pages/roles/index", {
             title: "Danh sách nhóm quyền",
@@ -38,7 +43,7 @@ module.exports.deleteSoft = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await RoleService.deleteSoft(id);
+        const {code, message, record} = await RoleService.deleteSoft(id);
 
         req.flash('success', 'Xóa nhóm quyền thành công');
         res.redirect('back');
@@ -63,7 +68,7 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/roles/create
 module.exports.create = async (req, res) => {
     try {   
-        await RoleService.create(req.body);
+        const {code, message, record} = await RoleService.create(req.body);
 
         req.flash('success', 'Tạo danh mục thành công');
         res.redirect('back');
@@ -78,7 +83,7 @@ module.exports.editUI = async (req, res) => {
     try {
         const id = req.params.id; // id của nhóm quyền muốn chỉnh sửa
 
-        await RoleService.getRoleById(id);
+        const {code, message, record} = await RoleService.findById(id);
 
         res.render("admin/pages/roles/edit", {
             title: "Chỉnh sửa quyền",
@@ -95,7 +100,7 @@ module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await RoleService.edit(id, req.body);
+        const {code, message, record} = await RoleService.edit(id, req.body);
         req.flash('success', 'Chỉnh sửa thành công');
         res.redirect('back');  
     }

@@ -4,6 +4,7 @@
 */
 
 const Account = require('../models/account.model');
+const Role = require('../models/role.model');
 
 const systemConfig = require('../config/system.config');
 const PATH_ADMIN = systemConfig.PATH_ADMIN; // đường dẫn /admin
@@ -33,10 +34,16 @@ module.exports.requireAuth = async (req, res, next) => {
         if(!account) {
             res.redirect(PATH_ADMIN + '/auth/login');
             return;
-        }         
+        }
         
+        // lấy nhóm quyền
+        const role = await Role.findOne({
+            _id: account.role_id,
+        }).select('-description')
+
         // lấy nhóm quyền mà account này có
-        
+        res.locals.role = role;
+
         res.locals.account = account;
         // respone nhóm quyền của account
 

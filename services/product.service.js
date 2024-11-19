@@ -14,56 +14,33 @@ const createTreeHelper = require('../helper/createTree.helper');
 const sortHelper = require('../helper/sort.helper');
 
 class ProductService {
-    // lấy danh sách sản phẩm
-    static async getListProduct(body, query) {
-        // mặc định sẽ lấy ra những sản phẩm chưa bị xóa
-        const findObject = {
-            deleted: false
-        }
-
-        // bộ lọc trạng thái
-        if(query.status) findObject.status = query.status;
+    // Tìm danh sách sản phẩm
+    static async findAll(query) {
+        const filter = { deleted: false }
+    
+        if(query.status) filter.status = query.status;
         const filterStatusArray = filterHelper.filterStatus(query);
-
+        
         // tìm kiếm theo keyword
         const { keyword, title, slug } = searchHelper.searchKeywordAdvanced(query);
-
-        // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
-        const quantityRecords = await Product.countDocuments(findObject);
-
+    
         // sắp xếp
         const sortObject = sortHelper.sortQuery(query);
-
+    
+        // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
+        const quantityRecords = await Product.countDocuments(filter);
+    
         // phân trang
         const paginationObject = paginationHelper.pagination(query, quantityRecords);
-
-        // tìm kiếm database
-        let records = {};
-
+    
         if(title && slug) {
-            console.log('findObject ::: ', findObject);
-            console.log('keyword ::: ', keyword);
-            console.log('title ::: ', title);
-            console.log('slug:::', slug);
-            records  = await Product
-                .find({
-                    $or: [ {title: title}, {slug: slug} ],
-                    ...findObject                     
-                })                            
-                .limit(paginationObject.limit)
-                .skip(paginationObject.skip)
-                .sort(sortObject)                               
+            filter["$or"] = [ { title }, { slug } ];
         }
-
-        else {
-            records  = await Product.find({
-                ...findObject
-            })
-                                        .limit(paginationObject.limit)
-                                        .skip(paginationObject.skip)
-                                        .sort(sortObject)
-        }
-
+    
+        const records  = await Product.find(filter)
+                                .limit(paginationObject.limit)
+                                .skip(paginationObject.skip)
+                                .sort(sortObject)
         return {
             records,
             filterStatusArray,
@@ -73,30 +50,34 @@ class ProductService {
     }
 
     // lấy sản phẩm theo ID
-    static async findProductById(product_id) {
-        // tìm kiếm database
-        const record = await Product.findOne({_id: product_id, deleted: false});
+    static async findById(product_id) {
+        const record = await Product.findOne( {
+            _id: product_id,
+            deleted: false
+        });
 
         return {
-            record,
-        }
+            code: 200,
+            message: 'Tìm sản phẩm thành công',
+            record
+        };
     }
 
     // tạo sản phẩm
-    static async createProduct(body) {
+    static async createProduct(payload) {
         // format lại một số trường về định dạng number
-        body.price = parseInt(body.price);
-        body.discountPercentage = parseInt(body.discountPercentage);
-        body.stock = parseInt(body.stock);
+        payload.price = parseInt(payload.price);
+        payload.discountPercentage = parseInt(payload.discountPercentage);
+        payload.stock = parseInt(payload.stock);
 
-        if(body.position === "") {
-            body.position = await Product.countDocuments({
+        if(payload.position === "") {
+            payload.position = await Product.countDocuments({
                 status: "active",
                 deleted: false,
             }) + 1;
         }
 
-        else body.position = parseInt(body.position);
+        else payload.position = parseInt(payload.position);
 
         // upload một ảnh vào thư mục local
         // req.body[req.file.fieldname] = `/uploads/${req.file.filename}`;
@@ -105,32 +86,56 @@ class ProductService {
         // req.body[req.files[0].fieldname] = req.files.map(item => `/uploads/${item.filename}`);
 
         // tạo bản ghi mới và lưu vào db
-        const record  = new Product(body);
+        const record  = new Product(payload);
         await record.save();
+
         return {
-            code: 'xxx',
+            code: 200,
+            message: ' Tạo sản phẩm thành công',
+            record
+        }
+    }
+
+    // chỉnh sửa sản phẩm
+    static async edit (product_id, payload) {
+        // format lại một số trường về định dạng number
+        payload.price = parseInt(payload.price);
+        payload.discountPercentage = parseInt(payload.discountPercentage);
+        payload.stock = parseInt(payload.stock);
+
+        if(payload.position === "") {
+            payload.position = await Product.countDocuments({
+                status: "active",
+                deleted: false,
+            }) + 1;
+        }
+
+        else payload.position = parseInt(payload.position);
+
+        const record = await Product.updateOne(
+            {
+                _id: product_id
+            }, 
+            payload
+        )
+
+        return {
+            code: 200,
+            message: ' Tạo sản phẩm thành công',
             record
         }
     }
 
     // thay đổi trạng thái sản phẩm
-    static async changeStatus(product_id, product_status) {
+    static async changeStatus (product_id, status) {
         const statusValid = ["active", "inactive"];
-
-        if(statusValid.includes(product_status) === false) return {
-            code: 404,
-            message: 'Thay đổi sản phẩm thất bại'
-        }
-
-        // cập nhật trạng thái
-        await Product.updateOne(
-            {
-                _id: product_id
-            },
-            {
-                status: product_status
+        if(statusValid.includes(status) === false) 
+            return {
+                code: 400,
+                message: 'Thay đổi trạng thái thất bại'
             }
-        );
+
+        await Product.updateOne({ _id: product_id }, { status: status });
 
         return {
             code: 200,
@@ -140,38 +145,11 @@ class ProductService {
 
     // xóa mềm sản phẩm
     static async deleteSoft(product_id) {
-        // xóa mềm
-        await Product.updateOne(
-            {
-                _id: product_id
-            }, {
-                deleted: true
-            }
-        );
-    }
-
-    // chỉnh sửa sản phẩm
-    static async edit (product_id, body) {
-        // format lại một số trường về định dạng number
-        body.price = parseInt(body.price);
-        body.discountPercentage = parseInt(body.discountPercentage);
-        body.stock = parseInt(body.stock);
-
-        if(body.position === "") {
-            body.position = await Product.countDocuments({
-                status: "active",
-                deleted: false,
-            }) + 1;
+        await Product.updateOne({_id: product_id}, {deleted: true});
+        return {
+            code: 200,
+            message: 'Xóa sản phẩm thành công'
         }
-
-        else body.position = parseInt(body.position);
-
-        await Product.updateOne(
-            {
-                _id: product_id
-            }, 
-            body
-        )
     }
 }
 

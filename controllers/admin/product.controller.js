@@ -7,16 +7,17 @@
 const ProductService = require('../../services/product.service');
 const ProductCategoryService = require('../../services/product-category.service');
 
-const searchHelper = require('../../helper/search.helper');
-
 // [GET] /admin/products/
-module.exports.index = async (req, res) => {
+module.exports.index = async (req, res) => { 
     try {  
-        searchHelper.searchKeywordAdvanced(req.query)
+        const metadata = await ProductService.findAll(req.query);
 
-        const metadata = await ProductService.getListProduct(req.body, req.query);
-
-        const { records, filterStatusArray, keyword, paginationObject } = metadata;
+        const { 
+            records, 
+            filterStatusArray, 
+            keyword, 
+            paginationObject 
+        } = metadata;
 
         res.render("admin/pages/products/index", {
             title: "Danh sách sản phẩm",
@@ -25,40 +26,44 @@ module.exports.index = async (req, res) => {
             keyword,
             paginationObject
         });
-    }
+    } 
     catch(error) {
         console.log(error);
         console.log("Danh sách sản phẩm xảy ra lỗi");
     }
-
 }
 
 // [PATCH] /admin/products/change-status/:id/:status
 module.exports.changeStatus = async (req, res) => {
     try{
-        const product_id = req.params.id;
-        const product_status = req.params.status;
-        const record = await ProductService.changeStatus(product_id, product_status);
-        
-        if(record.status === 404) return req.flash('warning', record.message);
+        const {id, status} = req.params;
+        const { code, message } = await ProductService.changeStatus(id, status);
+
+        if(code === 400) {
+            req.flash('warning', message);
+            res.redirect('back');
+            return;
+        }
 
         req.flash('success', 'Thay đổi trạng thái sản phẩm thành công');
         res.redirect('back');
     }
     catch(error) {
-
+        console.log('Thay đổi trạng thái sản phẩm', error);
     }
 }
 
 // [PATCH] /admin/products/delete-soft/:id
 module.exports.deleteSoft = async (req, res) => {
     try {
-        await ProductService.deleteSoft(req.params.id);
+        const id = req.params.id;
+        const { code, message } = await ProductService.deleteSoft(id);
+
         req.flash('success', 'Xóa sản phẩm thành công');
         res.redirect('back');
     }
     catch(error) {
-
+        console.log('Lỗi xóa sản phẩm', error);
     }
 }
 
@@ -70,7 +75,7 @@ module.exports.createUI = async (req, res) => {
             listProductsCategoryTree: await ProductCategoryService.treeProductCategory()
         });
     }
-    catch(error) {
+    catch(error) {  
         console.log(error);
     }
 }
@@ -78,7 +83,7 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/products/create
 module.exports.create = async (req, res) => {
     try {
-        const record = await ProductService.createProduct(req.body);
+        const {code, message, record} = await ProductService.createProduct(req.body);
         req.flash('success', 'Tạo sản phẩm thành công');
         res.redirect('back');
     }
@@ -90,11 +95,13 @@ module.exports.create = async (req, res) => {
 // [GET] /admin/products/edit/:id
 module.exports.editUI = async (req, res) => {
     try {
+        const product_id = req.params.id;
+
         // tạo cây danh mục 
         const listProductsCategoryTree = await ProductCategoryService.treeProductCategory();
 
         // tìm kiếm database
-        const { record } = await ProductService.findProductById(req.params.id);
+        const {code, message, record} = await ProductService.findById(product_id);
         
         res.render("admin/pages/products/edit", {
             title: "Chỉnh sửa",
@@ -111,11 +118,11 @@ module.exports.editUI = async (req, res) => {
 // [PATCH] /admin/products/edit/:id
 module.exports.edit = async (req, res) => {
     try {
-        await ProductService.edit(req.params.id, req.body);
-        req.flash('success', 'Tạo sản phẩm thành công');
+        const {code, message, record} = await ProductService.edit(req.params.id, req.body);
+        req.flash('success', 'Chỉnh sửa sản phẩm thành công');
         res.redirect('back');  
     }
     catch(error) {
-
+        console.log("Lỗi tính năng chỉnh sửa sản phẩm", error);
     }
 }

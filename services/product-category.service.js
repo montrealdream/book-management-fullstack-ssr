@@ -15,6 +15,103 @@ const sortHelper = require('../helper/sort.helper');
 
 class ProductCategoryService {
 
+    // Tìm danh sách danh mục
+    static async findAll (query) {
+        const filter = { deleted: false }
+    
+        if(query.status) filter.status = query.status;
+        const filterStatusArray = filterHelper.filterStatus(query);
+        
+        // tìm kiếm theo keyword
+        const { keyword, title, slug } = searchHelper.searchKeywordAdvanced(query);
+    
+        // sắp xếp
+        const sortObject = sortHelper.sortQuery(query);
+    
+        // đếm số lượng sản phẩm (theo các tiêu chí bên trên)
+        const quantityRecords = await ProductCategory.countDocuments(filter);
+    
+        // phân trang
+        const paginationObject = paginationHelper.pagination(query, quantityRecords);
+    
+        if(title && slug) {
+            filter["$or"] = [ { title }, { slug } ];
+        }
+    
+        const records  = await ProductCategory.find(filter)
+                                .limit(paginationObject.limit)
+                                .skip(paginationObject.skip)
+                                .sort(sortObject)
+        return {
+            records,
+            filterStatusArray,
+            keyword,
+            paginationObject
+        }
+    }
+
+    // tìm kiếm một danh mục theo id
+    static async findById(category_id) {
+        // tìm kiếm database
+        const record = await ProductCategory.findOne({
+            _id: category_id,
+            deleted: false
+        });
+
+        return {
+            code: 200,
+            message: 'Tìm danh mục thành công',
+            record
+        };
+    }
+
+    // tạo mới danh mục
+    static async create(payload) {
+        if(payload.position === "") {
+            payload.position = await ProductCategory.countDocuments({
+                status: "active",
+                deleted: false,
+            }) + 1;
+        }
+
+        else payload.position = parseInt(payload.position);
+
+        // tạo bản ghi mới và lưu vào db
+        const record  = new ProductCategory(payload);
+        await record.save();
+
+        return {
+            code: 200,
+            message: 'Tạo mới danh mục thành công',
+            record
+        }
+    }
+    
+    // chỉnh sửa danh mục
+    static async edit(category_id, payload) {
+        if(payload.position === "") {
+            payload.position = await ProductCategory.countDocuments({
+                status: "active",
+                deleted: false,
+            }) + 1;
+        }
+
+        else payload.position = parseInt(payload.position);
+
+        const record = await ProductCategory.updateOne(
+            {
+                _id: category_id
+            }, 
+            payload
+        );
+
+        return {
+            code: 200,
+            message: 'Chỉnh sửa danh mục thành công',
+            record
+        }
+    }
+
     // tạo cây danh mục
     static async treeProductCategory() {
         // lấy ra danh sách danh mục
@@ -24,120 +121,6 @@ class ProductCategoryService {
         const listProductsCategoryTree = createTreeHelper(listProductsCategory);
 
         return listProductsCategoryTree;
-    }
-
-    // lấy danh sách danh mục
-    static async getListProductCategory(query) {
-        const findObject = { deleted: false }; // mặc định sẽ lấy ra những sản phẩm chưa bị xóa
-            
-        // bộ lọc trạng thái
-        if(query.status) findObject.status = query.status;
-        const filterStatusArray = filterHelper.filterStatus(query);
-
-        // tính năng tìm kiếm theo keyword
-        const searchObject = searchHelper.searchKeyword(query);
-        if(query.keyword) findObject.title = query.keyword;
-
-        // đếm số lượng danh mujc (theo các tiêu chí bên trên)
-        const quantityRecords = await ProductCategory.countDocuments(findObject);
-
-        // sắp xếp
-        const sortObject = sortHelper.sortQuery(query);
-
-        // phân trang
-        const paginationObject = paginationHelper.pagination(query, quantityRecords);
-
-        // tìm kiếm database
-        const records  = await ProductCategory.find(findObject)
-                                        .limit(paginationObject.limit)
-                                        .skip(paginationObject.skip)
-                                        .sort(sortObject)
-        return {
-            records,
-            filterStatusArray,
-            keyword: searchObject.keyword,
-            paginationObject
-        }
-    }
-
-    // thay đổi trạng thái danh mục
-    static async changeStatus(category_id, category_status) {
-        const statusValid = ["active", "inactive"];
-
-        if(statusValid.includes(category_status) === false) {
-            req.flash('warning', 'Trạng thái gửi lên không hợp lệ');
-            res.redirect('back');
-        }
-
-        // cập nhật trạng thái
-        await ProductCategory.updateOne(
-            {
-                _id: category_id
-            },
-            {
-                status: category_status
-            }
-        );
-    }
-
-    // xóa mềm sản phẩm
-    static async deleteSoft(category_id) {
-        // xóa mềm
-        await ProductCategory.updateOne(
-            {
-                _id: category_id
-            }, {
-                deleted: true
-            }
-        );
-    }
-
-    // tạo mới danh mục
-    static async create(body) {
-        if(body.position === "") {
-            body.position = await ProductCategory.countDocuments({
-                status: "active",
-                deleted: false,
-            }) + 1;
-        }
-
-        else body.position = parseInt(body.position);
-        
-        // upload một ảnh vào thư mục local
-        // req.body[req.file.fieldname] = `/uploads/${req.file.filename}`;
-
-        // upload nhiều ảnh vào thư mục local
-        // req.body[req.files[0].fieldname] = req.files.map(item => `/uploads/${item.filename}`);
-
-        // tạo bản ghi mới và lưu vào db
-        const record  = new ProductCategory(body);
-        await record.save();
-    }
-
-    // tìm kiếm một danh mục theo id
-    static async findCategoryById(category_id) {
-        // tìm kiếm database
-        const record = await ProductCategory.findOne({_id: category_id});
-        return record;
-    }
-
-    // chỉnh sửa danh mục
-    static async edit(category_id, body) {
-        if(body.position === "") {
-            body.position = await ProductCategory.countDocuments({
-                status: "active",
-                deleted: false,
-            }) + 1;
-        }
-
-        else body.position = parseInt(body.position);
-
-        await ProductCategory.updateOne(
-            {
-                _id: category_id
-            }, 
-            body
-        )
     }
 }
 

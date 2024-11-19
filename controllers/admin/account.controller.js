@@ -9,9 +9,14 @@ const RoleService = require('../../services/role.service');
 // [GET] /admin/accounts/
 module.exports.index = async (req, res) => {
     try {  
-        const metadata = await AccountService.getListAccount(req.query);
+        const metadata = await AccountService.findAll(req.query);
 
-        const { records, filterStatusArray, keyword, paginationObject } = metadata;
+        const { 
+            records, 
+            filterStatusArray, 
+            keyword, 
+            paginationObject 
+        } = metadata;
 
         res.render("admin/pages/accounts/index", {
             title: "Danh sách tài khoản",
@@ -30,15 +35,14 @@ module.exports.index = async (req, res) => {
 // [PATCH] /admin/accounts/change-status/:id/:status
 module.exports.changeStatus = async (req, res) => {
     try{
-        const statusValid = ["active", "inactive"];
+        
         const {id, status} = req.params;
-    
-        if(statusValid.includes(status) === false) {
-            req.flash('warning', 'Trạng thái gửi lên không hợp lệ');
+        const { code, message, record } = await AccountService.changeStatus(id, status);
+
+        if(code === 400) {
+            req.flash('warning', message);
             res.redirect('back');
         }
-
-        await AccountService.changeStatus(id, status);
 
         req.flash('success', 'Thay đổi trạng thái thành công');
         res.redirect('back');
@@ -53,7 +57,7 @@ module.exports.deleteSoft = async (req, res) => {
     try {
         const id = req.params.id;
 
-        await AccountService.deleteSoft(id);
+        const {code, message, record} = await AccountService.deleteSoft(id);
 
         req.flash('success', 'Xóa tài khoản thành công');
         res.redirect('back');
@@ -81,9 +85,9 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/accounts/create
 module.exports.create = async (req, res) => {
     try {   
-        const {status} = await AccountService.create(req.body);
+        const {code, message, record } = await AccountService.create(req.body);
 
-        if(status === false) {
+        if(code === 400) {
             req.flash('warning', 'Email đã tồn tại');
             res.redirect('back');
             return;
@@ -102,7 +106,7 @@ module.exports.editUI = async (req, res) => {
     try {
         const id = req.params.id; // id của sản phẩm
 
-        const record = await AccountService.getAccountById(id);
+        const {code, message, record} = await AccountService.findById(id);
         
         const {records} = await RoleService.getListRole(req.query);
 
@@ -123,9 +127,9 @@ module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const { status } = await AccountService.edit(id, req.body);
+        const { code, message, record } = await AccountService.edit(id, req.body);
 
-        if(status === false) {
+        if(code === 400) {
             req.flash('warning', 'Email đã tồn tại');
             res.redirect('back');
             return;

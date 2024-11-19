@@ -15,9 +15,14 @@ const ProductCategoryService = require('../../services/product-category.service'
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
     try {
-        const metadata = await ProductCategoryService.getListProductCategory(req.query);
+        const metadata = await ProductCategoryService.findAll(req.query);
 
-        const { records, filterStatusArray, keyword, paginationObject } = metadata;
+        const { 
+            records, 
+            filterStatusArray, 
+            keyword, 
+            paginationObject 
+        } = metadata;
 
         res.render("admin/pages/products-category/index", {
             title: "Danh mục sản phẩm",
@@ -81,8 +86,9 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/products-category/create
 module.exports.create = async (req, res) => {
     try {   
-        await ProductCategoryService.create(req.body);
-        req.flash('success', 'Tạo danh mục thành công');
+        const {code, message, record } = await ProductCategoryService.create(req.body);
+
+        req.flash('success', message);
         res.redirect('back');
     }
     catch(error) {
@@ -98,7 +104,7 @@ module.exports.editUI = async (req, res) => {
         // tạo cây danh mục
         const listProductsCategoryTree = await ProductCategoryService.treeProductCategory();
 
-        const record = await ProductCategoryService.findCategoryById(id);
+        const {code, message, record} = await ProductCategoryService.findById(id);
 
         res.render("admin/pages/products-category/edit", {
             title: "Chỉnh sửa",
@@ -117,7 +123,7 @@ module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
         
-        await ProductCategoryService.edit(id, req.body);
+        const {code, message, record } = await ProductCategoryService.edit(id, req.body);
 
         req.flash('success', 'Chỉnh sửa thành công');
         res.redirect('back');  

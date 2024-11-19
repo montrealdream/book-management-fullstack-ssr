@@ -70,7 +70,7 @@ module.exports.deleteSoft = async (req, res) => {
 // [GET] /admin/accounts/create
 module.exports.createUI = async (req, res) => {
     try {
-        const {records} = await RoleService.getListRole(req.query);
+        const {records} = await RoleService.findAll(req.query);
 
         res.render("admin/pages/accounts/create", {
             title: "Tạo tài khoản",
@@ -108,7 +108,7 @@ module.exports.editUI = async (req, res) => {
 
         const {code, message, record} = await AccountService.findById(id);
         
-        const {records} = await RoleService.getListRole(req.query);
+        const {records} = await RoleService.findAll(req.query);
 
         res.render("admin/pages/accounts/edit", {
             title: "Chỉnh sửa",
@@ -118,7 +118,7 @@ module.exports.editUI = async (req, res) => {
         
     }
     catch(error) {
-
+        console.log('Chỉnh sửa tài khoản quản trị lỗi', error);
     }
 }
 

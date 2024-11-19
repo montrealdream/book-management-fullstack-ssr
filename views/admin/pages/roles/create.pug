@@ -16,48 +16,51 @@ block main
     +alert-success
     +alert-warning
     +alert-error
-    //- box-head
-    -
-        var breadcrumbArray = 
-        [
-            "Dashboard",
-            "Nhóm Quyền",
-            "Thêm Mới Nhóm Quyền"
-        ]
-        
-    +box-head-use-breadcrumb("THÊM MỚI NHÓM QUYỀN", breadcrumbArray)
+    if(role.permissions.includes('roles_create'))
+        //- box-head
+        -
+            var breadcrumbArray = 
+            [
+                "Dashboard",
+                "Nhóm Quyền",
+                "Thêm Mới Nhóm Quyền"
+            ]
+            
+        +box-head-use-breadcrumb("THÊM MỚI NHÓM QUYỀN", breadcrumbArray)
 
-    //- card
-    div(class="card")
-        div(class="card__body")
-            form(
-                id="form-create-role"
-                action=`${path_admin}/roles/create`
-                method="post"
-                class="form form__create"
-            )   
-                div(class="form__normal")
-                    div(class="form__item")
-                        label(for="" class="label") Tên
-                        input(
-                            name="title"
-                            type="text"
-                            placeholder="Nhập tên nhóm quyền của bạn"
-                        )
-                    div(class="form__item")
-                        label(for="" class="label") Mô tả Nhóm Quyền
-                        textarea(
-                            name="description"
-                            rows="5"
-                            placeholder="Mô Tả Nhóm Quyền..."
-                            class="textarea-tinymce"
-                        )
+        //- card
+        div(class="card")
+            div(class="card__body")
+                form(
+                    id="form-create-role"
+                    action=`${path_admin}/roles/create`
+                    method="post"
+                    class="form form__create"
+                )   
+                    div(class="form__normal")
+                        div(class="form__item")
+                            label(for="" class="label") Tên
+                            input(
+                                name="title"
+                                type="text"
+                                placeholder="Nhập tên nhóm quyền của bạn"
+                            )
+                        div(class="form__item")
+                            label(for="" class="label") Mô tả Nhóm Quyền
+                            textarea(
+                                name="description"
+                                rows="5"
+                                placeholder="Mô Tả Nhóm Quyền..."
+                                class="textarea-tinymce"
+                            )
 
-                //- button submit
-                div(class="form__submit")
-                    button(type="submit" class="button button__outline") Tạo Mới
+                    //- button submit
+                    div(class="form__submit")
+                        button(type="submit" class="button button__outline") Tạo Mới
 
-    //- end card
+        //- end card
+    else 
+        h1(style="color:white") Bạn không có quyền truy cập
 block script 
     //- tiny-mce
     script(src="/tinymce/tinymce.min.js")

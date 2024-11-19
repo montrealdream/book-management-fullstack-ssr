@@ -17,163 +17,167 @@ block main
     +alert-success
     +alert-warning
     +alert-error
-    //- box-head
-    -
-        var breadcrumbArray = 
-        [
-            "Dashboard",
-            "Sản Phẩm",
-            "Chỉnh Sửa Sản Phẩm"
-        ]
-    +box-head-use-breadcrumb("CHỈNH SỬA SẢN PHẨM", breadcrumbArray)
+    if(role.permissions.includes('products_edit'))
+        //- box-head
+        -
+            var breadcrumbArray = 
+            [
+                "Dashboard",
+                "Sản Phẩm",
+                "Chỉnh Sửa Sản Phẩm"
+            ]
+        +box-head-use-breadcrumb("CHỈNH SỬA SẢN PHẨM", breadcrumbArray)
 
-    //- card
-    div(class="card")
-        div(class="card__body")
-            form(
-                id="form-create"
-                action=`${path_admin}/products/edit/${record.id}/?_method=PATCH`
-                class="form form__create"
-                method="POST" 
-                enctype="multipart/form-data"
-            )   
-                //- left
-                div(class="form__left")
-                    div(class="form__item")
-                        label(for="" class="label") Tên Sản Phẩm 
-                        input(
-                            type="text"
-                            name="title"
-                            value=record.title
-                            placeholder="Nhập tên của sản phẩm"
-                        )
-                        //- label() Không được nhập tên sản phẩm quá 20 ký tự.
+        //- card
+        div(class="card")
+            div(class="card__body")
+                form(
+                    id="form-create"
+                    action=`${path_admin}/products/edit/${record.id}/?_method=PATCH`
+                    class="form form__create"
+                    method="POST" 
+                    enctype="multipart/form-data"
+                )   
+                    //- left
+                    div(class="form__left")
+                        div(class="form__item")
+                            label(for="" class="label") Tên Sản Phẩm 
+                            input(
+                                type="text"
+                                name="title"
+                                value=record.title
+                                placeholder="Nhập tên của sản phẩm"
+                            )
+                            //- label() Không được nhập tên sản phẩm quá 20 ký tự.
 
-                    div(class="form__item")
-                        label(for="" class="label") Danh Mục Sản Phẩm
-                        select(
-                            name="parent_category_id" 
-                            class="select-tree"
-                        )
-                            option(value="") Danh mục  
-                            if(listProductsCategoryTree)
-                                +select-tree(listProductsCategoryTree, "", 0, record.parent_category_id)
-                                //- each item in listProductsCategoryTree
-                                //-     option(value=item.id) #{item.title}
+                        div(class="form__item")
+                            label(for="" class="label") Danh Mục Sản Phẩm
+                            select(
+                                name="parent_category_id" 
+                                class="select-tree"
+                            )
+                                option(value="") Danh mục  
+                                if(listProductsCategoryTree)
+                                    +select-tree(listProductsCategoryTree, "", 0, record.parent_category_id)
+                                    //- each item in listProductsCategoryTree
+                                    //-     option(value=item.id) #{item.title}
 
-                    div(class="form__item")
-                        label(for="" class="label") Mô tả Sản Phẩm
-                        textarea(
-                            name="description"
-                            rows="5"
-                            placeholder="Mô tả sản phẩm..."
-                            class="textarea-tinymce"
-                        ) #{record.description}
-                    
-                    div(class="form__item")
-                        label(for="" class="label") Giá
-                        input(
-                            type="text"
-                            name="price"
-                            value=record.price
-                            placeholder="Nhập giá của sản phẩm"
-                        )
-                    
-                    div(class="form__item")
-                        label(for="" class="label") Giảm giá
-                        input(
-                            type="text"
-                            name="discountPercentage"
-                            value=record.discountPercentage
-                            placeholder="Mặc định sẽ là giảm giá 0%"
-                        )
+                        div(class="form__item")
+                            label(for="" class="label") Mô tả Sản Phẩm
+                            textarea(
+                                name="description"
+                                rows="5"
+                                placeholder="Mô tả sản phẩm..."
+                                class="textarea-tinymce"
+                            ) #{record.description}
                         
-                    div(class="form__item")
-                        label(for="" class="label") Số lượng
-                        input(
-                            type="text"
-                            name="stock"
-                            value=record.stock
-                            placeholder="Nhập số lượng của sản phẩm"
-                        )
+                        div(class="form__item")
+                            label(for="" class="label") Giá
+                            input(
+                                type="text"
+                                name="price"
+                                value=record.price
+                                placeholder="Nhập giá của sản phẩm"
+                            )
+                        
+                        div(class="form__item")
+                            label(for="" class="label") Giảm giá
+                            input(
+                                type="text"
+                                name="discountPercentage"
+                                value=record.discountPercentage
+                                placeholder="Mặc định sẽ là giảm giá 0%"
+                            )
+                            
+                        div(class="form__item")
+                            label(for="" class="label") Số lượng
+                            input(
+                                type="text"
+                                name="stock"
+                                value=record.stock
+                                placeholder="Nhập số lượng của sản phẩm"
+                            )
+                        
+                        div(class="form__item")
+                            label(for="" class="label") Vị trí
+                            input(
+                                type="text"
+                                name="position"
+                                value=record.position
+                                placeholder="Vị trí tự động tăng"
+                            )
                     
-                    div(class="form__item")
-                        label(for="" class="label") Vị trí
-                        input(
-                            type="text"
-                            name="position"
-                            value=record.position
-                            placeholder="Vị trí tự động tăng"
-                        )
-                
-                //- right
-                div(class="form__right")
-                    div(class="form__item" upload-image)
-                        label(for=""  class="label") Upload Hình Ảnh 
-                        +upload-image("thumbnail", record.thumbnail, 3)
+                    //- right
+                    div(class="form__right")
+                        div(class="form__item" upload-image)
+                            label(for=""  class="label") Upload Hình Ảnh 
+                            +upload-image("thumbnail", record.thumbnail, 3)
 
-                        label(class="label label__desc" notice-image) 
-                            | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
-                    
-                    div(class="form__item")
-                        label(for="" class="label") Trạng thái
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="status-active"
-                                name="status"
-                                class=""
-                                checked=(record.status  === "active" ? true : false)
-                                value="active"
-                            )
-                            label(
-                                for="status-active"
-                            )   Hoạt động 
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="status-inactive"
-                                name="status"
-                                value="inactive"
-                                checked=(record.status  === "inactive" ? true : false)
-                                class=""
-                            )
-                            label(
-                                for="status-inactive"
-                            )   Dừng hoạt động 
-                    
-                    div(class="form__item")
-                        label(for="" class="label") Sản phẩm nổi bật
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="featured-active"
-                                name="featured"
-                                value="active"
-                                class=""
-                                checked=(record.featured  === "active" ? true : false)
-                            )
-                            label(
-                                for="featured-active"
-                            )   Nổi bật 
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="featured-inactive"
-                                name="featured"
-                                value="inactive"
-                                checked=(record.featured  === "inactive" ? true : false)
-                                class=""
-                            )
-                            label(
-                                for="featured-inactive"
-                            )   Không nổi bật
-                                
-                //- button submit
-                div(class="form__submit")
-                    button(type="submit" class="button button__outline") Cập nhật
+                            label(class="label label__desc" notice-image) 
+                                | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
+                        
+                        div(class="form__item")
+                            label(for="" class="label") Trạng thái
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="status-active"
+                                    name="status"
+                                    class=""
+                                    checked=(record.status  === "active" ? true : false)
+                                    value="active"
+                                )
+                                label(
+                                    for="status-active"
+                                )   Hoạt động 
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="status-inactive"
+                                    name="status"
+                                    value="inactive"
+                                    checked=(record.status  === "inactive" ? true : false)
+                                    class=""
+                                )
+                                label(
+                                    for="status-inactive"
+                                )   Dừng hoạt động 
+                        
+                        div(class="form__item")
+                            label(for="" class="label") Sản phẩm nổi bật
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="featured-active"
+                                    name="featured"
+                                    value="active"
+                                    class=""
+                                    checked=(record.featured  === "active" ? true : false)
+                                )
+                                label(
+                                    for="featured-active"
+                                )   Nổi bật 
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="featured-inactive"
+                                    name="featured"
+                                    value="inactive"
+                                    checked=(record.featured  === "inactive" ? true : false)
+                                    class=""
+                                )
+                                label(
+                                    for="featured-inactive"
+                                )   Không nổi bật
+                                    
+                    //- button submit
+                    div(class="form__submit")
+                        button(type="submit" class="button button__outline") Cập nhật
+        //- end card
 
-    //- end card
+    else 
+        h1(style="color:white") Bạn không có quyền truy cập
+
 block script 
     //- tiny-mce
     script(src="/tinymce/tinymce.min.js")

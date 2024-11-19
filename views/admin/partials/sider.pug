@@ -18,10 +18,13 @@ nav(class="sider")
                         |   Sản Phẩm
                 div(class="sider__menu-sub hidden")
                     ul(class="")
-                        li 
-                            a(href= path_admin + "/products") Danh sách sản phẩm
-                        li 
-                            a(href= path_admin + "/products/create") Thêm sản phẩm
+                        if(role.permissions.includes('products_view'))
+                            li 
+                                a(href= path_admin + "/products") Danh sách sản phẩm
+
+                        if(role.permissions.includes('products_create'))
+                            li 
+                                a(href= path_admin + "/products/create") Thêm sản phẩm
                         
                 li(sider__menu-item)
                     a(href="#" class)
@@ -29,10 +32,12 @@ nav(class="sider")
                         |   Danh Mục
                 div(class="sider__menu-sub hidden")
                     ul(class="")
-                        li 
-                            a(href= path_admin + "/products-category") Danh sách danh mục
-                        li 
-                            a(href= path_admin + "/products-category/create") Thêm danh mục
+                        if(role.permissions.includes('products-category_view'))
+                            li 
+                                a(href= path_admin + "/products-category") Danh sách danh mục
+                        if(role.permissions.includes('products-category_create'))
+                            li 
+                                a(href= path_admin + "/products-category/create") Thêm danh mục
                 
                 li(sider__menu-item)
                     a(href="#" class)
@@ -40,10 +45,12 @@ nav(class="sider")
                         |   Tài khoản
                 div(class="sider__menu-sub hidden")
                     ul(class="")
-                        li 
-                            a(href= path_admin + "/accounts") Danh sách tài khoản
-                        li 
-                            a(href= path_admin + "/accounts/create") Thêm tài khoản
+                        if(role.permissions.includes('accounts_view'))
+                            li 
+                                a(href= path_admin + "/accounts") Danh sách tài khoản
+                        if(role.permissions.includes('accounts_create'))
+                            li 
+                                a(href= path_admin + "/accounts/create") Thêm tài khoản
                 
                 li(sider__menu-item)
                     a(href="#" class)
@@ -51,12 +58,15 @@ nav(class="sider")
                         |   Nhóm Quyền
                 div(class="sider__menu-sub hidden")
                     ul(class="")
-                        li 
-                            a(href= path_admin + "/roles") Danh sách nhóm quyền
-                        li 
-                            a(href= path_admin + "/roles/create") Thêm nhóm quyền
-                        li 
-                            a(href= path_admin + "/roles/permission") Phân quyền
+                        if(role.permissions.includes('roles_view'))
+                            li 
+                                a(href= path_admin + "/roles") Danh sách nhóm quyền
+                        if(role.permissions.includes('roles_create'))
+                            li 
+                                a(href= path_admin + "/roles/create") Thêm nhóm quyền
+                        if(role.permissions.includes('roles_view'))
+                            li 
+                                a(href= path_admin + "/roles/permission") Phân quyền
         //- setting
         div(class="sider__menu")
             div(class="sider__menu-title") SETTING 
@@ -65,9 +75,10 @@ nav(class="sider")
                     a(href="#" class)
                         i(class="fa-solid fa-gear")
                         |   Cài đặt 
-                div(class="sider__menu-sub hidden")
-                    ul(class="")
-                        li 
-                            a(href= path_admin + "/setting/general") Cài đặt chung
-                        li 
-                            a(href="#") Cài đặt nâng cao
+                if(role.permissions.includes('setting_edit'))
+                    div(class="sider__menu-sub hidden")
+                        ul(class="")
+                            li 
+                                a(href= path_admin + "/setting/general") Cài đặt chung
+                            li 
+                                a(href="#") Cài đặt nâng cao

@@ -16,110 +16,114 @@ block main
     +alert-success
     +alert-warning
     +alert-error
-    //- box-head
-    -
-        var breadcrumbArray = 
-        [
-            "Dashboard",
-            "Tài Khoản",
-            "Tạo Tài Khoản"
-        ]
-        
-    +box-head-use-breadcrumb("TẠO TÀI KHOẢN", breadcrumbArray)
+    if(role.permissions.includes('accounts_create'))
+        //- box-head
+        -
+            var breadcrumbArray = 
+            [
+                "Dashboard",
+                "Tài Khoản",
+                "Tạo Tài Khoản"
+            ]
+            
+        +box-head-use-breadcrumb("TẠO TÀI KHOẢN", breadcrumbArray)
 
-    //- card
-    div(class="card")
-        div(class="card__body")
-            form(
-                id="form-create-account"
-                action=`${path_admin}/accounts/create`
-                class="form form__create"
-                method="post" 
-                enctype="multipart/form-data"
-            )   
-                //- div(class="form__normal")
-                //- left
-                div(class="form__left-account")
-                    div(class="form__item")
-                        label(for="" class="label") Họ và Tên
-                        input(
-                            type="text"
-                            name="fullName"
-                            placeholder="Nhập Họ và Tên của bạn"
-                        )
-
-                    div(class="form__item")
-                        label(for="" class="label") Vai trò
-                        select(name="role_id" class="")
-                            each item in roles
-                                option(value=item._id) #{item.title}
-
-                    div(class="form__item")
-                        label(for="" class="label") Email
-                        input(
-                            type="email"
-                            name="email"
-                            placeholder="Điền email của bạn"
-                        )
-
-                    div(class="form__item")
-                        label(for="" class="label") Số điện thoại
-                        input(
-                            type="text"
-                            name="tel"
-                            placeholder="Điền số điện thoại của bạn"
-                        )
-                        
-
-                    div(class="form__item")
-                        label(for="" class="label") Mật khẩu
-                        input(
-                            type="password"
-                            name="password"
-                            placeholder="Các kí tự đặc biệt cho phép : @, $, #, *, !, %, &"
-                        )
-                        div(class="icon-eye-password")
-                            <i class="fa-regular fa-eye"></i>
-
-                    div(class="form__item")
-                        label(for="" class="label") Trạng thái
-                        div(class="form__item-radio")
+        //- card
+        div(class="card")
+            div(class="card__body")
+                form(
+                    id="form-create-account"
+                    action=`${path_admin}/accounts/create`
+                    class="form form__create"
+                    method="post" 
+                    enctype="multipart/form-data"
+                )   
+                    //- div(class="form__normal")
+                    //- left
+                    div(class="form__left-account")
+                        div(class="form__item")
+                            label(for="" class="label") Họ và Tên
                             input(
-                                type="radio"
-                                id="status-active"
-                                name="status"
-                                value="active"
-                                class="checkbox"
-                                checked=true
+                                type="text"
+                                name="fullName"
+                                placeholder="Nhập Họ và Tên của bạn"
                             )
-                            label(
-                                for="status-active"
-                            )   Hoạt động 
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="status-inactive"
-                                name="status"
-                                value="inactive"
-                                class="checkbox"
-                            )
-                            label(
-                                for="status-inactive"
-                            )   Dừng hoạt động
-                                div(class="form__right")
-                
-                //- right
-                div(class="form__right-account")  
-                    div(class="form__item")
-                        label(for=""  class="label") Avatar
-                        +upload-avatar("avatar", "")
-                    //- label(class="label label__desc" notice-image) 
-                    //-     |   Hãy chú ý đến chất lượng hình ảnh bạn thêm vào.
-                //- button submit
-                div(class="form__submit")
-                    button(type="submit" class="button button__outline") Tạo Mới
 
-    //- end card
+                        div(class="form__item")
+                            label(for="" class="label") Vai trò
+                            select(name="role_id" class="")
+                                each item in roles
+                                    option(value=item._id) #{item.title}
+
+                        div(class="form__item")
+                            label(for="" class="label") Email
+                            input(
+                                type="email"
+                                name="email"
+                                placeholder="Điền email của bạn"
+                            )
+
+                        div(class="form__item")
+                            label(for="" class="label") Số điện thoại
+                            input(
+                                type="text"
+                                name="tel"
+                                placeholder="Điền số điện thoại của bạn"
+                            )
+                            
+
+                        div(class="form__item")
+                            label(for="" class="label") Mật khẩu
+                            input(
+                                type="password"
+                                name="password"
+                                placeholder="Các kí tự đặc biệt cho phép : @, $, #, *, !, %, &"
+                            )
+                            div(class="icon-eye-password")
+                                <i class="fa-regular fa-eye"></i>
+
+                        div(class="form__item")
+                            label(for="" class="label") Trạng thái
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="status-active"
+                                    name="status"
+                                    value="active"
+                                    class="checkbox"
+                                    checked=true
+                                )
+                                label(
+                                    for="status-active"
+                                )   Hoạt động 
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="status-inactive"
+                                    name="status"
+                                    value="inactive"
+                                    class="checkbox"
+                                )
+                                label(
+                                    for="status-inactive"
+                                )   Dừng hoạt động
+                                    div(class="form__right")
+                    
+                    //- right
+                    div(class="form__right-account")  
+                        div(class="form__item")
+                            label(for=""  class="label") Avatar
+                            +upload-avatar("avatar", "")
+                        //- label(class="label label__desc" notice-image) 
+                        //-     |   Hãy chú ý đến chất lượng hình ảnh bạn thêm vào.
+                    //- button submit
+                    div(class="form__submit")
+                        button(type="submit" class="button button__outline") Tạo Mới
+
+        //- end card
+    
+    else 
+        h1(style="color:white") Bạn không có quyền truy cập
 block script 
     //- tiny-mce
     script(src="/tinymce/tinymce.min.js")

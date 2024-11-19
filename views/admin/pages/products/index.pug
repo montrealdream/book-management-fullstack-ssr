@@ -17,129 +17,135 @@ block main
     +alert-success
     +alert-warning
     +alert-error
-    //- box-head
-    -
-        var breadcrumbArray = 
-        [
-            "Dashboard",
-            "Sản Phẩm",
-            "Danh Sách Sản Phẩm"
-        ]
-        
-    +box-head-use-breadcrumb("DANH SÁCH SẢN PHẨM", breadcrumbArray)
-    //- end box-head 
+    if(role.permissions.includes('products_view'))
+        //- box-head
+        -
+            var breadcrumbArray = 
+            [
+                "Dashboard",
+                "Sản Phẩm",
+                "Danh Sách Sản Phẩm"
+            ]
+            
+        +box-head-use-breadcrumb("DANH SÁCH SẢN PHẨM", breadcrumbArray)
+        //- end box-head 
 
-    //- card
-    div(class="card")
-        div(class="card__head") 
-            div(class="card__head-wrap")
-                //- filter
-                +filter-status(filterStatusArray)
-                //- left    
-                div(class="card__head-left")
-                    //- form search
-                    +form-search(keyword)
-                    //- select
-                    +select-sort
+        //- card
+        div(class="card")
+            div(class="card__head") 
+                div(class="card__head-wrap")
+                    //- filter
+                    +filter-status(filterStatusArray)
+                    //- left    
+                    div(class="card__head-left")
+                        //- form search
+                        +form-search(keyword)
+                        //- select
+                        +select-sort
 
-                //- right
-                div(class="card__head-right")
-                    //- add product
-                    a(href= path_admin + "/products/create" class="button button__outline")
-                        <i class="fa-solid fa-plus"></i>
-                        |   Thêm Mới
-               
+                    //- right
+                    if(role.permissions.includes('products_create'))
+                        div(class="card__head-right")
+                            //- add product
+                            a(href= path_admin + "/products/create" class="button button__outline")
+                                <i class="fa-solid fa-plus"></i>
+                                |   Thêm Mới
+                
 
-        div(class="card__body")
-            //- table
-            table(class="table") 
-                thead(class="table__head")
-                    tr 
-                        td 
-                            input(
-                                type = "checkbox"
-                                name=""
-                                class="checkbox-tick"
-                                check-box-all
-                            )
-                        th Sản Phẩm 
-                        th Danh Mục
-                        th Số lượng
-                        th Giá
-                        th Trạng Thái
-                        th 
-                    
-                tbody(class="table__body")
-                    each item in records 
+            div(class="card__body")
+                //- table
+                table(class="table") 
+                    thead(class="table__head")
                         tr 
                             td 
                                 input(
                                     type = "checkbox"
                                     name=""
                                     class="checkbox-tick"
-                                    check-box-single = item.id
+                                    check-box-all
                                 )
-                            td(class="table__title")
-                                img(
-                                    src=item.thumbnail[0]
-                                    alt=item.title
-                                )
+                            th Sản Phẩm 
+                            th Danh Mục
+                            th Số lượng
+                            th Giá
+                            th Trạng Thái
+                            th 
+                        
+                    tbody(class="table__body")
+                        each item in records 
+                            tr 
+                                td 
+                                    input(
+                                        type = "checkbox"
+                                        name=""
+                                        class="checkbox-tick"
+                                        check-box-single = item.id
+                                    )
+                                td(class="table__title")
+                                    img(
+                                        src=item.thumbnail[0]
+                                        alt=item.title
+                                    )
+                                    
+                                    h3 #{item.title}
                                 
-                                h3 #{item.title}
-                            
-                            td #{(item.category ? item.category : "Đang Cập Nhật")}
-                            td 
-                                if(item.stock > 0)
-                                    span(class="badge badge--active") #{item.stock} Trong Kho
+                                td #{(item.category ? item.category : "Đang Cập Nhật")}
+                                td 
+                                    if(item.stock > 0)
+                                        span(class="badge badge--active") #{item.stock} Trong Kho
+                                    else 
+                                        span(class="badge badge--inactive") Hết hàng
+                                        
+                                td #{item.price} VND
+                                
+                                if(role.permissions.includes('products_edit'))
+                                    td 
+                                        span(
+                                            class=`badge badge--${item.status}`
+                                            button-status-id = item.id
+                                            button-status = item.status
+                                        ) #{item.status === 'active' ? 'Hoạt động' : ' Dừng hoạt động'}
+                                            
                                 else 
-                                    span(class="badge badge--inactive") Hết hàng
-                                    
-                            td #{item.price} VND
-                            
-                            td 
-                                if(item.status == "active")
-                                    span(
-                                        class="badge badge--active"
-                                        button-status-id = item.id
-                                        button-status = "active"
-                                    ) Hoạt động
-                                    
-                                else 
-                                    span(
-                                        class="badge badge--inactive"
-                                        button-status-id = item.id
-                                        button-status = "inactive"
-                                    ) Dừng hoạt động
-                            td
-                                div(class="table__option-icon")
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                    div(class="table__option-tab hidden")
-                                        ul 
-                                            li 
-                                                a(href=path_admin + `/products/edit/${item.id}`) Chỉnh Sửa
-                                            li 
-                                                a(href="#") Xem Chi Tiết
-                                            li 
-                                                a(
-                                                    href="javascript:;"
-                                                    button-delete-soft=item.id
-                                                ) Xóa
+                                    td 
+                                        span(
+                                            class=`badge badge--${item.status}`
+                                        ) #{item.status === 'active' ? 'Hoạt động' : ' Dừng hoạt động'}
 
-                    //- end table
-        
-        div(class="card__footer")
-            div(class="card__footer-left")
-            div(class="card__footer-right")
-                +pagination(paginationObject)
+                                td
+                                    div(class="table__option-icon")
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        div(class="table__option-tab hidden")
+                                            ul 
+                                                if(role.permissions.includes('products_edit'))
+                                                    li 
+                                                        a(href=path_admin + `/products/edit/${item.id}`) Chỉnh Sửa
+                                                li 
+                                                    a(href="#") Xem Chi Tiết
+                                                if(role.permissions.includes('products_delete'))
+                                                    li 
+                                                        a(
+                                                            href="javascript:;"
+                                                            button-delete-soft=item.id
+                                                        ) Xóa
 
-        //- form đổi trạng thái item
-        +form-execute("form-change-status", '/products/change-status')
+                        //- end table
+            
+            div(class="card__footer")
+                div(class="card__footer-left")
+                div(class="card__footer-right")
+                    +pagination(paginationObject)
 
-        //- form xóa mềm sản phẩm
-        +form-execute("form-delete-soft", '/products/delete-soft')
-        
-    //- end card 
+            //- form đổi trạng thái item
+            +form-execute("form-change-status", '/products/change-status')
 
+            //- form xóa mềm sản phẩm
+            +form-execute("form-delete-soft", '/products/delete-soft')
+            
+        //- end card 
+
+    else 
+        h1(style="color:white") Bạn không có quyền truy cập
 
 block script 
     script(type='module' src="/admin/js/script.js")

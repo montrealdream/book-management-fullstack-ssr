@@ -14,19 +14,19 @@ block main
     +alert-success
     +alert-warning
     +alert-error
-    
-    -
-        var breadcrumbArray = 
-        [
-            "Dashboard",
-            "Cài đặt",
-            "Cài đặt chung"
-        ]
-        
-    +box-head-use-breadcrumb("CÀI ĐẶT CHUNG", breadcrumbArray)
+    if(role.permissions.includes('setting_edit'))
+        -
+            var breadcrumbArray = 
+            [
+                "Dashboard",
+                "Cài đặt",
+                "Cài đặt chung"
+            ]
+            
+        +box-head-use-breadcrumb("CÀI ĐẶT CHUNG", breadcrumbArray)
 
-    //- card
-    div(class="card")
+        //- card
+        div(class="card")
         div(class="card__body")
             form(
                 id="form-setting-general"
@@ -89,6 +89,7 @@ block main
 
                 div(class="form__submit")
                     button(type="submit" class="button button__outline") Cập nhật
+
 block script 
     //- tiny-mce
     script(src="/tinymce/tinymce.min.js")

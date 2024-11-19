@@ -17,104 +17,107 @@ block main
     +alert-success
     +alert-warning
     +alert-error
-    //- box-head
-    -
-        var breadcrumbArray = 
-        [
-            "Dashboard",
-            "Danh Mục",
-            "Chỉnh sửa Danh Mục"
-        ]
+    if(role.permissions.includes('products-category_edit'))
+        //- box-head
+        -
+            var breadcrumbArray = 
+            [
+                "Dashboard",
+                "Danh Mục",
+                "Chỉnh sửa Danh Mục"
+            ]
         
-    +box-head-use-breadcrumb("CHỈNH SỬA DANH MỤC", breadcrumbArray)
+        +box-head-use-breadcrumb("CHỈNH SỬA DANH MỤC", breadcrumbArray)
 
-    //- card
-    div(class="card")
-        div(class="card__body")
-            form(
-                id="form-create-products-category"
-                class="form form__create"
-                action=`${path_admin}/products-category/edit/${record.id}/?_method=PATCH`
-                method="POST"
-                enctype="multipart/form-data"
-            )   
-                div(class="form__normal")
-                    div(class="form__item")
-                        label(for="" class="label") Tên Danh Mục
-                        input(
-                            type="text"
-                            name="title"
-                            value=record.title
-                            placeholder="Nhập Tên Của Danh Mục"
-                        )
+        //- card
+        div(class="card")
+            div(class="card__body")
+                form(
+                    id="form-create-products-category"
+                    class="form form__create"
+                    action=`${path_admin}/products-category/edit/${record.id}/?_method=PATCH`
+                    method="POST"
+                    enctype="multipart/form-data"
+                )   
+                    div(class="form__normal")
+                        div(class="form__item")
+                            label(for="" class="label") Tên Danh Mục
+                            input(
+                                type="text"
+                                name="title"
+                                value=record.title
+                                placeholder="Nhập Tên Của Danh Mục"
+                            )
 
-                    div(class="form__item")
-                        label(for="" class="label") Danh Mục Cha
-                        select(
-                            name="parent_category_id" 
-                            class="select-tree"
-                        )
-                            option(value="") Danh mục  
-                            if(listProductsCategoryTree)
-                                +select-tree(listProductsCategoryTree, "", 0, record.parent_category_id)
-                                //- each item in listProductsCategoryTree
-                                //-     option(value=item.id) #{item.title}
+                        div(class="form__item")
+                            label(for="" class="label") Danh Mục Cha
+                            select(
+                                name="parent_category_id" 
+                                class="select-tree"
+                            )
+                                option(value="") Danh mục  
+                                if(listProductsCategoryTree)
+                                    +select-tree(listProductsCategoryTree, "", 0, record.parent_category_id)
+                                    //- each item in listProductsCategoryTree
+                                    //-     option(value=item.id) #{item.title}
 
-                    div(class="form__item")
-                        label(for="" class="label") Mô tả
-                        textarea(
-                            name="description"
-                            rows="5"
-                            placeholder="Mô Tả Danh Mục Của Bạn..."
-                            class="textarea-tinymce"
-                        ) #{record.description}
+                        div(class="form__item")
+                            label(for="" class="label") Mô tả
+                            textarea(
+                                name="description"
+                                rows="5"
+                                placeholder="Mô Tả Danh Mục Của Bạn..."
+                                class="textarea-tinymce"
+                            ) #{record.description}
 
-                    div(class="form__item")
-                        label(for="" class="label") Vị trí
-                        input(
-                            type="text"
-                            name="position"
-                            value=record.position
-                            placeholder="Nhập Vị Trí Của Danh Mục"
-                        )
+                        div(class="form__item")
+                            label(for="" class="label") Vị trí
+                            input(
+                                type="text"
+                                name="position"
+                                value=record.position
+                                placeholder="Nhập Vị Trí Của Danh Mục"
+                            )
+                        
+                        div(class="form__item")
+                            label(for=""  class="label") Upload Hình Ảnh 
+                            +upload-image-single("thumbnail", record.thumbnail, 1)
+
+                            label(class="label label__desc" notice-image) 
+                                | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
+
+                        div(class="form__item")
+                            label(for="" class="label") Trạng thái
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="status-active"
+                                    name="status"
+                                    class="checkbox"
+                                    checked=(record.status === "active" ? true : false)
+                                )
+                                label(
+                                    for="status-active"
+                                )   Hoạt động 
+                            div(class="form__item-radio")
+                                input(
+                                    type="radio"
+                                    id="status-inactive"
+                                    name="status"
+                                    checked=(record.status === "inactive" ? true : false)
+                                    class="checkbox"
+                                )
+                                label(
+                                    for="status-inactive"
+                                )   Dừng hoạt động
                     
-                    div(class="form__item")
-                        label(for=""  class="label") Upload Hình Ảnh 
-                        +upload-image-single("thumbnail", record.thumbnail, 1)
+                    //- button submit
+                    div(class="form__submit")
+                        button(type="submit" class="button button__outline") Cập nhật
 
-                        label(class="label label__desc" notice-image) 
-                            | Chọn ít nhất 1 hình ảnh. Hãy chú ý đến chất lượng hình ảnh bạn thêm vào, tuân thủ các tiêu chuẩn về màu nền. Hình ảnh phải có kích thước nhất định. Lưu ý rằng sản phẩm hiển thị tất cả các chi tiết
-
-                    div(class="form__item")
-                        label(for="" class="label") Trạng thái
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="status-active"
-                                name="status"
-                                class="checkbox"
-                                checked=(record.status === "active" ? true : false)
-                            )
-                            label(
-                                for="status-active"
-                            )   Hoạt động 
-                        div(class="form__item-radio")
-                            input(
-                                type="radio"
-                                id="status-inactive"
-                                name="status"
-                                checked=(record.status === "inactive" ? true : false)
-                                class="checkbox"
-                            )
-                            label(
-                                for="status-inactive"
-                            )   Dừng hoạt động
-                
-                //- button submit
-                div(class="form__submit")
-                    button(type="submit" class="button button__outline") Cập nhật
-
-    //- end card
+        //- end card
+    else 
+        h1(style="color:white") Bạn không có quyền truy cập
 block script 
     //- tiny-mce
     script(src="/tinymce/tinymce.min.js")

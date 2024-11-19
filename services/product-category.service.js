@@ -122,6 +122,24 @@ class ProductCategoryService {
 
         return listProductsCategoryTree;
     }
+
+    // thay đổi trạng thái sản phẩm
+    static async changeStatus (category_id, status) {
+        const statusValid = ["active", "inactive"];
+        if(statusValid.includes(status) === false) 
+            return {
+                code: 400,
+                message: 'Thay đổi trạng thái thất bại'
+            }
+
+        await ProductCategory.updateOne({ _id: category_id }, { status: status });
+
+        return {
+            code: 200,
+            message: 'Thay đổi trạng thái thành công'
+        }
+    }
+
 }
 
 module.exports = ProductCategoryService;

@@ -27,7 +27,7 @@ block main
     div(class="detail")
         div(class="detail__wrap")
             div(class="detail__left")
-                div(class="detail__image-main swiper swiper-main")   
+                div(id="viewerjs-image" class="detail__image-main swiper swiper-main")   
                     div(class="swiper-wrapper")
                         each thum in record.thumbnail
                             div(class="swiper-slide")
@@ -93,5 +93,11 @@ block main
                     td Xóa sản phẩm
 
 block script 
+    //- swiperjs
     script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+    
+    //- viewerjs
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js" integrity="sha512-EC3CQ+2OkM+ZKsM1dbFAB6OGEPKRxi6EDRnZW9ys8LghQRAq6cXPUgXCCujmDrXdodGXX9bqaaCRtwj4h4wgSQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+    //- js của mình
     script(type='module' src="/admin/js/script.js")

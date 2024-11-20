@@ -638,14 +638,14 @@ if(headerAccount) {
 // hết mở thông tin account đã đăng nhập
 
 // trang chi tiết ảnh
-var swiperSub = new Swiper(".swiper-sub", {
+const swiperSub = new Swiper(".swiper-sub", {
     spaceBetween: 10,
     slidesPerView: 4,
     freeMode: true,
     watchSlidesProgress: true,
 });
 
-var swiperMain = new Swiper(".swiper-main", {
+const swiperMain = new Swiper(".swiper-main", {
     spaceBetween: 10,
     navigation: {
       nextEl: ".swiper-button-next",
@@ -656,3 +656,10 @@ var swiperMain = new Swiper(".swiper-main", {
     },
 });
 // hết trang chi tiết ảnh
+
+// mở hình ảnh bự lên
+const viewerJsImage = document.querySelector("#viewerjs-image");
+if(viewerJsImage) {
+    const viewer = new Viewer(viewerJsImage, {});
+}
+// hết mở hình ảnh bự lên

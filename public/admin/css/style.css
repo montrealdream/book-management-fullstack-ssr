@@ -386,7 +386,9 @@ body {
   height: 50px;
   object-fit: cover;
 }
-.table__title h3 {
+.table__title a {
+  color: #94A3B8;
+  text-decoration: none;
   margin: 0px;
   font-size: 14px;
   width: 300px;
@@ -395,7 +397,7 @@ body {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-.table__title h3:hover {
+.table__title a:hover {
   color: #2275FC;
   transition: 0.5s color;
   cursor: pointer;
@@ -1119,6 +1121,103 @@ body {
 ::-webkit-datetime-edit-month-field:not([aria-valuenow]),
 ::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   color: transparent;
+}
+
+.detail__wrap {
+  display: flex;
+  gap: 20px;
+}
+.detail__left, .detail__right {
+  width: 48%;
+}
+.detail__title {
+  color: #94A3B8;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0px;
+  margin-bottom: 8px;
+}
+.detail__stock {
+  margin-left: 15px;
+  color: #94A3B8;
+  font-size: 14px;
+}
+.detail__stock i {
+  margin-right: 5px;
+}
+.detail__price {
+  margin-top: 20px;
+  color: #94A3B8;
+  font-size: 20px;
+}
+.detail__description {
+  margin-top: 20px;
+  color: #94A3B8;
+  font-size: 15px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+}
+.detail__image-main {
+  width: 100%;
+  height: 550px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.detail__image-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detail__image-sub {
+  margin-top: 10px;
+}
+.detail .swiper-sub .swiper-wrapper {
+  width: 100%;
+}
+.detail .swiper-sub {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+.detail .swiper-sub .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.detail .swiper-sub .swiper-slide-thumb-active {
+  opacity: 1;
+}
+.detail .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detail__table {
+  padding: 10px;
+  background-color: #1E293A;
+  width: 100%;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: left;
+}
+.detail__table th {
+  color: #94A3B8;
+  font-size: 16px;
+}
+.detail__table th, .detail__table td {
+  padding: 5px;
+}
+.detail__table td {
+  color: #94A3B8;
+  font-size: 14px;
 }
 
 /*# sourceMappingURL=style.css.map */

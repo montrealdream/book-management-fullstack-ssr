@@ -636,3 +636,23 @@ if(headerAccount) {
     });
 }
 // hết mở thông tin account đã đăng nhập
+
+// trang chi tiết ảnh
+var swiperSub = new Swiper(".swiper-sub", {
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesProgress: true,
+});
+
+var swiperMain = new Swiper(".swiper-main", {
+    spaceBetween: 10,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    thumbs: {
+      swiper: swiperSub, // swiper sub sẽ đi theo swiperMan
+    },
+});
+// hết trang chi tiết ảnh

@@ -126,3 +126,18 @@ module.exports.edit = async (req, res) => {
         console.log("Lỗi tính năng chỉnh sửa sản phẩm", error);
     }
 }
+
+// [GET] /admin/products/detail/:id
+module.exports.detail = async (req, res) => {
+    try{
+        const { record } = await ProductService.findById(req.params.id);
+
+        res.render('admin/pages/products/detail', {
+            title: "Chi tiết sản phẩm",
+            record
+        });
+    }
+    catch(error) {
+
+    }
+}

@@ -482,6 +482,7 @@ body {
     }
 
     &__title {
+        
         display: inline-flex;
         align-items: center;
         cursor: pointer;
@@ -493,7 +494,9 @@ body {
             object-fit: cover;
         }
 
-        h3 {
+        a {
+            color: $color-text-light;
+            text-decoration: none;
             margin: 0px;    // reset h3 html
             font-size: 14px;
             width: 300px;
@@ -1393,3 +1396,143 @@ body {
 ::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
     color: transparent;
 }
+
+// detail
+.detail {
+    &__wrap {
+        display: flex;
+        gap: 20px;
+    }
+
+    &__left, &__right {
+        width: 48%;
+    }
+
+    &__title {
+        color: $color-text-light;
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0px;
+        margin-bottom: 8px;
+    }
+
+    &__stock {
+        margin-left: 15px;
+       
+        color: $color-text-light;
+        font-size: 14px;
+    }
+
+    &__stock i {
+        margin-right: 5px;
+    }
+
+    &__price {
+        margin-top: 20px;
+        color: $color-text-light;
+        font-size: 20px;
+        
+    }
+
+    &__description {
+        margin-top: 20px;
+        color: $color-text-light;
+        font-size: 15px;
+
+        // wrap text
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 10;
+        -webkit-box-orient: vertical;
+    }
+
+    &__image-main {
+        width: 100%;
+        height: 550px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    &__image-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__image-sub {
+        margin-top: 10px;
+    }
+
+    .swiper-sub .swiper-wrapper {
+        width: 100%;
+        // gap: 5px;
+    }
+
+    .swiper-sub {
+        height: 20%;
+        box-sizing: border-box;
+        padding: 10px 0;
+    }
+  
+    .swiper-sub .swiper-slide {
+        width: 25%;
+        height: 100%;
+        opacity: 0.4;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+  
+    .swiper-sub .swiper-slide-thumb-active {
+        opacity: 1;
+    }
+  
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    // &__img-sub .swiper-slide {
+    //     width: 100px;
+    //     height: 100px;
+    // }
+
+    // &__image-sub img {
+    //     border: 1px solid #ddd;
+    //     background-color: white;
+    //     border-radius: 8px;
+    //     width: 100px;
+    //     height: 100px;
+    //     object-fit: contain;
+    // }
+
+    &__table {
+        padding: 10px;
+        background-color: $color-bg-dark;
+        width: 100%;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: left;
+        // border-collapse: collapse;
+
+        th {
+            color: $color-text-light;
+            font-size: 16px;
+        }
+
+        th, td {
+            // border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        td {
+            color: $color-text-light;
+            font-size: 14px;
+        }
+    }
+}
+// hết detail

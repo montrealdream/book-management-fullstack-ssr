@@ -82,12 +82,13 @@ block main
                                         check-box-single = item.id
                                     )
                                 td(class="table__title")
-                                    img(
-                                        src=item.thumbnail[0]
-                                        alt=item.title
-                                    )
                                     
-                                    h3 #{item.title}
+                                        img(
+                                            src=item.thumbnail[0]
+                                            alt=item.title
+                                        )
+                                        
+                                        a(href=`${path_admin}/products/detail/${item.id}`) #{item.title}
                                 
                                 td #{(item.category ? item.category : "Đang Cập Nhật")}
                                 td 

@@ -1,0 +1,97 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/upload-image
+include ../../mixins/alert
+include ../../mixins/select-tree
+
+//- Title
+block title 
+    title #{title}
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Sản Phẩm",
+            "Chi tiết sản phẩm"
+        ]
+    +box-head-use-breadcrumb("CHI TIẾT SẢN PHẨM", breadcrumbArray)
+
+    div(class="detail")
+        div(class="detail__wrap")
+            div(class="detail__left")
+                div(class="detail__image-main swiper swiper-main")   
+                    div(class="swiper-wrapper")
+                        each thum in record.thumbnail
+                            div(class="swiper-slide")
+                                img(src=thum alt="")
+
+                div(thumbsSlider="" class="detail__image-sub swiper swiper-sub")
+                    div(class="swiper-wrapper")
+                        each thum in record.thumbnail
+                            div(class="swiper-slide")
+                                img(src=thum alt="")
+                            
+                            
+                        
+
+            div(class="detail__right")
+                h2(
+                    class="detail__title"
+                ) #{record.title}
+
+                div(
+                    style="display: flex,  align-items: center;"
+                )
+                    span(class=`badge badge--${record.status}`) 
+                        |  #{record.status === 'active' ? 'Hoạt động' : 'Dừng hoạt động'}
+                    span(class="detail__stock") 
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        |   Còn #{record.stock } trong kho
+
+                div(
+                    class="detail__price"
+                ) 200.000 <b>VND</b>
+
+                div(
+                    class="detail__description"
+                ) <b>Mô tả:</b> !{record.description !== "" ? record.description : "Đang cập nhật"} 
+
+        table(class="detail__table")  
+            thead
+                tr 
+                    th Họ Tên 
+
+                    th Ngày
+
+                    th Đã làm
+            tbody 
+                tr 
+                    td Giang Trường
+
+                    td 10/07/2002
+
+                    td Xóa sản phẩm
+                tr 
+                    td Giang Trường
+
+                    td 10/07/2002
+
+                    td Xóa sản phẩm
+                tr 
+                    td Giang Trường
+
+                    td 10/07/2002
+
+                    td Xóa sản phẩm
+
+block script 
+    script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+    script(type='module' src="/admin/js/script.js")

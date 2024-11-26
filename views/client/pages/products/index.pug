@@ -1,0 +1,20 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+include ../../mixins/products.pug
+include ../../mixins/box-head.pug
+
+//- title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    +section-title('Sản phẩm', '')
+
+    //- section2
+    section(class="section section__two")
+        div(class="container")
+            +box-head("NEW ARRIVALS")
+            +products(records)

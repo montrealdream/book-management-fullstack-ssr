@@ -72,5 +72,10 @@ router.patch(
     controller.edit
 );
 
+router.get(
+    '/detail/:id',
+    controller.detail
+);
+
 // exports
 module.exports = router;

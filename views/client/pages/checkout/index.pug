@@ -1,0 +1,104 @@
+extends ../../layouts/checkout.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+include ../../mixins/box-head.pug
+include ../../mixins/products.pug
+
+//- Title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    div(class="checkout")
+        //- div(class="container")
+        div(class="checkout__wrap")
+            //- thông tin người dùng
+            div(class="checkout__left-side")
+                form(class="checkout__form")
+                    div(class="checkout__info")
+                        h3 TÀI KHOẢN
+                        input(
+                            type="email"
+                            name="email"
+                            placeholder="example@gmail.com"
+                        )
+
+                        //- thông tin vận chuyển
+                    div(class="checkout__delivery")
+                        h3 THÔNG TIN VẬN CHUYỂN
+                        div(class="checkout__delivery-item")
+                            input(
+                                type="text"
+                                name="fullName"
+                                class=""
+                                placeholder="Họ Tên"
+                            )
+                        div(class="checkout__delivery-item")
+                            input(
+                                type="text"
+                                name="address"
+                                class=""
+                                placeholder="Địa chỉ"
+                            )
+                        div(class="checkout__delivery-item")
+                            input(
+                                type="text"
+                                name="tel"
+                                class=""
+                                placeholder="Số điện thoại"
+                            )
+
+                    button(
+                        type="submit"
+                        class="button button--main"
+                    )   Thanh Toán
+
+            //- giỏ hàng thanh toán 
+            div(class="checkout__cart") 
+                div(class="checkout__cart-wrap")
+                    - for (var i = 0; i < 2; ++i) 
+                        div(class="checkout__cart-item")
+                            div(class="checkout__cart-info")
+                                div(class="checkout__cart-image")
+                                    img(
+                                        src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                        alt=""
+                                    )
+                                    div(class="checkout__cart-quantity") 1
+                                div(class="checkout__cart-title")
+                                    h3 The Stadium by Night
+                                    span Hardcover / Spanish / 29 Feb 2023
+                            div(class="checkout__cart-price")
+                                |   100.000 VND
+                
+                //- mã giảm giá
+                form(
+                    class="field"
+                )
+                    input(
+                        type="text" 
+                        class=""
+                        placeholder="Nhập mã giảm giá"
+                    )
+                    button(
+                        type="submit"
+                    ) Áp dụng
+
+                //- tổng tiền
+                div(class="checkout__total")
+                    div(class="checkout__sub") 
+                        div(class="checkout__sub-title")
+                            |   Tạm tính <span>2 sản phẩm </span>
+                        span 190.000 VND
+
+                    div(class="checkout__ship")
+                        div(class="checkout__ship-title")
+                            |   Phí vận chuyển
+                        span 20.000 VND
+                    div(class="checkout__price")
+                        div(class="checkout__price-title")
+                            |   Tổng cộng 
+                        span 210.000 VND
+                    

@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+include ../../mixins/box-head.pug
+include ../../mixins/form-search.pug
+include ../../mixins/products.pug
+
+//- title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    +section-title('Tìm kiếm: 28 kết quả được tìm thấy cho "cuốn sách"', 'Trang chủ / Tìm kiếm: 28 kết quả được tìm thấy cho "cuốn sách"')
+
+    //- section search
+    section(class="section section__search")
+        +box-head('Kết quả tìm kiếm')
+        div(class="section__search-item")
+            +form-search
+        
+        div(class="container")
+            //- wrap
+            div(class="section__search-wrap")
+                //- filter
+                div(class="section__search-filter")
+                    //- |   bộ lọc
+
+                //- result
+                div(class="section__search-result")
+                    +products("", 10)
+block script
+    //- swiperjs
+    script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+
+    //- aos
+    script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+
+    //- viewerjs
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js" integrity="sha512-lZD0JiwhtP4UkFD1mc96NiTZ14L7MjyX5Khk8PMxJszXMLvu7kjq1sp4bb0tcL6MY+/4sIuiUxubOqoueHrW4w==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+    //- js
+    script(type='module' src="/client/js/script.js")

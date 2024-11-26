@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema(
             {
                 userId: String,
                 action: String, // hành động khi chỉnh sửa
-                deletedAt: String
+                updateAt: Date
             }
         ],
 

@@ -58,7 +58,22 @@ block main
 
                 div(
                     class="detail__price"
-                ) 200.000 <b>VND</b>
+                ) <b>Giá mặc định: </b> 
+                    span(class="tag tag--error")
+                        <del>#{record.priceBase}</del>
+                
+                div(
+                    class="detail__price"
+                ) <b>Giá mới: </b>
+                    span(class="tag tag--success") #{record.newPrice}
+                        
+                
+                div(
+                    class="detail__price"
+                ) <b>Giảm giá: </b>
+                    span(
+                        class="tag tag--warning"
+                    ) #{record.discountPercentage}%
 
                 div(
                     class="detail__description"
@@ -73,24 +88,16 @@ block main
 
                     th Đã làm
             tbody 
-                tr 
-                    td Giang Trường
+                each item in by
+                    tr 
+                        td #{item.fullName}
 
-                    td 10/07/2002
+                        //- td #{item.date}
+                        //- td #{moment(item.date).lang('vi').fromNow()}
+                        td #{moment(item.date).lang('vi').format('LLLL')}
 
-                    td Xóa sản phẩm
-                tr 
-                    td Giang Trường
+                        td #{item.action}
 
-                    td 10/07/2002
-
-                    td Xóa sản phẩm
-                tr 
-                    td Giang Trường
-
-                    td 10/07/2002
-
-                    td Xóa sản phẩm
 
 block script 
     //- swiperjs

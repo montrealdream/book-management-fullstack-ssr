@@ -1,0 +1,47 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+
+//- Title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    +section-title('User', 'Home / User')
+
+    div(class="center")
+        div(class="login")
+            h3(class="login__title") Đăng nhập
+
+            div(class="login__oauth")   
+                div(class="login__oauth-item")
+                    a(href="" class="google") 
+                        img(src="/client/images/google.svg", alt="")
+
+                div(class="login__oauth-item")
+                    a(href="" class="facebook") 
+                        img(src="/client/images/facebook.svg", alt="")
+                div(class="login__oauth-item")
+                    a(href="" class="apple") 
+                        img(src="/client/images/apple.svg", alt="")
+
+            div(class="login__horizon") OR
+            
+            form(
+                class="login__form"
+            )
+                div(class="login__form-item")
+                    input(type="email" placeholder="Email")
+                div(class="login__form-item")
+                    input(type="password" placeholder="Mật khẩu")
+                div(class="login__form-item")
+                    button(type="submit") Đăng nhập
+
+            div(class="login__feature")
+                a(href="#forgotpassword") Quên mật khẩu ?
+                a(href="#createpassword") Tạo tài khoản
+
+
+                

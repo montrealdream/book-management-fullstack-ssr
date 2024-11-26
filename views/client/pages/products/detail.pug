@@ -1,0 +1,134 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+
+//- title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    +section-title('Sản phẩm', 'Tất cả /  Phía sau nghi can x')
+    
+    //- products detail
+    div(class="container")
+        div(class="product-detail")
+            //- hình ảnh và thông tin cơ bản
+            div(class="product-detail__wrap")
+
+                //- image
+                div(class="product-detail__image")
+                    div(class="product-detail__image-main swiper-main swiper")
+                        div(class="swiper-wrapper" id="viewerjs-image")
+                            div(class="swiper-slide")
+                                img(
+                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                )
+                            div(class="swiper-slide")
+                                img(
+                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                )
+                            div(class="swiper-slide")
+                                img(
+                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                )
+
+                    div(class="product-detail__image-sub swiper-sub swiper")
+                        div(class="swiper-wrapper")
+                            div(class="swiper-slide")
+                                img(
+                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                )
+                            div(class="swiper-slide")
+                                img(
+                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                )
+                            div(class="swiper-slide")
+                                img(
+                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
+                                )
+                
+                //- info
+                div(class="product-detail__info")
+                    h3(class="product-detail__title") Visit in the North
+                    p(class="product-detail__desc") Thông tin về tác giả: Tác giả cuốn sách này, John, là một trong những nhà văn nổi tiếng nhất trong lịch sử nước Mỹ. Anh ấy sinh ra ở California nhưng đi học ở New York. Ông theo học tại Đại học Harvard để...
+
+                    div(class="product-detail__price")
+                        span(class="product-detail__price-new") 100.000 VND
+                        span(class="product-detail__price-old") 
+                            <del>190.000 VND</del>
+                        span(class="product-detail__price-detail") 20%
+                    
+                    div(class="product-detail__quantity")
+                        h3 Số lượng
+                        div(class="product-detail__quantity-wrap")
+                            span 
+                                <i class="fa-solid fa-minus"></i>
+                            input(
+                                type="text"
+                                value="0"
+                                readonly
+                            )
+                            span
+                                <i class="fa-solid fa-plus"></i>
+                        span còn lại 100 trong kho
+                    
+                    div(class="product-detail__button")
+                        div(class="product-detail__buton-wrap")
+                            button(class="outline") Thêm vào giỏ hàng
+                            button Yêu thích
+                        button(style="width: 100%") Mua ngay
+
+                    div(class="product-detail__truck")
+                        <i class="fa-solid fa-truck-moving"></i>
+                        |   Dự kiến giao hàng 5 - 7 ngày
+                        
+                    div(class="product-detail__ecommerce")
+                        span Mua sách tên sàn thương mại điện tử
+                        img(
+                            src="/client/images/lazada.png"
+                            alt='lazada'
+                        )
+                        img(
+                            src="/client/images/shopee.png"
+                            alt='lazada'
+                        )
+
+
+            //- mô tả - chính sách và review
+            div(class="product-detail__feature-button")
+                button(class="active") Mô tả
+                button(class="") Chính sách
+                button(class="") Đánh giá
+            div(class="product-detail__feature-desc")
+                div(class="product-detail__feature-item")
+                    h3 Về tác giả:
+                    p Tác giả cuốn sách này, John, là một trong những nhà văn nổi tiếng nhất trong lịch sử nước Mỹ. Anh ấy sinh ra ở California nhưng đi học ở New York. Ông theo học tại Đại học Harvard để nghiên cứu văn học. Anh ấy hiện đang sống ở Texas và đây là cuốn sách thứ 18 của anh ấy. Trong số 18 cuốn sách của ông, có 5 cuốn sách bán chạy nhất và nhận được giải thưởng sách bán chạy nhất.
+                div(class="product-detail__feature-item")
+                    h3 Mô tả
+                    p Cuốn sách này mô tả cách một thám tử theo dõi một kẻ giết người hàng loạt. Park Town là một khu phố nổi tiếng ở Berlin. Ở thành phố, những kẻ điên chỉ giết hại dã man người yêu của mình. Psycho sẽ tiết lộ thông tin trước khi cặp đôi bị sát hại. Câu chuyện kết thúc với việc điều tra viên xác định được kẻ sát nhân bằng những manh mối mâu thuẫn nhau.
+
+                    ul 
+                        li <b>Số trang</b> 250 trang
+                        li <b>Tác giả</b> John
+                        li <b>Nhà xuất bản</b> John
+                        li <b>ISBN</b> 1007
+                        li <b>Ngôn ngữ</b> Tiếng việt
+                div(class="product-detail__feature-item")
+                    h3 Điều khoản 
+                    p Chúng tôi cung cấp chính sách hoàn trả và trao đổi trong bảy ngày. Việc trả lại và trao đổi có thể được bắt đầu từ phần đơn hàng trong tài khoản của bạn. Bạn phải giữ nguyên thẻ và nhãn dán để đảm bảo rằng mặt hàng được trả lại cho bạn trong tình trạng nguyên vẹn như khi được giao.
+
+
+block script
+    //- swiperjs
+    script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+
+    //- aos
+    script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+
+    //- viewerjs
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js" integrity="sha512-lZD0JiwhtP4UkFD1mc96NiTZ14L7MjyX5Khk8PMxJszXMLvu7kjq1sp4bb0tcL6MY+/4sIuiUxubOqoueHrW4w==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+    //- js
+    script(type='module' src="/client/js/script.js")

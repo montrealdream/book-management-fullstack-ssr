@@ -1,0 +1,68 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+include ../../mixins/box-head.pug
+include ../../mixins/products.pug
+
+//- Title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    +section-title('Giỏ hàng của bạn', 'Trang chủ / Giỏ hàng của bạn')
+    
+    div(class="container")
+        //- giỏ hàng
+        table(class="cart")
+            thead 
+                tr 
+                    th SẢN PHẨM
+                    th SỐ LƯỢNG
+                    th TỔNG TIỀN
+            tbody 
+                - for (var i = 0; i < 2; ++i) 
+                    tr 
+                        td(class="cart__item")
+                            div(class="cart__item-image")
+                                img(src="/client/images/product-example.png")
+                            div(class="cart__item-info")
+                                div(class="author") Kegio Higashino
+                                a(href="" class="title") Phía sau nghi can x
+                                div(class="price") 100.000 VND
+                                div(class="lang") 
+                                    <b>Ngôn ngữ:</b>Tiếng việt 
+                                div(class="publish") 
+                                    <b>Ngày xuất bản:</b>10 Tháng 7 2024 
+                        td
+                            div(class="cart__quantity")
+                                div(class="cart__quantity-modify")
+                                    span 
+                                        <i class="fa-solid fa-minus"></i>
+                                    input(type="text" readonly value="1")
+
+                                    span    
+                                        <i class="fa-solid fa-plus"></i>
+                                div(class="cart__trash")
+                                    <i class="fa-regular fa-trash-can"></i>
+                        td(class="cart__price") 100.000 VND
+
+        //- về trang mua sắm
+        div(style="text-align:center;")
+            a(href="#continueshop" class="button button--main") Tiếp tục mua sắm
+
+        //- tính tiền
+        div(class="cart__checkout")
+            div(class="cart__checkout-total")
+                span(class="subtotal") Tổng số tiền 
+                span(class="price") 190.000 VND
+            div(class="cart__checkout-desc")
+                |   Thuế và phí vận chuyển sẽ được thanh toán khi giao hàng
+            button(class="button button--main") Thanh toán
+
+
+        //- bộ sưu tập nổi bật
+        div(style="padding: 80px 0px;")
+            +box-head('Bộ sưu tập nổi bật')
+            +products("", 4)

@@ -1536,3 +1536,26 @@ body {
     }
 }
 // hết detail
+
+// tag
+.tag {
+    padding: 2px 4px;
+    border-radius: 6px;
+    font-size: 16px;
+
+    &--success {
+        background-color: #D4EDDA;
+        color: #275724;
+    }
+
+    &--error {
+        background-color: #F8D7DA;
+        color: #721C24;
+    }
+
+    &--warning {
+        background-color: #FFF3CD;
+        color: #906404;
+    }
+}
+// hết tag

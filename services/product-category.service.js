@@ -66,7 +66,7 @@ class ProductCategoryService {
     }
 
     // tạo mới danh mục
-    static async create(payload) {
+    static async create(payload, account_id) {
         if(payload.position === "") {
             payload.position = await ProductCategory.countDocuments({
                 status: "active",
@@ -75,6 +75,9 @@ class ProductCategoryService {
         }
 
         else payload.position = parseInt(payload.position);
+
+        // lưu user tạo danh mục 
+        payload.createdBy = { userId: account_id, createAt: new Date() };
 
         // tạo bản ghi mới và lưu vào db
         const record  = new ProductCategory(payload);
@@ -123,23 +126,50 @@ class ProductCategoryService {
         return listProductsCategoryTree;
     }
 
-    // thay đổi trạng thái sản phẩm
-    static async changeStatus (category_id, status) {
+    // thay đổi trạng thái danh mục
+    static async changeStatus (category_id, status, account_id) {
         const statusValid = ["active", "inactive"];
         if(statusValid.includes(status) === false) 
             return {
                 code: 400,
                 message: 'Thay đổi trạng thái thất bại'
             }
+        
+        const contentStatus = status === "active" ? 'Hoạt động' : 'Dừng hoạt động';
+        const updatedBy = {
+            userId: account_id, 
+            action: `Thay đổi trạng thái danh mục thành ${contentStatus}`,
+            updateAt: new Date()
+        }
 
-        await ProductCategory.updateOne({ _id: category_id }, { status: status });
+        const record = await ProductCategory.updateOne({ _id: category_id }, 
+            { 
+                $push: { updatedBy:  updatedBy},
+                status: status 
+            }
+        );
 
         return {
             code: 200,
-            message: 'Thay đổi trạng thái thành công'
+            message: 'Thay đổi trạng thái thành công',
+            record
         }
     }
 
+    // xóa mềm danh mục
+    static async deleteSoft(category_id, account_id) {
+        const record = await ProductCategory.updateOne({_id: category_id}, 
+            {
+                deletedBy: {userId: account_id, deleteAt: new Date()},
+                deleted: true
+            }   
+        );
+        return {
+            code: 200,
+            message: 'Xóa danh mục thành công',
+            record
+        }
+    }
 }
 
 module.exports = ProductCategoryService;

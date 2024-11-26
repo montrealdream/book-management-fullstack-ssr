@@ -1,0 +1,12 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+
+//- Title
+block title 
+    title 404 Not Found 
+
+//- Main
+block main 
+    +section-title('404 Not Found', 'Home / Not Found')

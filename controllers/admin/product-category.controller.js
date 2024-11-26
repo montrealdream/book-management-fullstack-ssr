@@ -11,6 +11,7 @@ const paginationHelper = require('../../helper/pagination.helper');
 const createTreeHelper = require('../../helper/createTree.helper');
 
 const ProductCategoryService = require('../../services/product-category.service');
+const AccountService = require('../../services/account.service');
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
@@ -41,14 +42,13 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     try{
         const {id, status} = req.params;
-        await ProductCategoryService.changeStatus(id, status);
-
+        const { code, message, record } = await ProductCategoryService.changeStatus(id, status, res.locals.account._id);
 
         req.flash('success', 'Thay đổi trạng thái danh mục thành công');
         res.redirect('back');
     }
     catch(error) {
-
+        console.log('Thay đổi trạng thái danh mục lỗi', error);
     }
 }
 
@@ -58,7 +58,7 @@ module.exports.deleteSoft = async (req, res) => {
         const id = req.params.id;
 
         // xóa mềm
-        await ProductCategoryService.deleteSoft(id);
+        const { record }  = await ProductCategoryService.deleteSoft(id, res.locals.account._id);
 
         req.flash('success', 'Xóa danh mục thành công');
         res.redirect('back');
@@ -86,7 +86,7 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/products-category/create
 module.exports.create = async (req, res) => {
     try {   
-        const {code, message, record } = await ProductCategoryService.create(req.body);
+        const {code, message, record } = await ProductCategoryService.create(req.body, res.locals.account._id);
 
         req.flash('success', message);
         res.redirect('back');
@@ -127,6 +127,52 @@ module.exports.edit = async (req, res) => {
 
         req.flash('success', 'Chỉnh sửa thành công');
         res.redirect('back');  
+    }
+    catch(error) {
+
+    }
+}
+
+// [GET] /admin/products-category/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const { record } = await ProductCategoryService.findById(req.params.id);
+
+        // danh sách hành động trong sản phẩm này
+        let by = [];
+
+        // nếu sản phẩm này có người tạo thì sẽ lấy thông tin người tạo sản phẩm
+        if(record.createdBy.userId !== undefined) {
+            const account = await AccountService.findById(record.createdBy.userId);
+            by.push({fullName: account.record.fullName, date: record.createdBy.createAt, action: 'Tạo danh mục'})
+        }
+
+        // nếu sản phẩm này có người xóa thì sẽ lấy thông tin người xóa sản phẩm
+        if(record.deletedBy.userId !== undefined) {
+            const account = await AccountService.findById(record.deletedBy.userId);
+            by.push({fullName: account.record.fullName, date: record.deletedBy.deleteAt, action: 'Xóa danh mục'})
+        }
+
+        // lấy ra danh sách những người đã chỉnh sửa sản phẩm này 
+        if(record.updatedBy != []) {
+            const array = await Promise.all(record.updatedBy.map(async item => {
+
+                const account = await AccountService.findById(item.userId);
+
+                return {fullName: account.record.fullName, date: item.updateAt, action: item.action}
+
+            }));
+            
+            by = by.concat(array);
+        }
+
+        by = by.reverse(); // hiển thị các cập nhật mới nhất lên trên
+
+        res.render("admin/pages/products-category/detail", {
+            title: "Chỉnh sửa",
+            record,
+            by
+        })
     }
     catch(error) {
 

@@ -9,11 +9,14 @@ const session = require('express-session');
 const systemConfig = require('./config/system.config');
 const bodyParser = require('body-parser');
 const routerAdmin = require('./routes/admin/index.route');
+const moment = require('moment');
+const routerClient = require('./routes/client/index.route');
 
 // configuration default
 const app = express();
 const port = process.env.DEV_APP_PORT;
 
+app.locals.moment = moment;
 app.locals.path_admin = systemConfig.PATH_ADMIN; // app locals
 
 // override with POST having ?_method=DELETE
@@ -43,6 +46,7 @@ app.use(
 
 // router
 routerAdmin(app);
+routerClient(app);
 
 app.listen(port, () => {
   console.log(`Dự án Quản Lý Sách`);

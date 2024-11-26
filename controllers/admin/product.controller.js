@@ -6,6 +6,12 @@
 // Service
 const ProductService = require('../../services/product.service');
 const ProductCategoryService = require('../../services/product-category.service');
+const AccountService = require('../../services/account.service');
+const { fullName } = require('../../helper/accountValidate.helper');
+
+// Helper
+const formatCashHelper = require('../../helper/formatCash.helper');
+const discountHelper = require('../../helper/discount.helper');
 
 // [GET] /admin/products/
 module.exports.index = async (req, res) => { 
@@ -37,7 +43,7 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     try{
         const {id, status} = req.params;
-        const { code, message } = await ProductService.changeStatus(id, status);
+        const { code, message } = await ProductService.changeStatus(id, status, res.locals.account._id);
 
         if(code === 400) {
             req.flash('warning', message);
@@ -57,7 +63,7 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.deleteSoft = async (req, res) => {
     try {
         const id = req.params.id;
-        const { code, message } = await ProductService.deleteSoft(id);
+        const { code, message } = await ProductService.deleteSoft(id, res.locals.account._id);
 
         req.flash('success', 'Xóa sản phẩm thành công');
         res.redirect('back');
@@ -83,7 +89,7 @@ module.exports.createUI = async (req, res) => {
 // [POST] /admin/products/create
 module.exports.create = async (req, res) => {
     try {
-        const {code, message, record} = await ProductService.createProduct(req.body);
+        const {code, message, record} = await ProductService.create(req.body, res.locals.account._id);
         req.flash('success', 'Tạo sản phẩm thành công');
         res.redirect('back');
     }
@@ -132,12 +138,50 @@ module.exports.detail = async (req, res) => {
     try{
         const { record } = await ProductService.findById(req.params.id);
 
+        // danh sách hành động trong sản phẩm này
+        let by = [];
+
+        // nếu sản phẩm này có người tạo thì sẽ lấy thông tin người tạo sản phẩm
+        if(record.createdBy.userId !== undefined) {
+            const account = await AccountService.findById(record.createdBy.userId);
+            by.push({fullName: account.record.fullName, date: record.createdBy.createAt, action: 'Tạo sản phẩm'})
+        }
+
+        // nếu sản phẩm này có người xóa thì sẽ lấy thông tin người xóa sản phẩm
+        if(record.deletedBy.userId !== undefined) {
+            const account = await AccountService.findById(record.deletedBy.userId);
+            by.push({fullName: account.record.fullName, date: record.deletedBy.deleteAt, action: 'Xóa sản phẩm'})
+        }
+
+        // lấy ra danh sách những người đã chỉnh sửa sản phẩm này 
+        if(record.updatedBy != []) {
+            const array = await Promise.all(record.updatedBy.map(async item => {
+
+                const account = await AccountService.findById(item.userId);
+
+                return {fullName: account.record.fullName, date: item.updateAt, action: item.action}
+
+            }));
+            
+            by = by.concat(array);
+        }
+
+        by = by.reverse(); // hiển thị các cập nhật mới nhất lên trên
+
+        // format lại giá tiền mặc định
+        record['priceBase'] =  formatCashHelper.toVND(record.price);
+
+        // tính giá mới sau đó format lại giá tiền mới đó
+        const newPrice = discountHelper.withDiscount(record.price, record.discountPercentage);
+        record['newPrice'] = formatCashHelper.toVND(newPrice);
+
         res.render('admin/pages/products/detail', {
             title: "Chi tiết sản phẩm",
-            record
+            record,
+            by
         });
     }
     catch(error) {
-
+        console.log('Lỗi trang chi tiết sản phẩm', error);
     }
 }

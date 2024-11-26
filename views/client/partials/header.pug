@@ -1,0 +1,49 @@
+header(
+    class="header"
+)
+    div(class="header__wrap")
+        div(class="container")
+            //- header main
+            div(class="header__main")
+
+                
+                //- logo
+                a(href="/")
+                    img(
+                        src="https://bookly-theme.myshopify.com/cdn/shop/files/logo_png.png?v=1620028660&width=210"
+                    ) 
+
+                div(class="header__main-right")        
+                    form(method="GET" action="" class="form__search")
+                        input(name="keyword" placeholder="Tìm kiếm")       
+                        button(type="submit")
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                    //- icon search mobile
+                    span(class="form__search-icon-mobile") 
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                    a(href="#cart") 
+                        <i class="fa-solid fa-cart-shopping"></i>
+
+                    a(href="#chat") 
+                        <i class="fa-regular fa-comment-dots"></i>
+                    
+                    a(href="#user") 
+                        <i class="fa-regular fa-user"></i>
+                        
+                    //- icon menu mobile
+                    span(class="header__nav-mobile")
+                        <i class="fa-solid fa-bars"></i>
+
+    //- header navigation
+    nav(class="header__nav")
+        ul 
+            li 
+                a(href="/") Trang chủ 
+            li 
+                a(href="/") Danh mục 
+            li 
+                a(href="/") Tác giả
+            li 
+                a(href="/") Best Sellers

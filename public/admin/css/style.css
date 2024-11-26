@@ -1220,4 +1220,22 @@ body {
   font-size: 14px;
 }
 
+.tag {
+  padding: 2px 4px;
+  border-radius: 6px;
+  font-size: 16px;
+}
+.tag--success {
+  background-color: #D4EDDA;
+  color: #275724;
+}
+.tag--error {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+.tag--warning {
+  background-color: #FFF3CD;
+  color: #906404;
+}
+
 /*# sourceMappingURL=style.css.map */

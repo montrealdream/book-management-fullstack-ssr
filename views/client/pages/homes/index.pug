@@ -1,0 +1,118 @@
+extends ../../layouts/default.pug
+
+//- mixins
+include ../../mixins/box-head.pug
+include ../../mixins/products.pug
+include ../../mixins/articles.pug
+
+//- title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    //- section 1
+    include ../../partials/section-one.pug
+    
+    //- section suport
+    include ../../partials/section-policy-suport.pug
+
+    //- section2
+    section(class="section section__two")
+        div(class="container")
+            +box-head("NEW ARRIVALS")
+            +products(records)
+    
+    //- section 3
+    section(class="section section__three")
+        div(class="section__three-title")
+            h3(
+                class="section__three-title-top"
+                data-aos="fade-up"
+                data-aos-duration="500"
+            ) Mua sắm nhiều bộ sưu tập khác nhau
+
+            h2(
+                class="section__three-title-main"
+                data-aos="fade-up"
+                data-aos-duration="500"
+                data-aos-delay="150"
+            ) Lễ hội sách
+
+            h3(
+                class="section__three-title-bottom"
+                data-aos="fade-up"
+                data-aos-duration="500"
+                data-aos-delay="300"
+            ) Tất cả sách đều giảm giá <b>50%</b>
+
+            a(
+                href="#shopnow"
+                data-aos="fade-up"
+                data-aos-duration="500"
+                data-aos-delay="450"
+            ) Mua Ngay
+
+    //- section 4 (không đẹp nên tạm đóng)
+    //- section(class="section section__four")
+    //-     div(class="container")
+    //-         +box-head("BEST AUTHOR OF THE WEEK")
+    //-         div(class="section__four-wrap")
+    //-             +products-with-swiperjs("", 3, 'swiper__section-4')
+    //-             div(class="section__four-author-image")
+    //-                 img(src="/client/images/section-4-author.png", alt="")
+    //-             div(class="section__four-author-info")
+                    h3(class="fullName")
+                        |   Keigo Higashino <span>tác giả</span>
+                    p(class="quotes")
+                        |   "Ý tôi muốn nói là trên đời này không có bánh xe nào là vô dụng, việc bánh xe được sử dụng thế nào là do chính bánh xe đó quyết định."
+                    div(class="award") 
+                        h3 Giải thưởng của tôi
+                        div(class="award__wrap")
+                            div(class="award__item")
+                                img(
+                                    src="/client/images/section-4-award-01.png" 
+                                    alt=""
+                                )
+                            div(class="award__item")
+                                img(
+                                    src="/client/images/section-4-award-02.png" 
+                                    alt=""
+                                )
+                            div(class="award__item")
+                                img(
+                                    src="/client/images/section-4-award-03.png" 
+                                    alt=""
+                                )
+                            div(class="award__item")
+                                img(
+                                    src="/client/images/section-4-award-04.png" 
+                                    alt=""
+                                )
+                            div(class="award__item")
+                                img(
+                                    src="/client/images/section-4-award-05.png" 
+                                    alt=""
+                                )
+                            div(class="award__item")
+                                img(
+                                    src="/client/images/section-4-award-06.png" 
+                                    alt=""
+                                )
+
+    //- section 5
+    section(class="section section__five")
+        div(class="container")
+            +box-head("LATEST NEWS")
+            //- +articles-with-swiperjs("", 6, "swiper__article")
+            +articles("", 3)
+    
+block script
+    //- swiperjs
+    script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+
+    //- aos
+    script(src="https://unpkg.com/aos@2.3.1/dist/aos.js")
+
+    //- js
+    script(type='module' src="/client/js/script.js")

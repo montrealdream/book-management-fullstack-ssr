@@ -1,0 +1,91 @@
+extends ../../layouts/default.pug
+
+//- Mixins
+include ../../mixins/box-head
+include ../../mixins/pagination
+include ../../mixins/form
+include ../../mixins/upload-image
+include ../../mixins/alert
+include ../../mixins/select-tree
+
+//- Title
+block title 
+    title #{title}
+
+//- Mai Title
+block main
+    //- box-head
+    -
+        var breadcrumbArray = 
+        [
+            "Dashboard",
+            "Sản Phẩm",
+            "Chi tiết sản phẩm"
+        ]
+    +box-head-use-breadcrumb("CHI TIẾT SẢN PHẨM", breadcrumbArray)
+
+    div(class="detail")
+        div(class="detail__wrap")
+            div(class="detail__left")
+                div(id="viewerjs-image" class="detail__image-main swiper swiper-main")   
+                    div(class="swiper-wrapper")
+                        div(class="swiper-slide")
+                            img(src=record.thumbnail alt="")
+
+                //- div(thumbsSlider="" class="detail__image-sub swiper swiper-sub")
+                //-     div(class="swiper-wrapper")
+                //-         each thum in record.thumbnail
+                //-             div(class="swiper-slide")
+                //-                 img(src=thum alt="")
+                            
+            div(class="detail__right")
+                h2(
+                    class="detail__title"
+                ) #{record.title}
+
+                div(
+                    style="display: flex,  align-items: center;"
+                )
+                    span(class=`badge badge--${record.status}`) 
+                        |  #{record.status === 'active' ? 'Hoạt động' : 'Dừng hoạt động'}
+                    span(class="detail__stock") 
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        |   Còn #{record.stock } trong kho
+
+                div(
+                    class="detail__price"
+                ) 200 <b>VND</b>
+
+                div(
+                    class="detail__description"
+                ) <b>Mô tả:</b> !{record.description !== "" ? record.description : "Đang cập nhật"} 
+
+        table(class="detail__table")  
+            thead
+                tr 
+                    th Họ Tên 
+
+                    th Ngày
+
+                    th Đã làm
+            tbody 
+                each item in by
+                    tr 
+                        td #{item.fullName}
+
+                        //- td #{item.date}
+                        //- td #{moment(item.date).lang('vi').fromNow()}
+                        td #{moment(item.date).lang('vi').format('LLLL')}
+
+                        td #{item.action}
+
+
+block script 
+    //- swiperjs
+    script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
+    
+    //- viewerjs
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js" integrity="sha512-EC3CQ+2OkM+ZKsM1dbFAB6OGEPKRxi6EDRnZW9ys8LghQRAq6cXPUgXCCujmDrXdodGXX9bqaaCRtwj4h4wgSQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
+
+    //- js của mình
+    script(type='module' src="/admin/js/script.js")

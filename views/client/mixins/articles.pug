@@ -1,0 +1,48 @@
+mixin articles(records, length)
+    div(class="articles")
+        div(class="articles__wrap")
+            - for (var i = 0; i < length; ++i) 
+                div(class="articles__item")
+                    //- image
+                    div(class="articles__item-image")
+                        img(src="/client/images/section-5-item.png", alt="")
+                    //- content
+                    div(class="articles__item-content")
+                        div(class="user")
+                            span(class="fullName") 
+                                <i class="fa-regular fa-user"></i>
+                                |   Ramamoorthi M 
+                            span(class="calender") 
+                                <i class="fa-regular fa-calendar"></i>
+                                |   April 4, 2020
+                        h3(class="title") 
+                            |   Sách đã thay đổi hệ tư tưởng của tôi
+                        p(class="desc")
+                            |   Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. Eu ultrices vitae auctor eu augue ut lectus arcu bibendum. Elementum.
+                        a(href="#readmore") Đọc thêm
+
+mixin articles-with-swiperjs(records, length, myClass="")
+    div(class=`articles swiper ${myClass}`)
+        //- div(class="articles__wrap")
+        div(class="swiper-wrapper")
+            - for (var i = 0; i < length; ++i)
+                div(class="swiper-slide") 
+                    //- div(class="articles__item")
+                    //- image
+                    div(class="articles__item-image")
+                        img(src="/client/images/section-5-item.png", alt="")
+                    //- content
+                    div(class="articles__item-content")
+                        div(class="user")
+                            span(class="fullName") 
+                                <i class="fa-regular fa-user"></i>
+                                |   Ramamoorthi M 
+                            span(class="calender") 
+                                <i class="fa-regular fa-calendar"></i>
+                                |   April 4, 2020
+                        h3(class="title") 
+                            |   Sách đã thay đổi hệ tư tưởng của tôi
+                        p(class="desc")
+                            |   Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. Eu ultrices vitae auctor eu augue ut lectus arcu bibendum. Elementum.
+                        a(href="#readmore") Đọc thêm
+        //- div(class="swiper-pagination")  

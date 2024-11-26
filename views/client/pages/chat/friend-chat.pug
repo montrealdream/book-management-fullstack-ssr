@@ -1,0 +1,69 @@
+extends ../../layouts/checkout.pug
+
+//- Mixins
+include ../../mixins/section-title.pug
+include ../../mixins/box-head.pug
+include ../../mixins/products.pug
+
+//- Title
+block title 
+    title #{title}
+
+//- Main
+block main 
+    div(class="chat")
+        div(class="chat__wrap")
+            //- danh sách các đoạn chat
+            div(class="chat__list")
+                div(class="chat__list-header")
+                    div(class="icon-menu")
+                        <i class="fa-solid fa-bars"></i>
+
+                    form(action="" method="" class="")
+                        input(
+                            type="text"
+                            class=""    
+                            placeholder="Tìm kiếm"
+                        )
+                        button(type="submit")
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                - for (var i = 0; i < 10; ++i) 
+                    div(class="chat__item")
+                        div(class="chat__item-image")
+                            img(
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbAmafdPNr9fd0KC0Z98WYEC7Wl1wYlPVf-A&s",
+                                alt=""
+                            )
+
+                        div(class="chat__item-info")
+                            h3(class="chat__item-fullName") Giang Trường
+                            div(class="chat__item-chat")  Bạn: Hello Giang
+                                //- span(class="chat__item-time") 9:45 AM 
+
+            //- đoạn chat đang chat
+            div(class="chat__main")
+                div(class="chat__main-header")
+                    div(class="chat__main-image")
+                        img(
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbAmafdPNr9fd0KC0Z98WYEC7Wl1wYlPVf-A&s",
+                            alt=""
+                        )
+                    div(class="chat__main-info") 
+                        h3(class="chat__main-title") Giang Trường
+                        div(class="chat__main-online") Đang hoạt động
+
+                //- body chat
+                div(class="chat__body")
+                    div(class="chat__incoming") 
+                        div(class="chat__incoming-image")
+                            img(
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbAmafdPNr9fd0KC0Z98WYEC7Wl1wYlPVf-A&s",
+                                alt=""
+                            )
+
+                //- body chat
+
+
+//- Script
+block script

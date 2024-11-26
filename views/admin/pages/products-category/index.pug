@@ -83,7 +83,7 @@ block main
                                         src=item.thumbnail 
                                         alt=item.title
                                     )
-                                    h3 #{item.title}
+                                    a(href=`${path_admin}/products-category/detail/${item.id}`) #{item.title}
 
                                 if(role.permissions.includes('products-category_edit'))
                                     td 

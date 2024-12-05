@@ -157,3 +157,25 @@ if(viewerJsImage) {
     const viewer = new Viewer(viewerJsImage, {});
 }
 // hết mở hình ảnh bự lên
+
+// tăng số lượng sách mua ở trang chi tiết
+const productDetailQuantity = document.querySelector(".product-detail__quantity");
+if(productDetailQuantity) {
+  const inputQuantity = productDetailQuantity.querySelector("input");
+  const buttonMinus = productDetailQuantity.querySelector("[button-minus]");
+  const buttonPlus = productDetailQuantity.querySelector("[button-plus]");
+  const stockProduct = productDetailQuantity.getAttribute("stock");
+  
+  buttonMinus.addEventListener("click", event => {
+    let quantity = parseInt(inputQuantity.value);
+    if(quantity > 1) 
+      inputQuantity.value = quantity - 1;
+  });
+
+  buttonPlus.addEventListener("click", event => {
+    let quantity = parseInt(inputQuantity.value);
+    if(quantity + 1 <= stockProduct)
+      inputQuantity.value = quantity + 1;
+  });
+}
+// hết tăng số lượng sách mua ở trang chi tiết

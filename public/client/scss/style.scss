@@ -473,6 +473,7 @@ body {
 
 
     &__item {
+        display: block;
         cursor: pointer;
         position: relative;
         padding: 5px;
@@ -1679,6 +1680,7 @@ body {
     // height: 400px;   
     padding: 40px 30px;
     border-radius: 6px;
+    margin: 50px 0px;
 
     &__title {
         margin: 0;

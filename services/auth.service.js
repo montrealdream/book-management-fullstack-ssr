@@ -17,22 +17,22 @@ class AuthService {
         // check email
         const account = await Account.findOne({email: email, deleted: false});
 
-        if(!account) {
-            req.flash('warning', 'Email không hợp lệ'); 
-            return;
-        }
+        // if(!account) {
+        //     req.flash('warning', 'Email không hợp lệ'); 
+        //     return;
+        // }
 
         // check mật khẩu
         bcrypt.compare(password, account.password, (err, result) => {
             if(result === false) {
-                req.flash('warning', 'Sai mật khẩu');
+                // req.flash('warning', 'Sai mật khẩu');
                 return;
             }
         });
 
         // check trạng thái tài khoản
         if(account.status === "inactive") {
-            req.flash('warning', 'Tài khoản đã bị khóa');
+            // req.flash('warning', 'Tài khoản đã bị khóa');
             return;
         }
 

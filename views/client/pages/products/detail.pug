@@ -21,58 +21,47 @@ block main
                 div(class="product-detail__image")
                     div(class="product-detail__image-main swiper-main swiper")
                         div(class="swiper-wrapper" id="viewerjs-image")
-                            div(class="swiper-slide")
-                                img(
-                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
-                                )
-                            div(class="swiper-slide")
-                                img(
-                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
-                                )
-                            div(class="swiper-slide")
-                                img(
-                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
-                                )
+                            each thumb in record.thumbnail
+                                div(class="swiper-slide")
+                                    img(
+                                        src=thumb
+                                        alt=record.title
+                                    )
 
                     div(class="product-detail__image-sub swiper-sub swiper")
                         div(class="swiper-wrapper")
-                            div(class="swiper-slide")
-                                img(
-                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
-                                )
-                            div(class="swiper-slide")
-                                img(
-                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
-                                )
-                            div(class="swiper-slide")
-                                img(
-                                    src="https://bookly-theme.myshopify.com/cdn/shop/products/shop-new-57.jpg?v=1587119315&width=990"
-                                )
+                            each thumb in record.thumbnail
+                                div(class="swiper-slide")
+                                    img(
+                                        src=thumb 
+                                        alt=record.title
+                                    )
                 
                 //- info
                 div(class="product-detail__info")
-                    h3(class="product-detail__title") Visit in the North
+                    h3(class="product-detail__title") #{record.title}
                     p(class="product-detail__desc") Thông tin về tác giả: Tác giả cuốn sách này, John, là một trong những nhà văn nổi tiếng nhất trong lịch sử nước Mỹ. Anh ấy sinh ra ở California nhưng đi học ở New York. Ông theo học tại Đại học Harvard để...
 
                     div(class="product-detail__price")
-                        span(class="product-detail__price-new") 100.000 VND
+                        span(class="product-detail__price-new") #{record.newPrice}
                         span(class="product-detail__price-old") 
-                            <del>190.000 VND</del>
-                        span(class="product-detail__price-detail") 20%
+                            <del>#{record.oldPrice}</del>
+                        span(class="product-detail__price-detail") #{record.discountPercentage}%
                     
-                    div(class="product-detail__quantity")
+                    div(class="product-detail__quantity" stock=record.stock)
                         h3 Số lượng
                         div(class="product-detail__quantity-wrap")
-                            span 
+                            span(button-minus)
                                 <i class="fa-solid fa-minus"></i>
                             input(
                                 type="text"
-                                value="0"
+                                name="quantity"
+                                value="1"
                                 readonly
                             )
-                            span
+                            span(button-plus)
                                 <i class="fa-solid fa-plus"></i>
-                        span còn lại 100 trong kho
+                        span còn lại #{record.stock} trong kho
                     
                     div(class="product-detail__button")
                         div(class="product-detail__buton-wrap")
@@ -107,7 +96,7 @@ block main
                     p Tác giả cuốn sách này, John, là một trong những nhà văn nổi tiếng nhất trong lịch sử nước Mỹ. Anh ấy sinh ra ở California nhưng đi học ở New York. Ông theo học tại Đại học Harvard để nghiên cứu văn học. Anh ấy hiện đang sống ở Texas và đây là cuốn sách thứ 18 của anh ấy. Trong số 18 cuốn sách của ông, có 5 cuốn sách bán chạy nhất và nhận được giải thưởng sách bán chạy nhất.
                 div(class="product-detail__feature-item")
                     h3 Mô tả
-                    p Cuốn sách này mô tả cách một thám tử theo dõi một kẻ giết người hàng loạt. Park Town là một khu phố nổi tiếng ở Berlin. Ở thành phố, những kẻ điên chỉ giết hại dã man người yêu của mình. Psycho sẽ tiết lộ thông tin trước khi cặp đôi bị sát hại. Câu chuyện kết thúc với việc điều tra viên xác định được kẻ sát nhân bằng những manh mối mâu thuẫn nhau.
+                    p !{record.description}
 
                     ul 
                         li <b>Số trang</b> 250 trang

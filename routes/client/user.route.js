@@ -9,19 +9,17 @@ const express = require('express');
 const router = express.Router();
 
 // controller
-const controller = require('../../controllers/client/product.controller');
+const controller = require('../../controllers/client/user.controller');
 
 // router
 router.get(
-    '/',
-    controller.index
+    '/signup',
+    controller.signupUI
 );
 
-
-router.get(
-    '/detail/:slugProduct',
-    controller.detail
+router.post(
+    '/signup',
+    controller.signup
 );
-
 // exports
 module.exports = router;

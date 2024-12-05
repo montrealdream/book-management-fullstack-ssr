@@ -350,6 +350,7 @@ body {
   gap: 20px 10px;
 }
 .products__item {
+  display: block;
   cursor: pointer;
   position: relative;
   padding: 5px;
@@ -1271,6 +1272,7 @@ body {
   min-width: 500px;
   padding: 40px 30px;
   border-radius: 6px;
+  margin: 50px 0px;
 }
 .login__title {
   margin: 0;

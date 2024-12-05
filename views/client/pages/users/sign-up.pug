@@ -31,18 +31,20 @@ block main
             
             form(
                 class="login__form"
+                method='POST'
+                action='/user/signup'
             )
                 div(class="login__form-item")
-                    input(type="email" placeholder="Họ Tên")
+                    input(type="text" name="fullName" placeholder="Họ Tên")
                 div(class="login__form-item")
-                    input(type="email" placeholder="Email")
+                    input(type="email" name="email" placeholder="Email")
                 div(class="login__form-item")
-                    input(type="password" placeholder="Mật khẩu")
+                    input(type="password" name="password" placeholder="Mật khẩu")
                 div(class="login__form-item")
                     button(type="submit") Đăng ký
 
             div(class="login__feature")
-                a(href="#forgotpassword") Đăng nhập
+                a(href="/user/login") Đăng nhập
 
 
                 

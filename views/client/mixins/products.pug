@@ -3,31 +3,32 @@ mixin products(records, myClass="")
         //- - for (var i = 0; i < length; ++i) 
         each record in records
             div(class=`products__item`)
-                //- img
-                div(class="products__item-image")
-                    img(
-                        src=record.thumbnail[0]
-                    )
-                    div(class="overlay")
-                    ul(class="products__icon-hover")
-                        li(title="yêu thích")
-                            a(href="")
-                                <i class="fa-regular fa-heart"></i>
-                        li(title="thích")
-                            a(href="" title="thêm vào giỏi hàng")
-                                <i class="fa-regular fa-thumbs-up"></i>
-                        li(title="thêm vào giỏi hàng")
-                            a(href="" title="thêm vào giỏi hàng")
-                                <i class="fa-solid fa-bag-shopping"></i> 
-                //- content
-                div(class="products__item-content")
-                    div(class="products__item-author") Keigo Higashino
-                    div(class="products__item-title")
-                        |   #{record.title}
-                    div(class="products__item-price")
-                        |   #{record.newPrice}
-                //- discount
-                span(class="products__item-discount") #{record.discountPercentage}%
+                a(href=`/products/detail/${record.slug}`) 
+                    //- img
+                    div(class="products__item-image")
+                        img(
+                            src=record.thumbnail[0]
+                        )
+                        div(class="overlay")
+                        ul(class="products__icon-hover")
+                            li(title="yêu thích")
+                                a(href="")
+                                    <i class="fa-regular fa-heart"></i>
+                            li(title="thích")
+                                a(href="" title="thêm vào giỏi hàng")
+                                    <i class="fa-regular fa-thumbs-up"></i>
+                            li(title="thêm vào giỏi hàng")
+                                a(href="" title="thêm vào giỏi hàng")
+                                    <i class="fa-solid fa-bag-shopping"></i> 
+                    //- content
+                    div(class="products__item-content")
+                        div(class="products__item-author") Keigo Higashino
+                        div(class="products__item-title")
+                            |   #{record.title}
+                        div(class="products__item-price")
+                            |   #{record.newPrice}
+                    //- discount
+                    span(class="products__item-discount") #{record.discountPercentage}%
 
 mixin products-with-swiperjs(records, length, myClass="")
     div(class=`swiper ${myClass}`)

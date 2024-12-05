@@ -7,6 +7,7 @@
 // Route
 const homeRoute = require('./home.route');
 const productRoute = require('./product.route');
+const userRoute = require('./user.route');
 
 // exports
 module.exports = (app) => {
@@ -18,5 +19,10 @@ module.exports = (app) => {
     app.use(
         '/products',
         productRoute
+    );
+
+    app.use(
+        '/user',
+        userRoute
     );
 }

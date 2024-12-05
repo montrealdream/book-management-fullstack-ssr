@@ -21,5 +21,16 @@ router.post(
     '/signup',
     controller.signup
 );
+
+router.get(
+    '/login',
+    controller.loginUI
+);
+
+router.post(
+    '/login',
+    controller.login
+);
+
 // exports
 module.exports = router;

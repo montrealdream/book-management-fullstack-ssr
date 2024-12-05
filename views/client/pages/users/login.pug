@@ -2,13 +2,16 @@ extends ../../layouts/default.pug
 
 //- Mixins
 include ../../mixins/section-title.pug
-
+include ../../mixins/alert
 //- Title
 block title 
     title #{title}
 
 //- Main
 block main 
+    +alert-success
+    +alert-warning
+    +alert-error
     +section-title('User', 'Home / User')
 
     div(class="center")
@@ -31,17 +34,19 @@ block main
             
             form(
                 class="login__form"
+                method="POST"
+                action='/user/login'
             )
                 div(class="login__form-item")
-                    input(type="email" placeholder="Email")
+                    input(type="email" name="email" placeholder="Email")
                 div(class="login__form-item")
-                    input(type="password" placeholder="Mật khẩu")
+                    input(type="password" name="password" placeholder="Mật khẩu")
                 div(class="login__form-item")
                     button(type="submit") Đăng nhập
 
             div(class="login__feature")
                 a(href="#forgotpassword") Quên mật khẩu ?
-                a(href="#createpassword") Tạo tài khoản
+                a(href="/user/signup") Tạo tài khoản
 
 
                 

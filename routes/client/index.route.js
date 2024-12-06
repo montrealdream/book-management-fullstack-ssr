@@ -8,6 +8,7 @@
 const homeRoute = require('./home.route');
 const productRoute = require('./product.route');
 const userRoute = require('./user.route');
+const searchRoute = require('./search.route');
 
 // exports
 module.exports = (app) => {
@@ -24,5 +25,10 @@ module.exports = (app) => {
     app.use(
         '/user',
         userRoute
+    );
+
+    app.use(
+        '/search',
+        searchRoute
     );
 }

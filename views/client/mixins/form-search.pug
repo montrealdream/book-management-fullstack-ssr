@@ -1,5 +1,23 @@
 mixin form-search()
-    form(method="GET" action="" class="form__search")
-        input(name="keyword" placeholder="Tìm kiếm")       
-        button(type="submit")
-            <i class="fa-solid fa-magnifying-glass"></i>
+    div(class="form-wrap")
+        form(method="GET" action="" class="form__search" form-search)
+            input(name="keyword" placeholder="Tìm kiếm")       
+            button(type="submit")
+                <i class="fa-solid fa-magnifying-glass"></i>
+        //- div(class="suggest-search")
+            
+            //- a(class="suggest-search__item" href='/login')
+            //-     div(class="suggest-search__item-image")
+            //-         img(
+            //-             src="https://bizweb.dktcdn.net/thumb/large/100/363/455/products/phiasaunghicanxnew01-80ba1d6b-9ecf-4695-9dc2-9f7c3d832433.jpg?v=1706084187177",
+            //-             alt=""
+            //-         )
+            //-     div(class="suggest-search__item-main")
+            //-         h3(class="suggest-search__item-title") Phía sau nghi can x
+            //-         div(class="suggest-search__item-item") 
+            //-             |   <b>Tác giả: </b> Keigo Higashino
+            //-         div(class="suggest-search__item-item") 
+            //-             |   <b>Danh mục: </b> Trinh Thám
+            //-         div(class="suggest-search__item-item") 
+            //-             |   150.000 VNĐ
+

@@ -151,6 +151,8 @@ body {
 // form search
 .form {
     &__search {
+        position: relative;
+        z-index: 999;
         padding: 4px;
         width: 500px;
         border: 1px solid #ddd;
@@ -159,6 +161,8 @@ body {
         align-items: center;
 
         input {
+            position: relative;
+            z-index: 999;
             outline: none;
             border: 0px;
             flex: 1;padding: 8px 10px;
@@ -2421,3 +2425,60 @@ body {
     
 }
 // hết giao diện chat
+
+// suggest tìm kiếm
+.form-wrap {
+    position: relative;
+}
+.suggest-search {
+    position: absolute;
+    z-index: 989;
+    width: 100%;
+    height: auto;
+    padding: 8px;
+    left: 0;
+    top: 37px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: 0px;
+    border-radius: 0px 0px 16px 16px;
+
+    &__item {
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        &:hover {
+            transform: none !important;
+            transition: 1.5s;
+        }
+    }
+
+    &__item-image {
+        height: 80px;
+        width: 45px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    &__item-main {
+
+    }
+
+    &__item-title {
+        margin: 0;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+
+    &__item-item {
+        font-size: 13px;
+    }
+}
+// hết suggest tìm kiếm

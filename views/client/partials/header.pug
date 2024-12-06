@@ -1,3 +1,6 @@
+//- Mixins
+include ../mixins/form-search.pug
+
 header(
     class="header"
 )
@@ -11,11 +14,12 @@ header(
                         src="https://bookly-theme.myshopify.com/cdn/shop/files/logo_png.png?v=1620028660&width=210"
                     ) 
 
-                div(class="header__main-right")        
-                    form(method="GET" action="" class="form__search")
-                        input(name="keyword" placeholder="Tìm kiếm")       
-                        button(type="submit")
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                div(class="header__main-right")     
+                    +form-search   
+                    //- form(method="GET" action="" class="form__search")
+                    //-     input(name="keyword" placeholder="Tìm kiếm")       
+                    //-     button(type="submit")
+                    //-         <i class="fa-solid fa-magnifying-glass"></i>
 
                     //- icon search mobile
                     span(class="form__search-icon-mobile") 

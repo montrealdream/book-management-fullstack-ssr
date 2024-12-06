@@ -179,3 +179,68 @@ if(productDetailQuantity) {
   });
 }
 // hết tăng số lượng sách mua ở trang chi tiết
+
+// gợi ý tìm kiếm
+const formSearchAPIWrap = document.querySelector(".form-wrap");
+if(formSearchAPIWrap) {
+  const formSearchAPI = formSearchAPIWrap.querySelector("[form-search]");
+  const suggestElement =  document.createElement('div');
+
+  // lấy gợi ý từ khi gõ vào
+  const inputSearch = formSearchAPI.querySelector("input");
+  inputSearch.addEventListener('keyup', event => {
+    const keyword = event.target.value;
+    
+    fetch(`/search/suggest?keyword=${keyword}`)
+      .then(res => res.json())
+      .then(data => {
+
+        if(data.records.length > 0) {
+          console.log('1:::');
+          
+          suggestElement.classList.add('suggest-search');
+
+          let htmls = ``;
+          for(const item of data.records) {
+            const thumb = item.thumbnail[0];
+            const title = item.title;
+            const slug = item.slug;
+            
+            htmls += `
+              <a class="suggest-search__item" href='/products/detail/${slug}'>
+                <div class="suggest-search__item-image">
+                    <img src=${thumb} alt=${title} />
+                </div>
+
+                <div class="suggest-search__item-main">
+                    <h3 class="suggest-search__item-title"> ${title} </h3>
+                    <div class="suggest-search__item-item">
+                      <b>Tác giả: </b> Keigo Higashino
+                    </div>
+                    <div class="suggest-search__item-item">
+                      <b>Danh mục: </b> Trinh Thám
+                    </div>
+                    <div class="suggest-search__item-item">
+                      150.000 VNĐ
+                    </div>
+                </div>
+            `
+          };
+
+          suggestElement.innerHTML = htmls;
+          formSearchAPIWrap.appendChild(suggestElement);
+        }
+
+        else {
+          formSearchAPIWrap.removeChild(suggestElement);
+        }
+      })
+  });
+
+  // bấm tìm luôn
+  formSearchAPI.addEventListener("submit", event => {
+    event.preventDefault();
+
+  });
+}
+// hết gợi ý tìm kiếm

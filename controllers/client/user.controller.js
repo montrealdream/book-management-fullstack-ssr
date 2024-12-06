@@ -187,12 +187,78 @@ module.exports.forgotPassword = async (req, res) => {
                 </div>
             </div>
         `;
-
         mailHelper.send(email, subject, content);
 
-        res.redirect('/user/');
+        // set cookie để bảo mật
+        const cookieName = process.env.COOKIE_NAME_OTP;
+        const cookieExpires = 1000 * 60 * 3; // 3 phút
+        res.cookie(cookieName, user.token, { 
+            expires: new Date(Date.now() + cookieExpires), httpOnly: true
+        })
+
+        // chuyển đến trang nhập mã OTP kèm query email
+        res.redirect(`/user/password/otp?email=${email}`);
     }
     catch(error) {
+        console.log(error);
+    }
+}
 
+// [GET] /user/password/otp?email=
+module.exports.otpUI = async (req, res) => {
+    try {
+        // lấy query email
+        const email = req.query.email;
+
+        // kiểm tra cookie token user có hợp lý không
+        const tokenUser = req.cookies[process.env.COOKIE_NAME_OTP]; // không xóa cũng được vì sau 3 phút là nó tự xóa à
+        
+        const user = await User.findOne({
+            token: tokenUser,
+            email,
+            status: 'active',
+            deleted: false
+        }).select('-password');
+
+        if(!user) {
+            req.flash('error', 'Không thể truy cập vào trang OTP');
+            res.redirect('back');
+            return;
+        }
+
+        res.render('client/pages/users/otp-password', {
+            title: 'Nhập mã OTP',
+            email
+        })
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
+// [POST] /user/password/otp?email=
+module.exports.otp = async (req, res) => {
+    try {
+        const email = req.query.email;
+        const otp   = req.body.otp;
+
+        // kiểm tra mã OTP và Email có khớp nhau không
+        const recordOTP = await ForgotPassword.findOne({
+            email,
+            otp
+        });
+
+        // nếu không hợp lệ thì quay về trang Quên Mật Khẩu
+        if(!recordOTP) {
+            req.flash('warning', 'Mã OTP không hợp lệ');
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        // chuyển đến trang đặt lại mật khẩu
+        res.redirect('/user/password/reset');
+    }
+    catch(error) {
+        console.log(error);
     }
 }

@@ -37,10 +37,19 @@ router.get(
     controller.forgotPasswordUI
 );
 
-
 router.post(
     '/password/forgot',
     controller.forgotPassword
+);
+
+router.get(
+    '/password/otp',
+    controller.otpUI
+);
+
+router.post(
+    '/password/otp',
+    controller.otp
 );
 // exports
 module.exports = router;

@@ -62,7 +62,8 @@ module.exports.signup = async (req, res) => {
         
         //  set cookie 
         const TWO_DAYS =  2* 24 * 60 * 1000; // thời gian hết hạn cookie
-        res.cookie('userClient', tokenJWT, { 
+        const cookieNameLogin = process.env.COOKIE_NAME_LOGIN;
+        res.cookie(cookieNameLogin, tokenJWT, { 
             expires: new Date(Date.now() + TWO_DAYS), 
             httpOnly: true 
         });
@@ -124,7 +125,8 @@ module.exports.login = async (req, res) => {
 
         // set cookie
         const TWO_DAYS =  2* 24 * 60 * 1000; // thời gian hết hạn cookie
-        res.cookie('userClient', tokenJWT, { 
+        const cookieNameLogin = process.env.COOKIE_NAME_LOGIN;
+        res.cookie(cookieNameLogin, tokenJWT, { 
             expires: new Date(Date.now() + TWO_DAYS), 
             httpOnly: true 
         });
@@ -191,7 +193,7 @@ module.exports.forgotPassword = async (req, res) => {
 
         // set cookie để bảo mật
         const cookieName = process.env.COOKIE_NAME_OTP;
-        const cookieExpires = 1000 * 60 * 3; // 3 phút
+        const cookieExpires = 1000 * 60 * 10; // 10 phút
         res.cookie(cookieName, user.token, { 
             expires: new Date(Date.now() + cookieExpires), httpOnly: true
         })
@@ -243,11 +245,8 @@ module.exports.otp = async (req, res) => {
         const otp   = req.body.otp;
 
         // kiểm tra mã OTP và Email có khớp nhau không
-        const recordOTP = await ForgotPassword.findOne({
-            email,
-            otp
-        });
-
+        const recordOTP = await ForgotPassword.findOne({ email, otp });
+            
         // nếu không hợp lệ thì quay về trang Quên Mật Khẩu
         if(!recordOTP) {
             req.flash('warning', 'Mã OTP không hợp lệ');
@@ -255,10 +254,80 @@ module.exports.otp = async (req, res) => {
             return;
         }
 
+        // xóa mã OTP trong db
+        await ForgotPassword.deleteOne({email, otp});
+        
         // chuyển đến trang đặt lại mật khẩu
         res.redirect('/user/password/reset');
     }
     catch(error) {
         console.log(error);
+    }
+}
+
+// [GET] /user/password/reset
+module.exports.resetPasswordUI = async (req, res) => {
+    try {
+        // kiểm tra tokenUser
+        const tokenUser = req.cookies[process.env.COOKIE_NAME_OTP];
+
+        const user = await User.findOne({
+            token: tokenUser,
+            status: 'active',
+            deleted: false
+        }).select('-password');
+
+        // nếu không tìm thấy
+        if(!user) {
+            req.flash('warning', 'Đã xảy ra lỗi');
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        res.render('client/pages/users/reset-password', {
+            title: "Đổi Mật Khẩu"
+        });
+    }
+    catch(error) {
+
+    }
+}
+
+// [POST] /user/password/reset
+module.exports.resetPassword = async (req, res) => {
+    try {
+        const tokenUser = req.cookies[process.env.COOKIE_NAME_OTP];
+        res.clearCookie(process.env.COOKIE_NAME_OTP);
+
+        // kiểm tra có user không nếu không thì quay về trang
+        const user = await User.findOne({
+            token: tokenUser,
+            status: 'active',
+            deleted: false
+        }).select('-password');
+
+        if(!user) {
+            req.flash('warning', 'Đã xảy ra lỗi');
+            res.redirect('back');
+            return;
+        }
+        
+        // dùng middleware validate để kiểm tra 2 mật khẩu
+        const password = req.body.password;
+
+        // mã hóa password
+        const passwordHash = await bcrypt.hash(password, saltRounds); 
+
+        // lưu mật khẩu mới vào db
+        await User.updateOne({
+            token: tokenUser,
+            password: passwordHash
+        });
+
+        // sau khi đổi mật khẩu thì quay về trang đăng nhập lun
+        res.redirect('/user/login');
+    }
+    catch(error) {
+
     }
 }

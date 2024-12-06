@@ -51,5 +51,15 @@ router.post(
     '/password/otp',
     controller.otp
 );
+
+router.get(
+    '/password/reset',
+    controller.resetPasswordUI
+);
+
+router.post(
+    '/password/reset',
+    controller.resetPassword
+);
 // exports
 module.exports = router;

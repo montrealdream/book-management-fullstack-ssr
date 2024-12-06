@@ -1,8 +1,10 @@
 const User = require('../../models/user.model');
+const ForgotPassword = require('../../models/forgot-password.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const generateHelper = require('../../helper/generate.helper');
+const mailHelper = require('../../helper/mail.helper');
 
 // [GET] /user/signup
 module.exports.signupUI = async (req, res) => {
@@ -31,6 +33,7 @@ module.exports.signup = async (req, res) => {
         if(emailExits) {
             req.flash('warning', 'Email đã được sử dụng');
             res.redirect('back');
+            return;
         }
 
         // mã hóa mật khẩu
@@ -130,5 +133,66 @@ module.exports.login = async (req, res) => {
     }
     catch(error) {
         console.log('USER LOGIN ERROR', error);
+    }
+}
+
+// [GET] /user/password/forgot
+module.exports.forgotPasswordUI = async (req, res) => {
+    try {
+        res.render('client/pages/users/forgot-password', {
+            title: "Quên Mật Khẩu"
+        })
+    }
+    catch(error) {
+
+    }
+}
+
+// [POST] /user/password/forgot
+module.exports.forgotPassword = async (req, res) => {
+    try {
+        const email = req.body.email;
+
+        // kiểm tra xem email có tồn tại không
+        const user = await User.findOne({
+            email: email,
+            // status: 'active',
+            deleted: false
+        }).select('-password');
+
+        if(!user) {
+            req.flash('warning', 'Email không hợp lệ');
+            res.redirect('back');
+            return;
+        }
+
+        // tạo mã otp
+        const otp = generateHelper.randomStringNum(6);
+
+        // lưu vào db
+        const record = new ForgotPassword({
+            email,
+            otp,
+            expireAt: Date.now() + (3*60*1000), // 1000ms * 60 * 3 = 3 phút
+        });
+        await record.save();
+        
+        // gửi mail
+        const subject = `Mã OTP xác minh lấy lại mật khẩu`;
+        const content = `
+            <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+                <div style="width: 500px; border: 1px solid #ddd; padding: 10px 8px;">
+                    <h3 style="margin= 0; padding: 10px 0px;">Mã OTP <b>${otp}</b></h3>
+                    <p style="margin= 0; padding: 10px 0px;">Mã OTP sẽ hết hiệu lực sau 3 phút</p>
+                </div>
+            </div>
+        `;
+
+        mailHelper.send(email, subject, content);
+
+        res.redirect('/user/');
+    }
+    catch(error) {
+
     }
 }

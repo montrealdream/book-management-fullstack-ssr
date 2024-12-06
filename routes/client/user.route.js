@@ -32,5 +32,15 @@ router.post(
     controller.login
 );
 
+router.get(
+    '/password/forgot',
+    controller.forgotPasswordUI
+);
+
+
+router.post(
+    '/password/forgot',
+    controller.forgotPassword
+);
 // exports
 module.exports = router;

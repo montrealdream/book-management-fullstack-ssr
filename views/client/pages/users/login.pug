@@ -3,6 +3,7 @@ extends ../../layouts/default.pug
 //- Mixins
 include ../../mixins/section-title.pug
 include ../../mixins/alert
+
 //- Title
 block title 
     title #{title}
@@ -45,7 +46,7 @@ block main
                     button(type="submit") Đăng nhập
 
             div(class="login__feature")
-                a(href="#forgotpassword") Quên mật khẩu ?
+                a(href="/user/password/forgot") Quên mật khẩu ?
                 a(href="/user/signup") Tạo tài khoản
 
 

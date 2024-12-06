@@ -3,10 +3,10 @@
  * @author GIANG TRƯỜNG
 */
 
-const Account = require('../models/account.model');
-const Role = require('../models/role.model');
+const Account = require('../../models/account.model');
+const Role = require('../../models/role.model');
 
-const systemConfig = require('../config/system.config');
+const systemConfig = require('../../config/system.config');
 const PATH_ADMIN = systemConfig.PATH_ADMIN; // đường dẫn /admin
 
 const jwt = require('jsonwebtoken');

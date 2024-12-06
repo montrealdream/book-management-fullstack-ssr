@@ -16,7 +16,7 @@ const validate = require('../../validates/admin/account.validate');
 // upload ảnh lên cloudinary
 const multer  = require('multer');
 const upload = multer();
-const cloudinaryMiddleware = require('../../middleware/uploadToCloudinary.middleware');
+const cloudinaryMiddleware = require('../../middleware/admin/uploadToCloudinary.middleware');
 // hết upload ảnh lên cloudinary
 
 // khởi tạo instance router

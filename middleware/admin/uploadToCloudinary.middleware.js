@@ -3,7 +3,7 @@
  * @author GIANG TRƯỜNG
 */
 
-const cloudinaryHelper = require('../helper/uploadToCloudinary.helper');
+const cloudinaryHelper = require('../../helper/uploadToCloudinary.helper');
 
 // upload một file (một ảnh, ... )
 module.exports.uploadSingle = async (req, res, next) => {

@@ -13,7 +13,7 @@ const roleRoute = require('./role.route.js');
 const authRoute = require('./auth.route.js');
 const settingRoute = require('./setting.route.js');
 
-const authenMiddleware = require('../../middleware/auth.middleware.js');
+const authenMiddleware = require('../../middleware/admin/auth.middleware.js');
 
 // exports
 module.exports = (app) => {

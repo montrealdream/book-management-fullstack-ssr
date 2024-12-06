@@ -1,7 +1,17 @@
-mixin form-search()
+mixin form-search(action, keyword="")
     div(class="form-wrap")
-        form(method="GET" action="" class="form__search" form-search)
-            input(name="keyword" placeholder="Tìm kiếm")       
+        form(
+            method="GET" 
+            action= action ? action : ""
+            class="form__search" 
+            form-search
+        )
+            input(
+                name="keyword" 
+                value=keyword 
+                placeholder="Tìm kiếm"
+                autocomplete="off"
+            )       
             button(type="submit")
                 <i class="fa-solid fa-magnifying-glass"></i>
         //- div(class="suggest-search")

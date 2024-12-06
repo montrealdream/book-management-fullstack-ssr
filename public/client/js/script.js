@@ -240,7 +240,15 @@ if(formSearchAPIWrap) {
   // bấm tìm luôn
   formSearchAPI.addEventListener("submit", event => {
     event.preventDefault();
+    let url = new URL(window.location.href);
 
+    const keyword = formSearchAPI.keyword.value;
+
+    let action = formSearchAPI.action;
+    action = action + `?keyword=${keyword}`;
+
+    formSearchAPI.action = action;
+    formSearchAPI.submit();
   });
 }
 // hết gợi ý tìm kiếm

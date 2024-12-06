@@ -1,8 +1,8 @@
-mixin products(records, myClass="")
+mixin products(records, myClass="", classItem="")
     div(class=`products ${myClass}`)
         //- - for (var i = 0; i < length; ++i) 
         each record in records
-            div(class=`products__item`)
+            div(class=`products__item ${classItem}`)
                 a(href=`/products/detail/${record.slug}`) 
                     //- img
                     div(class="products__item-image")

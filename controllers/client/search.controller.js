@@ -7,16 +7,35 @@ const searchHelper = require('../../helper/search.helper');
 // [GET] /search/
 module.exports.index = async (req, res) => {
     try {
+        const keyword = req.query.keyword;
+
+        const searchObject = searchHelper.searchKeywordAdvanced(req.query); 
+
+        const records = await Product.find({
+            $or: [
+                {
+                    title: searchObject.title,
+                },
+                {
+                    slug: searchObject.slug
+                }
+            ],
+            status: 'active',
+            deleted: false
+        });
+
         res.render('client/pages/searches/index', {
-            title: "Kết quả tìm kiếm"
+            title: "Kết quả tìm kiếm",
+            keyword,
+            records
         })
     }
     catch (error) {
-        console.log(error);
+        
     }
 }
 
-// [GET] /search/suggest?keyword 
+// [GET] /search/suggest?keyword=
 module.exports.suggest = async (req, res) => {
     try {
         const keyword = req.query.keyword;

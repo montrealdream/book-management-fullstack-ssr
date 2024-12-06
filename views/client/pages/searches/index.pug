@@ -18,7 +18,7 @@ block main
     section(class="section section__search")
         +box-head('Kết quả tìm kiếm')
         div(class="section__search-item")
-            +form-search()
+            +form-search(`/search`,keyword)
         
         div(class="container")
             //- wrap
@@ -29,7 +29,7 @@ block main
 
                 //- result
                 div(class="section__search-result")
-                    +products("", 10)
+                    +products(records, "", `products__item-3`)
 block script
     //- swiperjs
     script(src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js")
